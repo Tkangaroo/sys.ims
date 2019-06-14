@@ -14,6 +14,7 @@ class Index extends Controller
         } else {
             $this->response()->withStatus(Status::CODE_FORBIDDEN);
             $this->response()->write('action forbid');
+            return false;
         }
     }
 
