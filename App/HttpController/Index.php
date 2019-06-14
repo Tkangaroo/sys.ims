@@ -9,4 +9,9 @@ class Index extends Controller
         // TODO: Implement index() method.
         $this->response()->write("hello world");
     }
+
+    public function test()
+    {
+        $this->response()->write('this is a test');
+    }
 }
