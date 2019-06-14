@@ -1,0 +1,5 @@
+{
+    "require": {
+        "easyswoole/easyswoole": "3.x"
+    }
+}
