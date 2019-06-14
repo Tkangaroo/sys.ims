@@ -7,7 +7,7 @@
  */
 
 return [
-    'SERVER_NAME' => "EasySwoole",
+    'SERVER_NAME' => "IMS PRO",
     'MAIN_SERVER' => [
         'LISTEN_ADDRESS' => '0.0.0.0',
         'PORT' => 9501,
