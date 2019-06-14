@@ -5,23 +5,17 @@ use EasySwoole\Http\Message\Status;
 
 class Index extends Controller
 {
-    protected function onRequest(string $action): ?bool
+    public function onException(\Throwable $throwable): void
     {
-        $token = $this->request()->getRequestParam('token');
-
-        if ($token == '123') {
-            return true;
-        } else {
-            $this->response()->withStatus(Status::CODE_FORBIDDEN);
-            $this->response()->write('action forbid');
-            return false;
-        }
+        $this->response()->write('waiting...');
+        return ;
     }
 
     public function index()
     {
         // TODO: Implement index() method.
         $this->response()->write("hello world");
+        new fdsafsa();
     }
 
     public function test()
