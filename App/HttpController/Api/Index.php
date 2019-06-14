@@ -7,8 +7,8 @@
  */
 
 namespace App\HttpController\Api;
-
 use EasySwoole\Http\AbstractInterface\Controller;
+
 class Index extends Controller
 {
     public function index()
