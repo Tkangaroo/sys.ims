@@ -7,8 +7,8 @@ namespace Composer\Autoload;
 class ComposerStaticInit40bf28bd41ed360d08a15b7344dab2fc
 {
     public static $files = array (
-        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
+        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -42,6 +42,10 @@ class ComposerStaticInit40bf28bd41ed360d08a15b7344dab2fc
         'C' => 
         array (
             'Cron\\' => 5,
+        ),
+        'A' => 
+        array (
+            'App\\' => 4,
         ),
     );
 
@@ -109,6 +113,10 @@ class ComposerStaticInit40bf28bd41ed360d08a15b7344dab2fc
         'Cron\\' => 
         array (
             0 => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron',
+        ),
+        'App\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/App',
         ),
     );
 
