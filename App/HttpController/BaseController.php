@@ -57,8 +57,12 @@ class BaseController Extends Controller
 
     public function getClientIp()
     {
-		$ip = $_SERVER;
-		$this->response()->write(json_encode($ip));
+		$ip = $this->request()->getHeaders();
+		if ($ip && isset($ip['x-real-ip']) && $ip['x-real-ip']) {
+			var_dump($ip['x-real-ip']);
+		} else {
+			return 0;
+		}
     }
 
 }
