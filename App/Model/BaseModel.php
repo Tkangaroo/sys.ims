@@ -17,6 +17,6 @@ class BaseModel
     protected function getDb():Mysqli
     {
     	$conf = new \EasySwoole\Mysqli\Config(\EasySwoole\EasySwoole\Config::getInstance()->getConf($this->conf));
-		return new \EasySwoole\Mysqli($conf);
+		return new \Mysqli($conf);
     }
 }
