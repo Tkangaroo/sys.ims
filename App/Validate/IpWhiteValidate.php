@@ -21,6 +21,7 @@ class IpWhiteValidate
 		$flag = $valitor->validate($data);
 		var_dump($flag);
 		$msg = $valitor->getError()->getErrorRuleMsg()?:$valitor->getError()->getColumnErrorMsg();
+		var_dump($msg);
 		(new Common())->writeJson(0, null, $msg);
 		return $flag;
 	}

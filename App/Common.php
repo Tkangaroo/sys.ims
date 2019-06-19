@@ -19,5 +19,6 @@ class Common
         $response->write(json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
         $response->withHeader('Content-type', 'application/json;charset=utf-8');
         $response->withStatus($statusCode);
+        var_dump($data);
 	}
 }
