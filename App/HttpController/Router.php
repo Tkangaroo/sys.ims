@@ -15,7 +15,7 @@ class Router extends AbstractRouter
     $this->setGlobalMode(true);
 
     // 拦截GET方法
-    $routeCollector->addRoute('GET', 'api_index', '/Api/Index/index');
+    $routeCollector->addRoute('GET', '/api_index', '/Api/Index/index');
   }
 
 
