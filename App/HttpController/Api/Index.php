@@ -9,8 +9,9 @@ class Index extends Controller
 {
     public function index()
     {
-    	(new IpWhiteListModel)->getTest();
+    	$res = (new IpWhiteListModel)->getTest();
         $this->response()->write('index action for api');
+        $this->response()->writeJson(200, $res, 'test');
     }
 
     public function test()

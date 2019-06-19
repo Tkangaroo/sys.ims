@@ -15,8 +15,8 @@ class IpWhiteListModel extends BaseModel
 		parent::__construct();
 	}
 
-	public function getTest()
+	public function getTest():array
 	{
-		var_dump($this->db->get($this->table));
+		return $this->db->get($this->table);
 	}
 }
