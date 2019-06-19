@@ -9,9 +9,9 @@ class Index extends BaseController
 {
     public function index()
     {
-    	$this->getClientIp();
+    	$ip = $this->getClientIp();
     	$res = (new IpWhiteListModel)->getTest();
-        $this->response()->write('index action for api');
+        $this->response()->write('index action for api:'.$ip);
         $this->writeJson(200, $res, 'test');
     }
 }

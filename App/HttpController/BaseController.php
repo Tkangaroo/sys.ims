@@ -55,14 +55,15 @@ class BaseController Extends Controller
         $this->response()->write("forbidden");
     }
 
-    public function getClientIp()
+    public function getClientIp():int
     {
+    	int $ipNum = 0;
 		$ip = $this->request()->getHeaders();
 		if ($ip && isset($ip['x-real-ip']) && $ip['x-real-ip']) {
-			var_dump($ip['x-real-ip']);
-		} else {
-			return 0;
+			$ip = array_pop($ip['x-real-ip']);
+			$ipNum = ip2long($ip);
 		}
+		return $ipNum;
     }
 
 }
