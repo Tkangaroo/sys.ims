@@ -11,7 +11,7 @@ class Index extends Controller
     {
     	$res = (new IpWhiteListModel)->getTest();
         $this->response()->write('index action for api');
-        $this->response()->writeJson(200, $res, 'test');
+        $this->writeJson(200, $res, 'test');
     }
 
     public function test()
