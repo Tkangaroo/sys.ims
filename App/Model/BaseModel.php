@@ -1,6 +1,7 @@
 <?php
 namespace App\Model;
 
+use EasySwoole\Mysqli;
 
 class BaseModel
 {
