@@ -1,15 +1,15 @@
 <?php
 namespace App;
 
-use EasySwoole\Http\Request;
-use EasySwoole\Http\Response;
+use EasySwoole\Core\Http\Request;
+use EasySwoole\Core\Http\Response;
 
 
 class Common
 {
 	public function writeJson($statusCode = 200, $result = null, $msg = null)
 	{
-		$response = new Response(new \Http\Response);
+		$response = new Response(Response $response);
 		$data = Array(
             "code" => $statusCode,
             "data" => $result,
