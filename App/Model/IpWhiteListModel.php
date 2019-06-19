@@ -17,6 +17,6 @@ class IpWhiteListModel extends BaseModel
 
 	public function getTest()
 	{
-		dump($this->db->get($this->table));
+		var_dump($this->db->get($this->table));
 	}
 }
