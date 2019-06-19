@@ -9,7 +9,7 @@ class Common
 {
 	public function writeJson($statusCode = 200, $result = null, $msg = null)
 	{
-		$response = new Response();
+		$response = new Response(new \Http\Request);
 		$data = Array(
             "code" => $statusCode,
             "data" => $result,
