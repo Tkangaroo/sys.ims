@@ -20,8 +20,18 @@ class IpWhiteListModel extends BaseModel
 		return $this->db->get($this->table);
 	}
 
-	public function checkIpWhite(int $ipAddr):bool
+	/**
+	 * 根據IP查詢數據
+	 */
+	public function queryByIpAddr(int $ipAddr = 0):array
 	{
-		
+		$whiteIp = [];
+		if ($ipAddr) {
+			$this->db->where('ip_addr', $ipAddr);
+			$this->db->where('delete_at', 0);
+			$whiteIp = $this->getOne($this->table, 'id,is_enable');
+		}
+
+		return (array)$whiteIp;
 	}
 }

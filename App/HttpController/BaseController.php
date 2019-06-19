@@ -4,6 +4,7 @@ namespace App\HttpController;
 use EasySwoole\Http\AbstractInterface\Controller;
 use EasySwoole\Http\Message\Status;
 use EasySwoole\EasySwoole\ServerManager;
+use App\Model\IpWhiteListModel;
 
 
 /**
@@ -27,6 +28,10 @@ class BaseController Extends Controller
     protected function onRequest(?string $action): ?bool
 	{
 	   if (parent::onRequest($action)) {
+	   		// 判斷IP白名單
+	   		if (!$this->checkClientIpHasAccessAuthority()) {
+	   			return false;
+	   		}
 	        //判断是否登录
 	        if (0/*伪代码*/) {
 	            $this->writeJson(Status::CODE_UNAUTHORIZED, '', '登入已过期');
@@ -55,7 +60,32 @@ class BaseController Extends Controller
         $this->response()->write("forbidden");
     }
 
-    public function getClientIp():int
+    /**
+     * 檢測客戶端IP是否具有權限訪問
+     */
+    protected function checkClientIpHasAccessAuthority()
+    {
+    	$flag = 0;
+    	$ip = $this->getClientIp();
+    	$whiteIp = (new IpWhiteListModel)->queryByIpAddr($ip);
+
+    	if ($whiteIp) {
+    		if ($whiteIp['is_enable'] == 1) {
+    			$flag = 1;
+    		} else {
+    			$this->writeJson(0, null, '訪問受限, IP:'.long2ip($ip));
+    		}
+    	} else {
+    		$this->writeJson(0, null, '尚未註冊, IP:'.long2ip($ip));
+    	}
+    	return (int)$flag;
+
+    }
+
+    /**
+     * 获取用户端真实IP
+     */
+    protected function getClientIp():int
     {
     	$ipNum = 0;
 		$ip = $this->request()->getHeaders();
