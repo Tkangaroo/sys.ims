@@ -1,6 +1,10 @@
 <?php
 namespace App\Model;
 
+use EasySwoole\Mysqli\Mysqli;
+use EasySwoole\Mysqli\Config as MysqliConfig;
+use EasySwoole\EasySwoole\Config as ESConfig;
+
 class BaseModel
 {
 	
@@ -9,15 +13,14 @@ class BaseModel
 
 	public function __construct()
 	{
-		if (is_null($this->db)) {
+		if (is_null($this->db) || !$this->db instanceof Mysqli) {
 			$this->db = $this->getDb();
 		}
 	}
 
-    protected function getDb()
+    protected function getDb():Mysqli
     {
-    	$conf = new \EasySwoole\Mysqli\Config(\EasySwoole\EasySwoole\Config::getInstance()->getConf($this->conf));
-    	var_dump($conf);
-		return new \Mysqli($conf);
+    	$conf = new MysqliConfig(ESConfig::getInstance()->getConf($this->conf));
+		return new Mysqli($conf);
     }
 }
