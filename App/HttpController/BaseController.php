@@ -27,6 +27,7 @@ class BaseController Extends Controller
      */
     protected function onRequest(?string $action): ?bool
 	{
+		var_dump($action);
 	   if (parent::onRequest($action)) {
 	   		// 判斷IP白名單
 	   		if (!$this->checkClientIpHasAccessAuthority()) {
@@ -49,9 +50,10 @@ class BaseController Extends Controller
     protected function onException(\Throwable $throwable): void
     {
     	// 清空之前输出缓存
-    	// $this->response()->getBody()->truncate();
-    	var_dump($throwable->getMessage());
-		$this->writeJson(200, null, 'connection too much,please wait a moment.');
+    	$this->response()->getBody()->truncate();
+    	$msg = 'connection too much,please wait a moment.';
+    	$msg = $throwable->getMessage();
+		$this->writeJson(200, null, $msg);
 	 	return ;
     }
 
@@ -64,7 +66,7 @@ class BaseController Extends Controller
     /**
      * 檢測客戶端IP是否具有權限訪問
      */
-    protected function checkClientIpHasAccessAuthority()
+    protected function checkClientIpHasAccessAuthority():int
     {
     	$flag = 0;
     	$ip = $this->getClientIp();
