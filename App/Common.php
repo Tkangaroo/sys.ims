@@ -15,7 +15,7 @@ class Common
         return json_encode($arr, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 	}
 
-	 protected function writeJsonByResponse(
+	 public function writeJsonByResponse(
 	 	Reponse $response,
 	 	$statusCode = 500, $data = null, $msg = null
 	 ):void
