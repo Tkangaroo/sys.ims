@@ -29,7 +29,7 @@ class IpWhiteListModel extends BaseModel
 		if ($ipAddr) {
 			$this->db->where('ip_addr', $ipAddr);
 			$this->db->where('delete_at', 0);
-			$whiteIp = $this->getOne($this->table, 'id,is_enable');
+			$whiteIp = $this->db->getOne($this->table, 'id,is_enable');
 		}
 
 		return (array)$whiteIp;
