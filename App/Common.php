@@ -12,7 +12,7 @@ class Common
             "msg" => $msg,
             "time" => time()
         );
-        return json_encode($arr, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+        return json_encode($arr, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 	}
 
 	 protected function writeJsonByResponse(
