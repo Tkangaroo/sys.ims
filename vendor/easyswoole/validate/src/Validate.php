@@ -524,7 +524,6 @@ class Validate
     {
         $data = $splArray->get($column);
         if (is_numeric($data) || is_string($data)) {
-            var_dump(strlen($data));
             if (strlen($data) <= $arg) {
                 return true;
             } else {

@@ -17,6 +17,11 @@ class IpWhiteList extends BaseController
 		if (!$flag) {
 			return false;
 		}
-		$this->writeJson(200, null, '数据通过验证...');
+		$saveRes = (new IpWhiteListModel())->createIpAddrSingle($data);
+		if ($saveRes) {
+			$this->writeJson(200, null, '添加IP成功');
+		} else {
+			$this->writeJson(0, null, '添加IP失败');
+		}
 	}
 }
