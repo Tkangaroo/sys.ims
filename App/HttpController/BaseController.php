@@ -57,13 +57,13 @@ class BaseController Extends Controller
 
     public function getClientIp():int
     {
-    	int $ipNum = 0;
+    	$ipNum = 0;
 		$ip = $this->request()->getHeaders();
 		if ($ip && isset($ip['x-real-ip']) && $ip['x-real-ip']) {
 			$ip = array_pop($ip['x-real-ip']);
 			$ipNum = ip2long($ip);
 		}
-		return $ipNum;
+		return (int)$ipNum;
     }
 
 }
