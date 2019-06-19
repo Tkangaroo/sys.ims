@@ -1,14 +1,13 @@
 <?php
 namespace App\Validate;
 
-use EasySwoole\Http\AbstractInterface\Controller;
 use EasySwoole\Validate\Validate;
 use App\Common;
 
 
 class IpWhiteValidate
 {
-	public function check(array $data)
+	public function check(Response $response, array $data)
 	{
 		$flag = false;
 		$valitor = new Validate();
@@ -19,10 +18,10 @@ class IpWhiteValidate
 		$valitor->addColumn('is_enable','是否激活')->required('是否激活不能为空')->inArray([0,1], true, '是否激活无效格式');
 		$valitor->addColumn('comments', '备注')->lengthMax(50, '备注不能超过50字');
 		$flag = $valitor->validate($data);
-		var_dump($flag);
-		$msg = $valitor->getError()->getErrorRuleMsg()?:$valitor->getError()->getColumnErrorMsg();
-		var_dump($msg);
-		(new Common())->writeJson(0, null, $msg);
+		if (!$flag) {
+			$msg = $valitor->getError()->getErrorRuleMsg()?:$valitor->getError()->getColumnErrorMsg();
+			(new Common())->writeJsonByResponse($response, 0, null, $msg);
+		}
 		return $flag;
 	}
 }

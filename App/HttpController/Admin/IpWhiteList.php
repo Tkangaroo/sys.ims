@@ -8,12 +8,12 @@ use App\Validate\IpWhiteValidate;
 class IpWhiteList extends BaseController
 {
 	/**
-	 * 註冊白名單
+	 * 注册白名单
 	 */
 	public function save()
 	{
 		$data = $this->request()->getRequestParam('ip_addr', 'is_enable', 'comments');
-		$flag = (new IpWhiteValidate())->check($data);
+		$flag = (new IpWhiteValidate())->check($this->response(), $data);
 		if (!$flag) {
 			return false;
 		}

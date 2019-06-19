@@ -1,24 +1,28 @@
 <?php
 namespace App;
 
-use EasySwoole\Http\Request;
-use EasySwoole\Http\Response;
-
 
 class Common
 {
-	public function writeJson($statusCode = 200, $result = null, $msg = null)
+	protected function backJsonStr($statusCode = 500, $data = null, $msg = null):string
 	{
-		$response = new Response(new \swoole_http_response());
-		$data = Array(
+		$arr = Array(
             "code" => $statusCode,
-            "data" => $result,
+            "data" => $data,
             "msg" => $msg,
             "time" => time()
         );
-        $response->write(json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        return json_encode($arr, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+	}
+
+	 protected function writeJsonByResponse(
+	 	Reponse $response,
+	 	$statusCode = 500, $data = null, $msg = null
+	 ):void
+    {
+        $response->write($this->backJsonStr($statusCode, $data, $msg));
         $response->withHeader('Content-type', 'application/json;charset=utf-8');
         $response->withStatus($statusCode);
-        var_dump($data);
-	}
+        return ;
+    }
 }
