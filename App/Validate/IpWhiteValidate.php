@@ -9,6 +9,7 @@ class IpWhiteValidate
 {
 	public function check(array $data)
 	{
+		$flag = false;
 		$valitor = new Validate();
 		if (isset($data['id'])) {
 			$valitor->addColumn('id','主键')->required('不能为空')->numeric('只能为数字类型');
