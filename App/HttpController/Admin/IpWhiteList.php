@@ -12,8 +12,7 @@ class IpWhiteList extends BaseController
 	 */
 	public function save()
 	{
-		$request = $this->request()；
-		$data = $request->getRequestParam('ip_addr', 'is_enable', 'comments');
+		$data = $this->request()->getRequestParam('ip_addr', 'is_enable', 'comments');
 		$flag = (new IpWhiteValidate())->check($data);
 		if (!$flag) {
 			return false;
