@@ -27,6 +27,7 @@ class IpWhiteListModel extends BaseModel
 
 		foreach ($data as $k => &$v) {
 			if (isset($form[$k])) $v = $form[$k];
+			if ($k == 'ip_addr') $v = ip2long($v);
 		}
 		unset($v,$form);
 		return $this->db->insert($this->table, $data);
