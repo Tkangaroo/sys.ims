@@ -3,6 +3,7 @@ namespace App\HttpController;
 
 use EasySwoole\Http\AbstractInterface\Controller;
 use EasySwoole\Http\Message\Status;
+use EasySwoole\EasySwoole\ServerManager;
 
 
 /**
@@ -52,5 +53,15 @@ class BaseController Extends Controller
     {
         // TODO: Implement index() method.
         $this->response()->write("forbidden");
+    }
+
+    public function getClientIp()
+    {
+    	//真实地址
+		$ip = ServerManager::getInstance()->getSwooleServer()->connection_info($this->request()->getSwooleRequest()->fd);
+		var_dump($ip);
+		//header 地址，例如经过nginx proxy后
+		$ip2 = $this->request()->getHeaders();
+		var_dump($ip2);
     }
 }
