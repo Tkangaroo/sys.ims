@@ -42,6 +42,8 @@ class BaseController Extends Controller
 	 */
     protected function onException(\Throwable $throwable): void
     {
+    	// 清空之前输出缓存
+    	$this->response()->getBody()->truncate();
 		$this->writeJson(200, null, 'connection too much,please wait a moment.');
 	 	return ;
     }
