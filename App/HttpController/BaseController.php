@@ -50,6 +50,7 @@ class BaseController Extends Controller
     {
     	// 清空之前输出缓存
     	// $this->response()->getBody()->truncate();
+    	var_dump($throwable->getMessage());
 		$this->writeJson(200, null, 'connection too much,please wait a moment.');
 	 	return ;
     }
