@@ -1,21 +1,16 @@
 <?php
 namespace App\HttpController\Api;
 
-use EasySwoole\Http\AbstractInterface\Controller;
 use App\Model\IpWhiteListModel;
+use App\HttpController\BaseController;
 
 
-class Index extends Controller
+class Index extends BaseController
 {
     public function index()
     {
     	$res = (new IpWhiteListModel)->getTest();
         $this->response()->write('index action for api');
         $this->writeJson(200, $res, 'test');
-    }
-
-    public function test()
-    {
-        $this->response()->write('this a test for api');
     }
 }

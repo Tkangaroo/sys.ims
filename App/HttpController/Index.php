@@ -1,24 +1,15 @@
 <?php
 namespace App\HttpController;
-use EasySwoole\Http\AbstractInterface\Controller;
-use EasySwoole\Http\Message\Status;
 
-class Index extends Controller
+use App\HttpController\BaseController;
+
+class Index extends BaseController
 {
-    public function onException(\Throwable $throwable): void
-    {
-        $this->response()->write('waiting...');
-        return ;
-    }
 
     public function index()
     {
         // TODO: Implement index() method.
         $this->response()->write("hello world");
-    }
-
-    public function test()
-    {
-        $this->response()->write('this is a test');
+        new fdsajk();
     }
 }
