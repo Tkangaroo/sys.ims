@@ -10,7 +10,7 @@ class IpWhiteListModel extends BaseModel
 {
 	protected $table = 't_ip_whitelist';
 
-	protected function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}
