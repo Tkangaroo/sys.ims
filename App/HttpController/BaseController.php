@@ -27,7 +27,6 @@ class BaseController Extends Controller
      */
     protected function onRequest(?string $action): ?bool
 	{
-		var_dump($action);
 	   if (parent::onRequest($action)) {
 	   		// 判斷IP白名單
 	   		if (!$this->checkClientIpHasAccessAuthority()) {
@@ -76,10 +75,10 @@ class BaseController Extends Controller
     		if ($whiteIp['is_enable'] == 1) {
     			$flag = 1;
     		} else {
-    			$this->writeJson(0, null, '訪問受限, IP:'.long2ip($ip));
+    			$this->writeJson(0, null, '訪問受限, 您當前的IP為: '.long2ip($ip));
     		}
     	} else {
-    		$this->writeJson(0, null, '尚未註冊, IP:'.long2ip($ip));
+    		$this->writeJson(0, null, '尚未註冊, 您當前的IP為: '.long2ip($ip));
     	}
     	return (int)$flag;
 
