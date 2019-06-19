@@ -5,6 +5,7 @@ use EasySwoole\Http\AbstractInterface\AbstractRouter;
 use FastRoute\RouteCollector;
 use EasySwoole\Http\Request;
 use EasySwoole\Http\Response;
+use App\Common;
 
 
 class Router extends AbstractRouter
@@ -15,28 +16,12 @@ class Router extends AbstractRouter
     $this->setGlobalMode(true);
 
     $this->setMethodNotAllowCallBack(function (Request $request,Response $response){
-        $data = Array(
-            "code" => 500,
-            "data" => null,
-            "msg" => 'the method not found!',
-            "time" => time()
-        );
-        $response->write(json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
-        $response->withHeader('Content-type', 'application/json;charset=utf-8');
-        $response->withStatus(500);
+        (new Common())->writeJson(500, null, 'the method not found!');
         return false;//结束此次响应
     });
 
     $this->setRouterNotFoundCallBack(function (Request $request,Response $response){
-        $data = Array(
-            "code" => 500,
-            "data" => null,
-            "msg" => 'the route not found!',
-            "time" => time()
-        );
-        $response->write(json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
-        $response->withHeader('Content-type', 'application/json;charset=utf-8');
-        $response->withStatus(500);
+        (new Common())->writeJson(500, null, 'the method not found!');
         return false;//结束此次响应
     });
 

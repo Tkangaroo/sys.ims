@@ -3,6 +3,7 @@ namespace App\Validate;
 
 use EasySwoole\Http\AbstractInterface\Controller;
 use EasySwoole\Validate\Validate;
+use App\Common;
 
 
 class IpWhiteValidate
@@ -20,7 +21,7 @@ class IpWhiteValidate
 		$flag = $valitor->validate($data);
 		var_dump($flag);
 		$msg = $valitor->getError()->getErrorRuleMsg()?:$valitor->getError()->getColumnErrorMsg();
-		(new Controller())->writeJson(0, null, $msg);
+		(new Common())->writeJson(0, null, $msg);
 		return $flag;
 	}
 }
