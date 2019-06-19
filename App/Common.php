@@ -1,6 +1,8 @@
 <?php
 namespace App;
 
+use EasySwoole\Http\Response;
+
 
 class Common
 {
