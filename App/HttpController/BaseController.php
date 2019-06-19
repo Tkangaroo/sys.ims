@@ -57,10 +57,8 @@ class BaseController Extends Controller
 
     public function getClientIp()
     {
-    	//真实地址
-		$ip = ServerManager::getInstance()->getSwooleServer()->connection_info($this->request()->getSwooleRequest()->fd);
-		$ip2 = $this->request()->getHeaders();
-		var_dump($ip2);
+		$ip = $_SERVER;
+		$this->response()->write($ip);
     }
 
 }
