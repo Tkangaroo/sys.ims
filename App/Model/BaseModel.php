@@ -1,8 +1,6 @@
 <?php
 namespace App\Model;
 
-use EasySwoole\Mysqli;
-
 class BaseModel
 {
 	
@@ -19,6 +17,6 @@ class BaseModel
     protected function getDb():Mysqli
     {
     	$conf = new \EasySwoole\Mysqli\Config(\EasySwoole\EasySwoole\Config::getInstance()->getConf($this->conf));
-		return new Mysqli($conf);
+		return new \EasySwoole\Mysqli($conf);
     }
 }
