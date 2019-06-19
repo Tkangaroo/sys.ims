@@ -9,12 +9,12 @@ class BaseModel
 
 	public function __construct()
 	{
-		if (is_null($this->db) || !$this->db instanceof mysqli) {
+		if (is_null($this->db)) {
 			$this->db = $this->getDb();
 		}
 	}
 
-    protected function getDb():mysqli
+    protected function getDb()
     {
     	$conf = new \EasySwoole\Mysqli\Config(\EasySwoole\EasySwoole\Config::getInstance()->getConf($this->conf));
 		return new \Mysqli($conf);
