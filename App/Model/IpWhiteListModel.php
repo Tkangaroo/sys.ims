@@ -1,7 +1,7 @@
 <?php
 namespace App\Model;
 
-use BaseModel;
+use App\Model\BaseModel;
 use EasySwoole\EasySwoole\ServerManager;
 use EasySwoole\Utility\SnowFlake;
 
