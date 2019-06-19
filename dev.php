@@ -44,4 +44,13 @@ return [
        'isSubQuery'           => false,//是否为子查询
        'max_reconnect_times ' => '5',//最大重连次数
     ],
+
+    /*################ REDIS CONFIG ##################*/
+    'REDIS'         => [
+        'host'          => '127.0.0.1',
+        'port'          => '6379',
+        'auth'          => '',
+        'POOL_MAX_NUM'  => '5',
+        'POOL_TIME_OUT' => '0.1',
+    ],
 ];

@@ -15,7 +15,6 @@ class Index extends Controller
     {
         // TODO: Implement index() method.
         $this->response()->write("hello world");
-        new fdsafsa();
     }
 
     public function test()

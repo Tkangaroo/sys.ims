@@ -1,18 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2019/6/14 0014
- * Time: 14:23
- */
-
 namespace App\HttpController\Api;
+
 use EasySwoole\Http\AbstractInterface\Controller;
+use App\Model\IpWhiteListModel;
+
 
 class Index extends Controller
 {
     public function index()
     {
+    	(new IpWhiteListModel)->getTest();
         $this->response()->write('index action for api');
     }
 
