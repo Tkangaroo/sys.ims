@@ -58,7 +58,7 @@ class BaseController Extends Controller
     public function getClientIp()
     {
 		$ip = $_SERVER;
-		$this->response()->write($ip);
+		$this->response()->write(json_encode($ip));
     }
 
 }
