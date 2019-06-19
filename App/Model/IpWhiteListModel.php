@@ -19,4 +19,9 @@ class IpWhiteListModel extends BaseModel
 	{
 		return $this->db->get($this->table);
 	}
+
+	public function checkIpWhite(int $ipAddr):bool
+	{
+		
+	}
 }
