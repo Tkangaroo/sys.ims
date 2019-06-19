@@ -60,8 +60,6 @@ class BaseController Extends Controller
     	//真实地址
 		$ip = ServerManager::getInstance()->getSwooleServer()->connection_info($this->request()->getSwooleRequest()->fd);
 		var_dump($ip);
-		//header 地址，例如经过nginx proxy后
-		$ip2 = $this->request()->getHeaders();
-		var_dump($ip2);
     }
+
 }
