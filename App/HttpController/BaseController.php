@@ -75,10 +75,10 @@ class BaseController Extends Controller
     		if ($whiteIp['is_enable'] == 1) {
     			$flag = 1;
     		} else {
-    			$this->writeJson(0, null, '訪問受限, 您當前的IP為: '.long2ip($ip));
+    			$this->writeJson(0, null, '访问受限, 您当前的IP为: '.long2ip($ip));
     		}
     	} else {
-    		$this->writeJson(0, null, '尚未註冊, 您當前的IP為: '.long2ip($ip));
+    		$this->writeJson(0, null, '尚未注册, 您当前的IP为: '.long2ip($ip));
     	}
     	return (int)$flag;
 

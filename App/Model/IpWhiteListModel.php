@@ -15,9 +15,21 @@ class IpWhiteListModel extends BaseModel
 		parent::__construct();
 	}
 
-	public function getTest():array
+	public function createIpAddrSingle(array $form):int
 	{
-		return $this->db->get($this->table);
+		$data = [
+			'ip_addr' => 0,
+			'is_enable' => 0,
+			'comments' => '',
+			'create_at' => time(),
+			'update_at' => time()
+		];
+
+		foreach ($data as $k => &$v) {
+			if (isset($form[$k])) $v = $form[$k];
+		}
+		unset($v,$form);
+		return $this->db->insert($this->table, $data);
 	}
 
 	/**
