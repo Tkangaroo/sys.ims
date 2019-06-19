@@ -2,6 +2,7 @@
 namespace App\Validate;
 
 use EasySwoole\Validate\Validate;
+use EasySwoole\Http\Response;
 use App\Common;
 
 
