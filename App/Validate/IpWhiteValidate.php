@@ -17,6 +17,7 @@ class IpWhiteValidate
 		$valitor->addColumn('is_enable','是否激活')->required('不能为空')->inArray([0,1], true, '无效格式');
 		$valitor->addColumn('comments', '备注')->lengthMax(50, '不能超过50字')
 		$flag = $valitor->validate($data);
+		var_dump($flag);
 		$msg = $valitor->getError()->getErrorRuleMsg()?:$valitor->getError()->getColumnErrorMsg();
 		(new Controller())->writeJson(0, null, $msg);
 		return $flag;
