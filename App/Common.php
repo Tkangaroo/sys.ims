@@ -1,8 +1,6 @@
 <?php
 namespace App;
 
-use EasySwoole\Http\Response;
-
 
 class Common
 {
@@ -18,7 +16,7 @@ class Common
 	}
 
 	 public function writeJsonByResponse(
-	 	Reponse $response,
+	 	\EasySwoole\Http\Response $response,
 	 	$statusCode = 500, $data = null, $msg = null
 	 ):void
     {
