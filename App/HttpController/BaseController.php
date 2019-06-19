@@ -27,7 +27,7 @@ class BaseController Extends Controller
 	{
 	   if (parent::onRequest($action)) {
 	        //判断是否登录
-	        if (1/*伪代码*/) {
+	        if (0/*伪代码*/) {
 	            $this->writeJson(Status::CODE_UNAUTHORIZED, '', '登入已过期');
 	            return false;
 	        }
