@@ -1,5 +1,4 @@
 ./Log
 ./Temp
-./.idea
-./.idea/
+.idea
 ims.sql
