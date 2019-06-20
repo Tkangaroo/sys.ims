@@ -21,7 +21,6 @@ class EasySwooleEvent implements Event
     {
         // TODO: Implement initialize() method.
         date_default_timezone_set('Asia/Shanghai');
-        var_dump(456);
     }
 
     public static function mainServerCreate(EventRegister $register)

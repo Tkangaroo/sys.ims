@@ -17,11 +17,19 @@ class IpWhiteList extends BaseController
 		if (!$flag) {
 			return false;
 		}
-		$saveRes = (new IpWhiteListModel())->createIpAddrSingle($data);
-		if ($saveRes) {
-			$this->writeJson(200, null, '添加IP成功');
-		} else {
-			$this->writeJson(0, null, '添加IP失败');
-		}
+		try {
+            $saveRes = (new IpWhiteListModel())->createIpAddrSingle($data);
+            if ($saveRes) {
+                $this->writeJson(200, null, '添加IP成功');
+            } else {
+                $this->writeJson(0, null, '添加IP失败');
+            }
+            return false;
+        } catch (\Throwable $throwable) {
+            $this->writeJson(0, null, $throwable->getMessage());
+        } finally {
+            $this->writeJson(0, null, '程序出现异常');
+            return false;
+        }
 	}
 }

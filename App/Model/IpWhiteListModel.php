@@ -5,6 +5,7 @@ use App\Model\BaseModel;
 use EasySwoole\EasySwoole\ServerManager;
 use EasySwoole\Utility\SnowFlake;
 use App\Utility\Tools\ESMysqliTool;
+use mysql_xdevapi\Exception;
 use PhpParser\ErrorHandler\Throwing;
 
 
@@ -39,16 +40,15 @@ class IpWhiteListModel extends BaseModel
 		$saveFlag = false;
 		try {
             if ((new ESMysqliTool())->checkUniqueByAField($this->db, $this->table, $uniqueFilterWhere)) {
-                new Throwing();
+                throw new Exception('该IP已存在');
             }
                 unset($v,$form);
             $saveFlag = $this->db->insert($this->table, $data);
-        } catch (\Throwable $e) {
-            $saveFlag = false;
+        } catch (\Throwable $throwable) {
+            throw new Exception($throwable->getMessage());
         } finally {
-            $saveFlag = false;
+            return $saveFlag;
         }
-        return $saveFlag;
 
 	}
 
