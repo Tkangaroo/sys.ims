@@ -3,7 +3,7 @@ namespace App\Model;
 
 use App\Exception\ESException;
 use App\Utility\Tools\ESMysqliTool;
-use Lib\Language\Lang;
+use App\Utility\Tools\ESConfigTool;
 
 class IpWhiteListModel extends BaseModel
 {
@@ -43,7 +43,7 @@ class IpWhiteListModel extends BaseModel
             'ip_addr' => $data['ip_addr']
         ];
         if ((new ESMysqliTool())->checkUniqueByAField($this->db, $this->table, $uniqueFilterWhere)) {
-            throw new ESException((new Lang())->get('ip_white.not_unique'));
+            throw new ESException((new ESConfigTool())->get('lang.ch.ip_white_not_unique'));
         }
         // 设置时间戳
         $data['create_at'] = time();

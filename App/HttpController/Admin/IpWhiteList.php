@@ -6,7 +6,7 @@ use App\HttpController\BaseController;
 use App\Model\IpWhiteListModel;
 use App\Validate\IpWhiteValidate;
 use App\Utility\Tools\ESResponseTool;
-use Lib\Language\Lang;
+use App\Utility\Tools\ESConfigTool;
 
 class IpWhiteList extends BaseController
 {
@@ -17,15 +17,15 @@ class IpWhiteList extends BaseController
 	{
 		$data = $this->request()->getRequestParam('ip_addr', 'is_enable', 'comments');
         $esResponse = new ESResponseTool();
-        $lang = new Lang();
+        $conf = new ESConfigTool();
         try {
             (new IpWhiteValidate())->check($this->response(), $data);
             $saveRes = (new IpWhiteListModel())->createIpAddrSingle($data);
             if ($saveRes) {
                 $this->code = 200;
-                $this->message = $lang->get('ip_white.save_success');
+                $this->message = $conf->get('lang.ch.ip_white_save_success');
             } else {
-                throw new ESException($lang->get('ip_white.save_error'));
+                throw new ESException($conf->get('lang.ch.ip_white_save_error'));
             }
         } catch (ESException $e) {
             $this->message = $e->report();

@@ -21,6 +21,9 @@ class EasySwooleEvent implements Event
     {
         // TODO: Implement initialize() method.
         date_default_timezone_set('Asia/Shanghai');
+
+        // 加载语言包配置文件
+        Config::getInstance()->loadFile(EASYSWOOLE_ROOT.'/lang.php', true);
     }
 
     public static function mainServerCreate(EventRegister $register)
