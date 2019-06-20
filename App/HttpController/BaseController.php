@@ -39,6 +39,7 @@ class BaseController Extends Controller
 	           var_dump($this->request()->getUri());
 	           var_dump($this->request()->getAttributes());
 	           var_dump($this->request()->getHeaders());
+	           var_dump($this->request()->getRequestTarget());
                $this->checkClientIpHasAccessAuthority();
                //判断是否登录
                if (0/*伪代码*/) {
