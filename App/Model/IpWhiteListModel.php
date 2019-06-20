@@ -1,8 +1,10 @@
 <?php
 namespace App\Model;
 
+use App\Exception\ESException;
 use App\Exception\IpWhiteException;
 use App\Utility\Tools\ESMysqliTool;
+use Lib\Lang;
 
 class IpWhiteListModel extends BaseModel
 {
@@ -42,7 +44,7 @@ class IpWhiteListModel extends BaseModel
             'ip_addr' => $data['ip_addr']
         ];
         if ((new ESMysqliTool())->checkUniqueByAField($this->db, $this->table, $uniqueFilterWhere)) {
-            throw new IpWhiteException('IP_ALREADY_EXISTS');
+            throw new ESException((new Lang())->get('ip_white.not_unique'));
         }
         // 设置时间戳
         $data['create_at'] = time();

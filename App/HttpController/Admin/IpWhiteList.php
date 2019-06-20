@@ -2,11 +2,11 @@
 namespace App\HttpController\Admin;
 
 use App\Exception\ESException;
-use App\Exception\IpWhiteException;
 use App\HttpController\BaseController;
 use App\Model\IpWhiteListModel;
 use App\Validate\IpWhiteValidate;
 use App\Utility\Tools\ESResponseTool;
+use Lib\Lang;
 
 class IpWhiteList extends BaseController
 {
@@ -17,23 +17,22 @@ class IpWhiteList extends BaseController
 	{
 		$data = $this->request()->getRequestParam('ip_addr', 'is_enable', 'comments');
         $esResponse = new ESResponseTool();
+        $lang = new Lang();
         try {
-
             (new IpWhiteValidate())->check($this->response(), $data);
-
             $saveRes = (new IpWhiteListModel())->createIpAddrSingle($data);
             if ($saveRes) {
-                $esResponse->writeJsonByResponse($this->response(), 200, null, '添加IP成功');
+                $this->code = 200;
+                $this->message = $lang->get('ip_white.save_success');
             } else {
-                throw new IpWhiteException('IP_OPERATE_FAIL');
+                throw new ESException($lang->get('ip_white.save_error'));
             }
-        } catch (IpWhiteException $e) {
-            $esResponse->writeJsonByResponse($this->response(), 0, null, $e->report(1));
         } catch (ESException $e) {
-            $esResponse->writeJsonByResponse($this->response(), 0, null, $e->report(1));
+            $this->message = $e->report();
         } catch (\Throwable $e) {
-            $esResponse->writeJsonByResponse($this->response(), 0, null, $e->getMessage());
+            $this->message = $e->getMessage();
         }
-		return false;
+        $esResponse->writeJsonByResponse($this->response(), $this->code, $this->data, $this->message);
+        return false;
 	}
 }

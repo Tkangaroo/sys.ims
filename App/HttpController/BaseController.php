@@ -12,6 +12,11 @@ use App\Model\IpWhiteListModel;
  */
 class BaseController Extends Controller
 {
+    protected $code = 0;
+    protected $message = '';
+    protected $data = null;
+
+
     // 构造函数
     public function __constuct()
     {
@@ -41,15 +46,13 @@ class BaseController Extends Controller
 	    return false;
 	}
 
-	/**
-	 * 当控制器逻辑抛出异常时将调用该方法进行处理异常(框架默认已经处理了异常)
-	 * 可覆盖该方法,进行自定义的异常处理...
-	 */
+    /**
+     * @param \Throwable $throwable
+     */
     protected function onException(\Throwable $throwable): void
     {
     	// 清空之前输出缓存
     	$this->response()->getBody()->truncate();
-    	$msg = 'connection too much,please wait a moment.';
     	$msg = $throwable->getMessage();
 		$this->writeJson(200, null, $msg);
 	 	return ;
