@@ -69,6 +69,7 @@ class Validate
             }
             foreach ($rules as $rule => $ruleInfo) {
                 if (!call_user_func([ $this, $rule ], $spl, $column, $ruleInfo['arg'])) {
+                    var_dump($ruleInfo);
                     $this->error = new Error($column, $spl->get($column), $item['alias'], $rule, $item['alias']??'该数据'.$ruleInfo['msg'], $ruleInfo['arg']);
                     return false;
                 }

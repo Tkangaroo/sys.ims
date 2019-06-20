@@ -2,16 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8aa1222d-539b-4ccc-a703-b4384bb517ce" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/App/Common.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/App/HttpController/BaseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/HttpController/BaseController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App/HttpController/Index.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/HttpController/Index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App/HttpController/Router.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/HttpController/Router.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App/Model/BaseModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/Model/BaseModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App/Model/IpWhiteListModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/Model/IpWhiteListModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App/Utility/SingleMysql.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/App/Validate/IpWhiteValidate.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/Validate/IpWhiteValidate.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/easyswoole/validate/src/Rule.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/easyswoole/validate/src/Rule.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vendor/easyswoole/validate/src/Validate.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/easyswoole/validate/src/Validate.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -28,11 +18,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/App/Validate/IpWhiteValidate.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-417">
-              <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-              <folding>
-                <element signature="e#31#68#0#PHP" expanded="true" />
-              </folding>
+            <state relative-caret-position="72">
+              <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="54">
+              <caret line="3" column="7" lean-forward="true" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -55,6 +51,24 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/vendor/easyswoole/validate/src/Validate.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="305">
+              <caret line="71" column="38" selection-start-line="71" selection-start-column="38" selection-end-line="71" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vendor/easyswoole/validate/src/Rule.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="233">
+              <caret line="23" column="5" lean-forward="true" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/App/Model/IpWhiteListModel.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -67,7 +81,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/App/Model/BaseModel.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="389">
@@ -106,13 +120,14 @@
         <option value="$PROJECT_DIR$/App/Model/IpWhiteListModel.php" />
         <option value="$PROJECT_DIR$/App/Utility/Tools/ESMysqliTool.php" />
         <option value="$PROJECT_DIR$/App/HttpController/Router.php" />
-        <option value="$PROJECT_DIR$/vendor/easyswoole/validate/src/Validate.php" />
         <option value="$PROJECT_DIR$/vendor/easyswoole/validate/src/Rule.php" />
         <option value="$PROJECT_DIR$/App/HttpController/Admin/IpWhiteList.php" />
         <option value="$PROJECT_DIR$/App/Traits/ValidateTrait.php" />
         <option value="$PROJECT_DIR$/App/Utility/Tools/ESValidateTool.php" />
         <option value="$PROJECT_DIR$/App/Validate/IpWhiteValidate.php" />
         <option value="$PROJECT_DIR$/App/Model/BaseModel.php" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/vendor/easyswoole/validate/src/Validate.php" />
       </list>
     </option>
   </component>
@@ -173,25 +188,6 @@
             <path>
               <item name="sys.ims" type="b2602c69:ProjectViewProjectNode" />
               <item name="sys.ims" type="462c0819:PsiDirectoryNode" />
-              <item name="App" type="462c0819:PsiDirectoryNode" />
-              <item name="HttpController" type="462c0819:PsiDirectoryNode" />
-              <item name="Admin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sys.ims" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sys.ims" type="462c0819:PsiDirectoryNode" />
-              <item name="App" type="462c0819:PsiDirectoryNode" />
-              <item name="Model" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sys.ims" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sys.ims" type="462c0819:PsiDirectoryNode" />
-              <item name="App" type="462c0819:PsiDirectoryNode" />
-              <item name="Traits" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sys.ims" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sys.ims" type="462c0819:PsiDirectoryNode" />
               <item name="Log" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -232,12 +228,12 @@
       <workItem from="1560953908078" duration="44000" />
       <workItem from="1560954041618" duration="298000" />
       <workItem from="1560954420796" duration="10240000" />
-      <workItem from="1560993536656" duration="6264000" />
+      <workItem from="1560993536656" duration="6849000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18358000" />
+    <option name="totallyTimeSpent" value="18943000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="10" y="20" width="1346" height="698" extended-state="0" />
@@ -256,7 +252,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.32920355" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" weight="0.3286219" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -289,13 +285,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="3" column="7" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Log/swoole.log">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -363,13 +352,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/App/Traits/SqlTrait.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="20" column="19" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/App/Utility/Tools/ESResponseTool.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -381,13 +363,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="197">
           <caret line="22" column="41" lean-forward="true" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/easyswoole/validate/src/Rule.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="335">
-          <caret line="554" column="7" lean-forward="true" selection-start-line="554" selection-start-column="7" selection-end-line="554" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -408,13 +383,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/easyswoole/validate/src/Validate.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-252">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/easyswoole/http/src/Request.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="251">
@@ -429,23 +397,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
           <caret line="15" column="22" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/App/Utility/Tools/ESValidateTool.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="16" column="31" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/App/Validate/IpWhiteValidate.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-417">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-          <folding>
-            <element signature="e#31#68#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -466,6 +417,48 @@
           <folding>
             <element signature="e#28#57#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/Traits/SqlTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="17" column="7" lean-forward="true" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="7" lean-forward="true" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/Utility/Tools/ESValidateTool.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="16" column="31" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/Validate/IpWhiteValidate.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/easyswoole/validate/src/Rule.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="23" column="5" lean-forward="true" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/easyswoole/validate/src/Validate.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="71" column="38" selection-start-line="71" selection-start-column="38" selection-end-line="71" selection-end-column="38" />
         </state>
       </provider>
     </entry>
