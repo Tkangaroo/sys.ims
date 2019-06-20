@@ -5,9 +5,14 @@ use EasySwoole\Http\AbstractInterface\AbstractRouter;
 use FastRoute\RouteCollector;
 use EasySwoole\Http\Request;
 use EasySwoole\Http\Response;
-use App\Common;
+use App\Utility\Tools\ESResponseTool;
 
 
+/**
+ * Class Router
+ * 路由类
+ * @package App\HttpController
+ */
 class Router extends AbstractRouter
 {
   public function initialize(RouteCollector $routeCollector)
@@ -16,12 +21,12 @@ class Router extends AbstractRouter
     $this->setGlobalMode(true);
 
     $this->setMethodNotAllowCallBack(function (Request $request,Response $response) {
-        (new Common)->writeJsonByResponse($response, 500, null, 'the method not found!');
+        (new ESResponseTool)->writeJsonByResponse($response, 500, null, 'the method not found!');
         return false;//结束此次响应
     });
 
     $this->setRouterNotFoundCallBack(function (Request $request,Response $response){
-        (new Common)->writeJsonByResponse($response, 500, null, 'the route not found!');
+        (new ESResponseTool)->writeJsonByResponse($response, 500, null, 'the route not found!');
         return false;//结束此次响应
     });
 

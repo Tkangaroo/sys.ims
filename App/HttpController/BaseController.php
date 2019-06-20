@@ -3,7 +3,6 @@ namespace App\HttpController;
 
 use EasySwoole\Http\AbstractInterface\Controller;
 use EasySwoole\Http\Message\Status;
-use EasySwoole\EasySwoole\ServerManager;
 use App\Model\IpWhiteListModel;
 
 

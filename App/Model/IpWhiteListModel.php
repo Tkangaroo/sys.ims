@@ -4,10 +4,12 @@ namespace App\Model;
 use App\Model\BaseModel;
 use EasySwoole\EasySwoole\ServerManager;
 use EasySwoole\Utility\SnowFlake;
+use App\Utility\Tools\ESMysqliTool;
 
 
 class IpWhiteListModel extends BaseModel
 {
+    // 当前表名
 	protected $table = 't_ip_whitelist';
 
 	public function __construct()
@@ -33,16 +35,21 @@ class IpWhiteListModel extends BaseModel
 		return $this->db->insert($this->table, $data);
 	}
 
-	/**
-	 * 根據IP查詢數據
-	 */
+    /**
+     * 根据IP查询数据
+     * @param int $ipAddr IP地址
+     * @return array
+     * @throws \EasySwoole\Mysqli\Exceptions\ConnectFail
+     * @throws \EasySwoole\Mysqli\Exceptions\PrepareQueryFail
+     * @throws \Throwable
+     */
 	public function queryByIpAddr(int $ipAddr = 0):array
 	{
 		$whiteIp = [];
 		if ($ipAddr) {
-			$this->db->where('ip_addr', $ipAddr);
-			$this->db->where('delete_at', 0);
-			$whiteIp = $this->db->getOne($this->table, 'id,is_enable');
+            $this->db->where('ip_addr', $ipAddr);
+            $this->setSoftDeleteWhere();
+            $whiteIp = $this->db->getOne($this->table, 'id,is_enable');
 		}
 
 		return (array)$whiteIp;

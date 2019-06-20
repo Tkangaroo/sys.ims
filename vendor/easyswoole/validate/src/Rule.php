@@ -32,7 +32,7 @@ class Rule
     {
         $this->ruleMap['activeUrl'] = [
             'arg' => null,
-            'msg' => $msg
+            'msg' => $msg?$msg:'通讯失败'
         ];
         return $this;
     }
@@ -46,7 +46,7 @@ class Rule
     {
         $this->ruleMap['alpha'] = [
             'arg' => null,
-            'msg' => $msg
+            'msg' => $msg?$msg:'不是字母格式'
         ];
         return $this;
     }
@@ -55,7 +55,7 @@ class Rule
     {
         $this->ruleMap['alphaNum'] = [
             'arg' => null,
-            'msg' => $msg
+            'msg' => $msg?$msg:'不是字母和数字格式'
         ];
         return $this;
     }
@@ -95,7 +95,7 @@ class Rule
     function bool($msg = null)
     {
         $this->ruleMap['bool'] = [
-            'msg' => $msg,
+            'msg' => $msg?$msg:'不是布尔类型',
             'arg' => null
         ];
         return $this;
@@ -110,7 +110,7 @@ class Rule
     function decimal(?int $precision = null, $msg = null)
     {
         $this->ruleMap['decimal'] = [
-            'msg' => $msg,
+            'msg' => $msg?$msg:'不是小数格式',
             'arg' => $precision
         ];
         return $this;
@@ -218,7 +218,7 @@ class Rule
     function float($msg = null)
     {
         $this->ruleMap['float'] = [
-            'arg' => null,
+            'arg' => $msg?$msg:'不是浮点类型',
             'msg' => $msg
         ];
         return $this;
@@ -264,7 +264,7 @@ class Rule
     {
         $this->ruleMap['integer'] = [
             'arg' => null,
-            'msg' => $msg
+            'msg' => $msg?$msg:'不是整数值'
         ];
         return $this;
     }
@@ -279,7 +279,7 @@ class Rule
     {
         $this->ruleMap['isIp'] = [
             'arg' => null,
-            'msg' => $msg
+            'msg' => $msg?$msg:'不是有效IP地址'
         ];
         return $this;
     }
@@ -293,7 +293,7 @@ class Rule
     {
         $this->ruleMap['notEmpty'] = [
             'arg' => null,
-            'msg' => $msg
+            'msg' => $msg?$msg:'为空'
         ];
         return $this;
     }
@@ -307,7 +307,7 @@ class Rule
     {
         $this->ruleMap['numeric'] = [
             'arg' => null,
-            'msg' => $msg
+            'msg' => $msg?$msg:'不是一个数字'
         ];
         return $this;
     }
@@ -473,7 +473,7 @@ class Rule
     {
         $this->ruleMap['required'] = [
             'arg' => null,
-            'msg' => $msg
+            'msg' => $msg?$msg:'不存在'
         ];
         return $this;
     }
@@ -487,7 +487,7 @@ class Rule
     {
         $this->ruleMap['timestamp'] = [
             'arg' => null,
-            'msg' => $msg
+            'msg' => $msg?$msg:'非法时间戳'
         ];
         return $this;
     }
@@ -561,7 +561,7 @@ class Rule
     {
         $this->ruleMap['url'] = [
             'arg' => null,
-            'msg' => $msg
+            'msg' => $msg?$msg:'非法链接'
         ];
         return $this;
     }
@@ -575,7 +575,7 @@ class Rule
     {
         $this->ruleMap['allDigital'] = [
             'arg' => null,
-            'msg' => $msg
+            'msg' => $msg?$msg:'非法链接'
         ];
         return $this;
     }

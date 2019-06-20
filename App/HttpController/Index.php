@@ -10,6 +10,5 @@ class Index extends BaseController
     {
         // TODO: Implement index() method.
         $this->response()->write("hello world");
-        new fdsajk();
     }
 }
