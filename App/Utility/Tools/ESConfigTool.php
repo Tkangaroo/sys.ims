@@ -14,14 +14,21 @@ class ESConfigTool
     /**
      * 获取配置项
      * @param string $name
-     * @return string|null
+     * @return string
      */
-    public function get(string $name):?string
+    public function get(string $name):string
     {
-        var_dump(ESConfig::getInstance()->getConf(''));
-        $conf = ESConfig::getInstance()->getConf($name);
-        var_dump($conf);
-        return $conf;
+        return ESConfig::getInstance()->getConf($name)??$name;
+    }
+
+    /**
+     * 获取语言包
+     * @param string $name
+     * @return string
+     */
+    public function lang(string $name):string
+    {
+        return $this->get('lang'.$name);
     }
 
 }

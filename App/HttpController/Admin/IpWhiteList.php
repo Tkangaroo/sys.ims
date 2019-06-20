@@ -23,9 +23,9 @@ class IpWhiteList extends BaseController
             $saveRes = (new IpWhiteListModel())->createIpAddrSingle($data);
             if ($saveRes) {
                 $this->code = 200;
-                $this->message = $conf->get('lang.ch.ip_white_save_success');
+                $this->message = $conf->lang('ip_white_save_success');
             } else {
-                throw new ESException($conf->get('lang.ch.ip_white_save_error'));
+                throw new ESException($conf->lang('ip_white_save_error'));
             }
         } catch (ESException $e) {
             $this->message = $e->report();

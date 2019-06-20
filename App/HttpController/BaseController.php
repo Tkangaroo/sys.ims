@@ -1,21 +1,23 @@
 <?php
 namespace App\HttpController;
 
+use App\Exception\ESException;
+use App\Utility\Tools\ESResponseTool;
 use EasySwoole\Http\AbstractInterface\Controller;
 use EasySwoole\Http\Message\Status;
 use App\Model\IpWhiteListModel;
+use App\Utility\Tools\ESConfigTool;
 
 
 /**
- * 基类控制器
- * 校验白名单和一些登录情况
+ * Class BaseController
+ * @package App\HttpController
  */
 class BaseController Extends Controller
 {
     protected $code = 0;
     protected $message = '';
     protected $data = null;
-
 
     // 构造函数
     public function __constuct()
@@ -32,17 +34,27 @@ class BaseController Extends Controller
     protected function onRequest(?string $action): ?bool
 	{
 	   if (parent::onRequest($action)) {
-	   		// 判斷IP白名單
-	   		if (!$this->checkClientIpHasAccessAuthority()) {
-	   			return false;
-	   		}
-	        //判断是否登录
-	        if (0/*伪代码*/) {
-	            $this->writeJson(Status::CODE_UNAUTHORIZED, '', '登入已过期');
-	            return false;
-	        }
-	        return true;
-	    }
+	       try {
+	           var_dump($this->request()->getUri());
+               $this->checkClientIpHasAccessAuthority();
+               //判断是否登录
+               if (0/*伪代码*/) {
+                   throw new ESException($this->confTool()->lang('login_expired'));
+               }
+               $this->code = 200;
+           } catch (ESException $e) {
+                $this->message = $e->report();
+           } catch (\Throwable $e) {
+                $this->message = $e->getMessage();
+           } finally {
+                if ($this->code == 200) {
+                    return true;
+                } else {
+                    (new ESResponseTool())->writeJsonByResponse($this->response(), $this->code, $this->data, $this->message);
+                    return false;
+                }
+           }
+       }
 	    return false;
 	}
 
@@ -58,6 +70,15 @@ class BaseController Extends Controller
 	 	return ;
     }
 
+    /**
+     * 获取配置类工具
+     * @return ESConfigTool
+     */
+    protected function confTool():ESConfigTool
+    {
+        return new ESConfigTool();
+    }
+
     public function index()
     {
         // TODO: Implement index() method.
@@ -66,23 +87,22 @@ class BaseController Extends Controller
 
     /**
      * 檢測客戶端IP是否具有權限訪問
+     * @throws ESException
+     * @throws \EasySwoole\Mysqli\Exceptions\ConnectFail
+     * @throws \EasySwoole\Mysqli\Exceptions\PrepareQueryFail
+     * @throws \Throwable
      */
-    protected function checkClientIpHasAccessAuthority():int
+    protected function checkClientIpHasAccessAuthority():void
     {
-    	$flag = 0;
     	$ip = $this->getClientIp();
     	$whiteIp = (new IpWhiteListModel)->queryByIpAddr($ip);
 
-    	if ($whiteIp) {
-    		if ($whiteIp['is_enable'] == 1) {
-    			$flag = 1;
-    		} else {
-    			$this->writeJson(0, null, '访问受限, 您当前的IP为: '.long2ip($ip));
-    		}
-    	} else {
-    		$this->writeJson(0, null, '尚未注册, 您当前的IP为: '.long2ip($ip));
-    	}
-    	return (int)$flag;
+    	if (!$whiteIp)
+    	    throw new ESException($this->confTool()->get('ip_has_refused'));
+
+    	if (!isset($whiteIp['is_enable']) || !$whiteIp['is_enable'])
+    	    throw new ESException($this->confTool()->get('ip_has_disable'));
+    	return ;
 
     }
 

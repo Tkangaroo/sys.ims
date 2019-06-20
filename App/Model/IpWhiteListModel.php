@@ -43,7 +43,7 @@ class IpWhiteListModel extends BaseModel
             'ip_addr' => $data['ip_addr']
         ];
         if ((new ESMysqliTool())->checkUniqueByAField($this->db, $this->table, $uniqueFilterWhere)) {
-            throw new ESException((new ESConfigTool())->get('lang.ch.ip_white_not_unique'));
+            throw new ESException((new ESConfigTool())->lang('ip_white_not_unique'));
         }
         // 设置时间戳
         $data['create_at'] = time();
