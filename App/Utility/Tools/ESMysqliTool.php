@@ -63,6 +63,7 @@ class ESMysqliTool
         $uniqueFlag = false;
         $this->quickParseArr2WhereMap($db, $uniqueFilterWhereArr);
         $uniqueFlag = (bool)$db->getValue($tableName, 'id', 1);
+        var_dump($db->getLastQuery());
         return $uniqueFlag;
     }
 }
