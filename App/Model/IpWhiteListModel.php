@@ -19,6 +19,13 @@ class IpWhiteListModel extends BaseModel
 		parent::__construct();
 	}
 
+    /**
+     * @param array $form
+     * @return int
+     * @throws \EasySwoole\Mysqli\Exceptions\ConnectFail
+     * @throws \EasySwoole\Mysqli\Exceptions\PrepareQueryFail
+     * @throws \Throwable
+     */
 	public function createIpAddrSingle(array $form):int
 	{
 		$data = [
@@ -38,18 +45,12 @@ class IpWhiteListModel extends BaseModel
             'ip_addr' => $data['ip_addr']
         ];
 		$saveFlag = false;
-		try {
-            if ((new ESMysqliTool())->checkUniqueByAField($this->db, $this->table, $uniqueFilterWhere)) {
-                throw new Exception('该IP已存在');
-            }
-                unset($v,$form);
-            $saveFlag = $this->db->insert($this->table, $data);
-        } catch (\Throwable $throwable) {
-            throw new Exception($throwable->getMessage());
-        } finally {
-            return $saveFlag;
+        if ((new ESMysqliTool())->checkUniqueByAField($this->db, $this->table, $uniqueFilterWhere)) {
+            throw new \Exception('该IP已存在');
         }
-
+        unset($v,$form);
+        $saveFlag = $this->db->insert($this->table, $data);
+        return $saveFlag;
 	}
 
     /**
