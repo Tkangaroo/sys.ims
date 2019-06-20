@@ -3,7 +3,7 @@ namespace App\Model;
 
 use App\Exception\ESException;
 use App\Utility\Tools\ESMysqliTool;
-use Lib\Lanuage\Lang;
+use Lib\Language\Lang;
 
 class IpWhiteListModel extends BaseModel
 {
