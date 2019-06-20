@@ -6,7 +6,7 @@ use App\HttpController\BaseController;
 use App\Model\IpWhiteListModel;
 use App\Validate\IpWhiteValidate;
 use App\Utility\Tools\ESResponseTool;
-use Lib\Lang;
+use Lib\Lanuage\Lang;
 
 class IpWhiteList extends BaseController
 {

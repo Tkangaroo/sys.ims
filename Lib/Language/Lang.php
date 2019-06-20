@@ -6,7 +6,7 @@
  * Time: 15:13
  */
 
-namespace Lib;
+namespace Lib\Lanuage;
 
 
 class Lang

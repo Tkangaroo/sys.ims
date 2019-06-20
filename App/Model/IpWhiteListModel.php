@@ -2,9 +2,8 @@
 namespace App\Model;
 
 use App\Exception\ESException;
-use App\Exception\IpWhiteException;
 use App\Utility\Tools\ESMysqliTool;
-use Lib\Lang;
+use Lib\Lanuage\Lang;
 
 class IpWhiteListModel extends BaseModel
 {
