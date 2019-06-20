@@ -36,6 +36,7 @@ class ESMysqliTool
             foreach ($arr as $k => $v) {
                 // 保证字符串为有效的字段格式
                 if ($this->checkStrIsAValidFieldName($k)) {
+                    // 根据VAL值类型分开处理
                     if (is_array($v)) {
                         $db->where($k, $v[0], $v[1]??'=');
                     } else {
@@ -64,10 +65,8 @@ class ESMysqliTool
      */
     public function checkUniqueByAField(\EasySwoole\Mysqli\Mysqli $db, string $tableName, array $uniqueFilterWhereArr):bool
     {
-        $uniqueFlag = false;
+        // 设置查询条件
         $this->quickParseArr2WhereMap($db, $uniqueFilterWhereArr, 1);
-        $uniqueFlag = (bool)$db->getValue($tableName, 'id', 1);
-        var_dump($db->getLastQuery());
-        return $uniqueFlag;
+        return (bool)$db->getValue($tableName, 'id', 1);
     }
 }

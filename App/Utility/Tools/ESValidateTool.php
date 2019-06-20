@@ -7,20 +7,20 @@
  */
 
 namespace App\Utility\Tools;
-use App\Utility\Tools\ESResponseTool;
+
+use App\Exception\ESException;
+
 
 class ESValidateTool
 {
 
     /**
-     * 输出验证类错误
-     * @param \EasySwoole\Http\Response $response
+     * 抛出验证类错误异常
      * @param \EasySwoole\Validate\Validate $validate
+     * @throws \Exception
      */
-    public function printValidateError(\EasySwoole\Http\Response $response, \EasySwoole\Validate\Validate $validate)
+    public function printValidateError(\EasySwoole\Validate\Validate $validate):void
     {
-        $msg = $validate->getError()->getErrorRuleMsg()?:$validate->getError()->getColumnErrorMsg();
-        (new ESResponseTool())->writeJsonByResponse($response, 0, null, $msg);
-        return ;
+        throw new ESException($validate->getError()->getErrorRuleMsg()?:$validate->getError()->getColumnErrorMsg());
     }
 }

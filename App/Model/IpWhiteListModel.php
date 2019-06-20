@@ -1,18 +1,21 @@
 <?php
 namespace App\Model;
 
-use App\Model\BaseModel;
-use EasySwoole\EasySwoole\ServerManager;
-use EasySwoole\Utility\SnowFlake;
+use App\Exception\IpWhiteException;
 use App\Utility\Tools\ESMysqliTool;
-use mysql_xdevapi\Exception;
-use PhpParser\ErrorHandler\Throwing;
-
 
 class IpWhiteListModel extends BaseModel
 {
     // 当前表名
-	protected $table = 't_ip_whitelist';
+    private $table = 't_ip_whitelist';
+    // 默认字段数据
+    private $defaultFieldData = [
+        'ip_addr' => 0,
+        'is_enable' => 0,
+        'comments' => '',
+        'create_at' => 0,
+        'update_at' => 0
+    ];
 
 	public function __construct()
 	{
@@ -28,13 +31,7 @@ class IpWhiteListModel extends BaseModel
      */
 	public function createIpAddrSingle(array $form):int
 	{
-		$data = [
-			'ip_addr' => 0,
-			'is_enable' => 0,
-			'comments' => '',
-			'create_at' => time(),
-			'update_at' => time()
-		];
+		$data =  $this->defaultFieldData;
 
 		foreach ($data as $k => &$v) {
 			if (isset($form[$k])) $v = $form[$k];
@@ -44,14 +41,15 @@ class IpWhiteListModel extends BaseModel
         $uniqueFilterWhere = [
             'ip_addr' => $data['ip_addr']
         ];
-		$saveFlag = false;
-        if ($count = (new ESMysqliTool())->checkUniqueByAField($this->db, $this->table, $uniqueFilterWhere)) {
-            throw new \Exception('该IP已存在');
+        if ((new ESMysqliTool())->checkUniqueByAField($this->db, $this->table, $uniqueFilterWhere)) {
+            throw new IpWhiteException('IP_ALREADY_EXISTS');
         }
-        var_dump($count);
-        return false;
-        unset($v,$form);
+        // 设置时间戳
+        $data['create_at'] = time();
+        $data['update_at'] = time();
+
         $saveFlag = $this->db->insert($this->table, $data);
+        unset($v,$form, $data, $uniqueFilterWhere);
         return $saveFlag;
 	}
 

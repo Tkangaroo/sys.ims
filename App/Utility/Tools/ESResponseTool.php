@@ -16,6 +16,7 @@ namespace App\Utility\Tools;
  */
 class ESResponseTool
 {
+
     /**
      * 返回json字符串
      * @param int $statusCode 状态码
@@ -34,6 +35,16 @@ class ESResponseTool
         return json_encode($arr, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
 
+
+    /**
+     * 清空之前输出流
+     * @param \EasySwoole\Http\Response $response
+     */
+    public function clear(\EasySwoole\Http\Response $response):void
+    {
+        $response->getBody()->truncate();
+    }
+
     /**
      * 返回JSON数据(基于Response类)
      * @param \EasySwoole\Http\Response $response
@@ -46,6 +57,7 @@ class ESResponseTool
         $statusCode = 500, $data = null, $msg = ''
     ):void
     {
+        $this->clear($response);
         $response->write($this->backJsonStr($statusCode, $data, $msg));
         $response->withHeader('Content-type', 'application/json;charset=utf-8');
         $response->withStatus($statusCode);
