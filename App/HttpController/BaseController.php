@@ -35,7 +35,7 @@ class BaseController Extends Controller
 	{
 	   if (parent::onRequest($action)) {
 	       try {
-	           var_dump($this->request()->getUri());
+	           var_dump($this->request()->getMethod());
                $this->checkClientIpHasAccessAuthority();
                //判断是否登录
                if (0/*伪代码*/) {
