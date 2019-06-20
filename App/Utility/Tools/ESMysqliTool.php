@@ -36,9 +36,11 @@ class ESMysqliTool
             foreach ($arr as $k => $v) {
                 // 保证字符串为有效的字段格式
                 if ($this->checkStrIsAValidFieldName($k)) {
-                    var_dump($k);
-                    var_dump($v);
-                    $db->where($k, $v[0], $v[1]??'=');
+                    if (is_array($v)) {
+                        $db->where($k, $v[0], $v[1]??'=');
+                    } else {
+                        $db->where($k, $v, '=');
+                    }
                     $buildNum++;
                 }
                 continue;
