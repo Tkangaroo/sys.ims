@@ -35,7 +35,10 @@ class BaseController Extends Controller
 	{
 	   if (parent::onRequest($action)) {
 	       try {
+	           var_dump($action);
 	           var_dump($this->request()->getUri());
+	           var_dump($this->request()->getAttributes());
+	           var_dump($this->request()->getHeaders());
                $this->checkClientIpHasAccessAuthority();
                //判断是否登录
                if (0/*伪代码*/) {
@@ -83,6 +86,7 @@ class BaseController Extends Controller
     {
         // TODO: Implement index() method.
         $this->response()->write("forbidden");
+        return false;
     }
 
     /**
