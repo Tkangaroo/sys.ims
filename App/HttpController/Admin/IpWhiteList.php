@@ -27,6 +27,7 @@ class IpWhiteList extends BaseController
             return false;
         } catch (\Throwable $throwable) {
             $this->writeJson(0, null, $throwable->getMessage());
+            return false;
         } finally {
             $this->writeJson(0, null, '程序出现异常');
             return false;

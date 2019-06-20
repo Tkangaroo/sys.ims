@@ -45,9 +45,11 @@ class IpWhiteListModel extends BaseModel
             'ip_addr' => $data['ip_addr']
         ];
 		$saveFlag = false;
-        if ((new ESMysqliTool())->checkUniqueByAField($this->db, $this->table, $uniqueFilterWhere)) {
+        if ($count = (new ESMysqliTool())->checkUniqueByAField($this->db, $this->table, $uniqueFilterWhere)) {
             throw new \Exception('该IP已存在');
         }
+        var_dump($count);
+        return false;
         unset($v,$form);
         $saveFlag = $this->db->insert($this->table, $data);
         return $saveFlag;
