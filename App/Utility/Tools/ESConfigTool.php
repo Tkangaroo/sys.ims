@@ -18,7 +18,7 @@ class ESConfigTool
      */
     public function get(string $name):?string
     {
-
+        var_dump(ESConfig::getInstance()->getConf(''));
         $conf = ESConfig::getInstance()->getConf($name);
         var_dump($conf);
         return $conf;
