@@ -24,13 +24,9 @@ class IpWhiteList extends BaseController
             } else {
                 $this->writeJson(0, null, '添加IP失败');
             }
-            return false;
         } catch (\Throwable $throwable) {
             $this->writeJson(0, null, $throwable->getMessage());
-            return false;
-        } finally {
-            $this->writeJson(0, null, '程序出现异常');
-            return false;
         }
+		return false;
 	}
 }
