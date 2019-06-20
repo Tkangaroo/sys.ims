@@ -37,12 +37,4 @@ class BaseModel
     {
         $this->db->where($this->softDeleteFieldName, 0, '=');
     }
-
-    protected function checkTheDataIsUnique(array $uniqueFilterWhereArr, int $isMatchAll = 0):int
-    {
-        $uniqueFlag = 0;
-
-
-        return $uniqueFlag;
-    }
 }

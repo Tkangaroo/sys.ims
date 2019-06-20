@@ -50,13 +50,19 @@ class ESMysqliTool
     /**
      * 检测数据唯一性
      * @param \EasySwoole\Mysqli\Mysqli $db
+     * @param string $tableName 检测表明
      * @param array $uniqueFilterWhereArr 过滤数组
      * @return bool
+     * @throws \EasySwoole\Mysqli\Exceptions\ConnectFail
+     * @throws \EasySwoole\Mysqli\Exceptions\PrepareQueryFail
+     * @throws \Throwable
+     *
      */
-    public function checkUniqueByAField(\EasySwoole\Mysqli\Mysqli $db, array $uniqueFilterWhereArr):bool
+    public function checkUniqueByAField(\EasySwoole\Mysqli\Mysqli $db, string $tableName, array $uniqueFilterWhereArr):bool
     {
         $uniqueFlag = false;
-
+        $this->quickParseArr2WhereMap($db, $uniqueFilterWhereArr);
+        $uniqueFlag = (bool)$db->getValue($tableName, 'id', 1);
         return $uniqueFlag;
     }
 }

@@ -5,6 +5,7 @@ use App\Model\BaseModel;
 use EasySwoole\EasySwoole\ServerManager;
 use EasySwoole\Utility\SnowFlake;
 use App\Utility\Tools\ESMysqliTool;
+use PhpParser\ErrorHandler\Throwing;
 
 
 class IpWhiteListModel extends BaseModel
@@ -31,8 +32,24 @@ class IpWhiteListModel extends BaseModel
 			if (isset($form[$k])) $v = $form[$k];
 			if ($k == 'ip_addr') $v = ip2long($v);
 		}
-		unset($v,$form);
-		return $this->db->insert($this->table, $data);
+		// 查重
+        $uniqueFilterWhere = [
+            'ip_addr' => $data['ip_addr']
+        ];
+		$saveFlag = false;
+		try {
+            if ((new ESMysqliTool())->checkUniqueByAField($this->db, $this->table, $uniqueFilterWhere)) {
+                new Throwing();
+            }
+                unset($v,$form);
+            $saveFlag = $this->db->insert($this->table, $data);
+        } catch (\Throwable $e) {
+            $saveFlag = false;
+        } finally {
+            $saveFlag = false;
+        }
+        return $saveFlag;
+
 	}
 
     /**
