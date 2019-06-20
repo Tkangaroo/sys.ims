@@ -28,7 +28,7 @@ class ESConfigTool
      */
     public function lang(string $name):string
     {
-        return $this->get('lang'.$name);
+        return $this->get('lang.'.$name);
     }
 
 }
