@@ -61,7 +61,7 @@ class ESMysqliTool
     public function checkUniqueByAField(\EasySwoole\Mysqli\Mysqli $db, string $tableName, array $uniqueFilterWhereArr):bool
     {
         $uniqueFlag = false;
-        $this->quickParseArr2WhereMap($db, $uniqueFilterWhereArr);
+        $this->quickParseArr2WhereMap($db, $uniqueFilterWhereArr, 1);
         $uniqueFlag = (bool)$db->getValue($tableName, 'id', 1);
         var_dump($db->getLastQuery());
         return $uniqueFlag;
