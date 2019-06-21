@@ -14,7 +14,7 @@ use EasySwoole\EasySwoole\Swoole\EventRegister;
 use EasySwoole\EasySwoole\AbstractInterface\Event;
 use EasySwoole\Http\Request;
 use EasySwoole\Http\Response;
-use Lib\OSDi;
+require_once EASYSWOOLE_ROOT.'/Lib/OSDi.php';
 
 
 class EasySwooleEvent implements Event
