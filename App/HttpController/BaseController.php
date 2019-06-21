@@ -9,6 +9,7 @@ use App\Utility\Tools\ESConfigTool;
 use App\Utility\Pool\Mysql\MysqlObject;
 use App\Utility\Pool\Mysql\MysqlPool;
 use App\Model\IpWhiteList\IpWhiteListModel;
+use EasySwoole\Http\UrlParser;
 
 /**
  * Class BaseController
@@ -34,6 +35,8 @@ class BaseController Extends Controller
      */
     protected function onRequest(?string $action): ?bool
 	{
+
+        var_dump(UrlParser::pathInfo($this->request()->getUri()->getPath());
 	   if (parent::onRequest($action)) {
 	       try {
 	           // 均需要验证白名单
