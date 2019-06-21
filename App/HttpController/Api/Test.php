@@ -5,7 +5,7 @@ use App\Model\IpWhiteListModel;
 use App\HttpController\BaseController;
 
 
-class Index extends BaseController
+class Test extends BaseController
 {
     public function index()
     {
