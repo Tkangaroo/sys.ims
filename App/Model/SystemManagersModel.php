@@ -12,4 +12,9 @@ use App\Model\BaseModel;
 class SystemManagersModel extends BaseModel
 {
     protected $table = 't_system_managers';
+
+    public function createManagerSingle(array $form):bool
+    {
+
+    }
 }
