@@ -44,3 +44,4 @@ Stack trace:
 #3 /www/wwwroot/ims.billeslook.com/vendor/easyswoole/easyswoole/src/Command/CommandContainer.php(44): EasySwoole\EasySwoole\Command\DefaultCommand\Start->exec(Array)
 #4 /www/wwwroot/ims.billeslook.com/vendor/easyswoole/easyswoole/src/Command/CommandRunner.php(52): EasySwoole\EasySwoole\Command\CommandContainer->hook('start', Array)
 #5 /www/wwwroot/ims.b at file:/www/wwwroot/ims.billeslook.com/vendor/easyswoole/easyswoole/src/ServerManager.php line:56]
+[2019-06-21 10:45:58][DEBUG][ERROR] : [syntax error, unexpected ';', expecting ')' at file:/www/wwwroot/ims.billeslook.com/App/HttpController/BaseController.php line:39]
