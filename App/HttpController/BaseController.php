@@ -6,7 +6,7 @@ use App\Model\IpWhiteList\IpWhiteListBean;
 use App\Utility\Tools\ESResponseTool;
 use EasySwoole\Http\AbstractInterface\Controller;
 use App\Utility\Tools\ESConfigTool;
-use App\Utility\Pool\MysqlObject;
+use App\Utility\Pool\Mysql\MysqlObject;
 use App\Utility\Pool\Mysql\MysqlPool;
 use App\Model\IpWhiteList\IpWhiteListModel;
 
