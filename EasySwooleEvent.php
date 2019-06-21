@@ -14,7 +14,7 @@ use EasySwoole\EasySwoole\Swoole\EventRegister;
 use EasySwoole\EasySwoole\AbstractInterface\Event;
 use EasySwoole\Http\Request;
 use EasySwoole\Http\Response;
-require_once EASYSWOOLE_ROOT.'/Lib/OSDi.php';
+//require_once EASYSWOOLE_ROOT.'/Lib/OSDi.php';
 
 
 class EasySwooleEvent implements Event
@@ -37,8 +37,7 @@ class EasySwooleEvent implements Event
         }
         //设置其他参数
         $mysqlConf->setMaxObjectNum(20)->setMinObjectNum(5);
-        \Lib\OSDi::xxs();
-//        OSDi::getInstance()->test();
+        \Lib\OSDi::getInstance()->test();
     }
 
     public static function mainServerCreate(EventRegister $register)
