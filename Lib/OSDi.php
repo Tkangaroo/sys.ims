@@ -16,9 +16,9 @@ class OSDi
 
     /**
      * 单例入口
-     * @return SDi
+     * @return OSDi
      */
-    public static function getInstance()
+    public static function getInstance():OSDi
     {
         if(!isset(self::$instance)){
             self::$instance = new static();
