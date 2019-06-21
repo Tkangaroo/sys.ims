@@ -31,9 +31,9 @@ class Router extends AbstractRouter
     });
 
     // 拦截GET方法
-    $routeCollector->addRoute('GET', '/api_index_index', '/Api/Test/index');
+    $routeCollector->addRoute('GET', '/api/index/index', '/Api/Test/index');
 
     // 后台方法
-    $routeCollector->addRoute('POST', '/admin_ip_white_save', '/Admin/IpWhiteList/save');
+    $routeCollector->addRoute('POST', '/admin/ip_white/save', '/Admin/IpWhiteList/save');
   }
 }
