@@ -20,7 +20,7 @@ class OSDi
      */
     public static function getInstance():OSDi
     {
-        if(!isset(self::$instance)){
+        if(!isset(self::$instance) || !self::$instance instanceof OSDi){
             self::$instance = new static();
         }
         return self::$instance;
