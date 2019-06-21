@@ -1,32 +1,44 @@
 <?php
 namespace App\Model;
 
-use EasySwoole\Mysqli\Mysqli;
-use EasySwoole\Mysqli\Config as MysqliConfig;
-use EasySwoole\EasySwoole\Config as ESConfig;
+use App\Utility\Pool\Mysql\MysqlObject;
+
 
 class BaseModel
 {
-	
-	private   $conf = 'MYSQL';
-	protected $db   = NULL;
+
+	// private   $conf = 'MYSQL';
+	protected $db;
 	protected $softDeleteFieldName = 'delete_at';
 
-	public function __construct()
+	public function __construct(MysqlObject $dbObject)
 	{
-		if (is_null($this->db) || !$this->db instanceof Mysqli) {
-			$this->db = $this->getDb();
+		if (is_null($this->db) || !$this->db instanceof MysqlObject) {
+			$this->setDb($dbObject);
 		}
 	}
 
-    /**
-     * 获取Mysql连接
-     * @return Mysqli
-     */
-    protected function getDb():Mysqli
+	private function setDb(MysqlObject $dbObject):void
     {
-    	$conf = new MysqliConfig(ESConfig::getInstance()->getConf($this->conf));
-		return new Mysqli($conf);
+        $this->db = $dbObject;
+    }
+
+    /**
+     * 获取Db连接
+     * @return MysqlObject
+     */
+    protected function getDb():MysqlObject
+    {
+        return $this->db;
+    }
+
+    /**
+     * 获取Db连接
+     * @return MysqlObject
+     */
+    function getDbConnection():MysqlObject
+    {
+        return $this->db;
     }
 
     /**
