@@ -6,7 +6,7 @@
  * Time: 16:16
  */
 
-namespace Lib\Lib;
+namespace Lib;
 
 class OSDi
 {
