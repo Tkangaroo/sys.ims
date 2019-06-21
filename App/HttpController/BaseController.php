@@ -40,6 +40,7 @@ class BaseController Extends Controller
                $this->checkClientIpHasAccessAuthority();
                // 根据这个做登录什么的限制
                $target = $this->parseRequestTarget();
+               var_dump($target);
                if ($target['module'] === 'Admin') {
                    // 后台模块 除登录模块外，均需验证是否处于登录状态
                } else if ($target['module'] === 'Api') {

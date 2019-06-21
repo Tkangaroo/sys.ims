@@ -29,7 +29,6 @@ class IpWhiteListModel extends BaseModel
     {
         $whiteIp = [];
         if ($ipAddr = $ipWhiteListBean->getIpAddr(false)) {
-            var_dump($ipAddr);
             $this->getDb()->where('ip_addr', $ipAddr, '=');
             $this->setSoftDeleteWhere();
             $whiteIp = $this->getDb()->getOne($this->table, 'id,is_enable');
