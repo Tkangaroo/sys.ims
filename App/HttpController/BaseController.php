@@ -141,7 +141,7 @@ class BaseController Extends Controller
     {
         var_dump($this->request()->getRequestTarget());
         $target = explode('/', $this->request()->getRequestTarget());
-
+        $target = array_unique($target);
         $arr = [
             'module'        => $target[0]??'',
             'controller'    => $target[1]??'',
