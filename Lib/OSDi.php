@@ -120,4 +120,9 @@ class OSDi
     {
         var_dump('this is OSDi class');
     }
+
+    static public function xxs():void
+    {
+        var_dump('this is OSDi class');
+    }
 }

@@ -37,8 +37,8 @@ class EasySwooleEvent implements Event
         }
         //设置其他参数
         $mysqlConf->setMaxObjectNum(20)->setMinObjectNum(5);
-
-        OSDi::getInstance()->test();
+        OSDi::xxs();
+//        OSDi::getInstance()->test();
     }
 
     public static function mainServerCreate(EventRegister $register)
