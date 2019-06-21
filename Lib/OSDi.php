@@ -7,7 +7,6 @@
  */
 namespace Lib;
 
-namespace Lib;
 
 class OSDi
 {
