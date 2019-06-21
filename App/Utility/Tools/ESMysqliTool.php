@@ -9,6 +9,7 @@
 namespace App\Utility\Tools;
 
 use App\Traits\SqlTrait;
+use App\Utility\Pool\Mysql\MysqlObject;
 
 
 /**
@@ -23,12 +24,12 @@ class ESMysqliTool
 
     /**
      * 快速将数组转化成查询条件
-     * @param \EasySwoole\Mysqli\Mysqli $db
+     * @param MysqlObject $db
      * @param array $arr
      * @param int $ensureWhereNotEmptyFlag
      * @return bool
      */
-    public function quickParseArr2WhereMap(\EasySwoole\Mysqli\Mysqli $db, array $arr, int $ensureWhereNotEmptyFlag = 0):bool
+    public function quickParseArr2WhereMap(MysqlObject $db, array $arr, int $ensureWhereNotEmptyFlag = 0):bool
     {
         $parseFlag = false; // 响应数据
         $buildNum = 0;      // 构建where次数
@@ -54,7 +55,7 @@ class ESMysqliTool
 
     /**
      * 检测数据唯一性
-     * @param \EasySwoole\Mysqli\Mysqli $db
+     * @param MysqlObject $db
      * @param string $tableName 检测表明
      * @param array $uniqueFilterWhereArr 过滤数组
      * @return bool
@@ -63,7 +64,7 @@ class ESMysqliTool
      * @throws \Throwable
      *
      */
-    public function checkUniqueByAField(\EasySwoole\Mysqli\Mysqli $db, string $tableName, array $uniqueFilterWhereArr):bool
+    public function checkUniqueByAField(MysqlObject $db, string $tableName, array $uniqueFilterWhereArr):bool
     {
         // 设置查询条件
         $this->quickParseArr2WhereMap($db, $uniqueFilterWhereArr, 1);

@@ -39,7 +39,12 @@ class IpWhiteValidate extends Validate
     }
 
 
-	public function check(Response $response, array $data)
+    /**
+     * @param array $data
+     * @return bool
+     * @throws \Exception
+     */
+	public function check(array $data)
 	{
 		$flag = false;
 		if (isset($data['id'])) {
@@ -50,7 +55,7 @@ class IpWhiteValidate extends Validate
 		$this->setCommentsColumn();
 		$flag = $this->validate($data);
 		if (!$flag) {
-            (new ESValidateTool())->printValidateError($response, $this);
+            (new ESValidateTool())->printValidateError($this);
 		}
 		return $flag;
 	}

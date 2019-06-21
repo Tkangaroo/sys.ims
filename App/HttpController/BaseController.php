@@ -8,7 +8,7 @@ use EasySwoole\Http\AbstractInterface\Controller;
 use App\Utility\Tools\ESConfigTool;
 use App\Utility\Pool\Mysql\MysqlObject;
 use App\Utility\Pool\Mysql\MysqlPool;
-use App\Model\IpWhiteList\IpWhiteListModel;
+use App\Model\IpWhiteListModel;
 use EasySwoole\Http\UrlParser;
 
 /**
@@ -36,14 +36,12 @@ class BaseController Extends Controller
     protected function onRequest(?string $action): ?bool
 	{
 
-        var_dump(UrlParser::pathInfo($this->request()->getUri()->getPath()));
 	   if (parent::onRequest($action)) {
 	       try {
 	           // 均需要验证白名单
                $this->checkClientIpHasAccessAuthority();
                // 根据这个做登录什么的限制
                $target = $this->parseRequestTarget();
-               var_dump($target);
                if ($target['module'] === 'Admin') {
                    // 后台模块 除登录模块外，均需验证是否处于登录状态
                } else if ($target['module'] === 'Api') {
@@ -106,31 +104,29 @@ class BaseController Extends Controller
     protected function checkClientIpHasAccessAuthority():void
     {
         $whiteIp = MysqlPool::invoke(function (MysqlObject $db) {
-            $ipWhiteListBean = new IpWhiteListBean();
-            $ipWhiteListBean->setIpAddr($this->getClientIp());
-            return (new IpWhiteListModel($db))->queryByIpAddr($ipWhiteListBean);
+            return (new IpWhiteListModel($db))->queryByIpAddr($this->getClientIp());
         });
 
     	if (is_null($whiteIp))
-    	    throw new ESException($this->confTool()->get('ip_has_refused'));
+    	    throw new ESException($this->confTool()->lang('ip_has_refused'));
 
-    	if (!$whiteIp->getIsEnable())
-    	    throw new ESException($this->confTool()->get('ip_has_disable'));
+    	if (!$whiteIp['is_enable'])
+    	    throw new ESException($this->confTool()->lang('ip_has_disable'));
     	return ;
 
     }
 
     /**
      * 获取用户端真实IP
-     * @return string|null
+     * @return int|null
      */
-    protected function getClientIp():?string
+    protected function getClientIp():?int
     {
-    	$ipAddr = '';
+    	$ipAddr = 0;
 		$ip = $this->request()->getHeaders();
 		if ($ip && isset($ip['x-real-ip']) && $ip['x-real-ip']) {
 			$ip = array_pop($ip['x-real-ip']);
-			$ipAddr = $ip;
+			$ipAddr = ip2long($ip);
 		}
 		unset($ip);
 		return $ipAddr;
@@ -142,13 +138,10 @@ class BaseController Extends Controller
      */
     protected function parseRequestTarget():array
     {
-        $targetStr = $this->request()->getRequestTarget();
-        if (strstr('?', $targetStr)) {
-            $targetStr = substr($targetStr,0,strpos($targetStr, '?'));
-        }
+        $targetStr = UrlParser::pathInfo($this->request()->getUri()->getPath());
+        // 如果第一位字符是/，则从第二位开始截取到最后，以免出现数组首位不齐的现象，导致模块不通过
         substr($targetStr,0,1) === '/' && ($targetStr = substr($targetStr,1));
         $target = explode('/', $targetStr);
-        $target = array_filter($target);
         $arr = [
             'module'        => $target[0]??'',
             'controller'    => $target[1]??'',

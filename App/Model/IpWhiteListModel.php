@@ -1,76 +1,74 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: speauty
+ * Date: 2019/6/21
+ * Time: 9:21
+ */
+
 namespace App\Model;
 
 use App\Exception\ESException;
-use App\Utility\Tools\ESMysqliTool;
 use App\Utility\Tools\ESConfigTool;
+use App\Utility\Tools\ESMysqliTool;
+
 
 class IpWhiteListModel extends BaseModel
 {
-    // 当前表名
-    private $table = 't_ip_whitelist';
-    // 默认字段数据
-    private $defaultFieldData = [
-        'ip_addr' => 0,
-        'is_enable' => 0,
-        'comments' => '',
-        'create_at' => 0,
-        'update_at' => 0
-    ];
-
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    protected $table = 't_ip_white_list';
 
     /**
+     * 创建IP白名单记录
      * @param array $form
-     * @return int
+     * @return bool
+     * @throws ESException
      * @throws \EasySwoole\Mysqli\Exceptions\ConnectFail
      * @throws \EasySwoole\Mysqli\Exceptions\PrepareQueryFail
      * @throws \Throwable
      */
-	public function createIpAddrSingle(array $form):int
-	{
-		$data =  $this->defaultFieldData;
+    public function createIpWhiteSingle(array $form):bool
+    {
+        $data = [
+            'ip_addr' => 0,
+            'is_enable' => 0,
+            'comments' => '',
+            'create_at' => time(),
+            'update_at' => time()
+        ];
 
-		foreach ($data as $k => &$v) {
-			if (isset($form[$k])) $v = $form[$k];
-			if ($k == 'ip_addr') $v = ip2long($v);
-		}
-		// 查重
+        foreach ($data as $k => &$v) {
+            if (isset($form[$k])) $v = $form[$k];
+            if ($k == 'ip_addr') $v = ip2long($v);
+        }
+        // 查重
         $uniqueFilterWhere = [
             'ip_addr' => $data['ip_addr']
         ];
-        if ((new ESMysqliTool())->checkUniqueByAField($this->db, $this->table, $uniqueFilterWhere)) {
+
+        if ((new ESMysqliTool())->checkUniqueByAField($this->getDb(), $this->table, $uniqueFilterWhere)) {
             throw new ESException((new ESConfigTool())->lang('ip_white_not_unique'));
         }
-        // 设置时间戳
-        $data['create_at'] = time();
-        $data['update_at'] = time();
+        unset($k, $v,$form, $uniqueFilterWhere);
+        return $this->getDb()->insert($this->table, $data);
 
-        $saveFlag = $this->db->insert($this->table, $data);
-        unset($v,$form, $data, $uniqueFilterWhere);
-        return $saveFlag;
-	}
+    }
 
     /**
-     * 根据IP查询数据
-     * @param int $ipAddr IP地址
+     * @param $ipAddr
      * @return array
      * @throws \EasySwoole\Mysqli\Exceptions\ConnectFail
      * @throws \EasySwoole\Mysqli\Exceptions\PrepareQueryFail
      * @throws \Throwable
      */
-	public function queryByIpAddr(int $ipAddr = 0):array
-	{
-		$whiteIp = [];
-		if ($ipAddr) {
-            $this->db->where('ip_addr', $ipAddr);
+    public function queryByIpAddr($ipAddr):array
+    {
+        $whiteIp = [];
+        if ($ipAddr) {
+            $this->getDb()->where('ip_addr', $ipAddr, '=');
             $this->setSoftDeleteWhere();
-            $whiteIp = $this->db->getOne($this->table, 'id,is_enable');
-		}
+            $whiteIp = $this->getDb()->getOne($this->table, 'id,is_enable');
+        }
+        return $whiteIp;
+    }
 
-		return (array)$whiteIp;
-	}
 }
