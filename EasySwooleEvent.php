@@ -30,13 +30,23 @@ class EasySwooleEvent implements Event
         // 加载语言包配置文件
         Config::getInstance()->loadFile(EASYSWOOLE_ROOT.'/lang.php', true);
 
-        // 连接池
-        // 注册mysql数据库连接池
-        PoolManager::getInstance()->register(MysqlPool::class,Config::getInstance()->getConf('MYSQL.POOL_MAX_NUM'));
+        $mysqlConf = PoolManager::getInstance()->register(MysqlPool::class, Config::getInstance()->getConf('MYSQL.POOL_MAX_NUM'));
+        if ($mysqlConf === null) {
+            throw new \Exception('注册失败!');
+        }
+        //设置其他参数
+        $mysqlConf->setMaxObjectNum(20)->setMinObjectNum(5);
     }
 
     public static function mainServerCreate(EventRegister $register)
     {
+        ################### mysql 热启动   #######################
+        $register->add($register::onWorkerStart, function (\swoole_server $server, int $workerId) {
+            if ($server->taskworker == false) {
+                //每个worker进程都预创建连接
+                PoolManager::getInstance()->getPool(MysqlPool::class)->preLoad(5);//最小创建数量
+            }
+        });
         // TODO: Implement mainServerCreate() method.
     }
 
