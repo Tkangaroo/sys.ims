@@ -3,7 +3,6 @@ namespace App\Validate;
 
 use App\Utility\Tools\ESValidateTool;
 use EasySwoole\Validate\Validate;
-use EasySwoole\Http\Response;
 
 
 /**

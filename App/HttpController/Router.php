@@ -15,25 +15,60 @@ use App\Utility\Tools\ESResponseTool;
  */
 class Router extends AbstractRouter
 {
-  public function initialize(RouteCollector $routeCollector)
-  {
-    // 开启全局拦截
-    $this->setGlobalMode(true);
 
-    $this->setMethodNotAllowCallBack(function (Request $request,Response $response) {
-        (new ESResponseTool)->writeJsonByResponse($response, 500, null, 'the method not found!');
-        return false;//结束此次响应
-    });
+    public function initialize(RouteCollector $routeCollector)
+    {
+        // 开启全局拦截
+        $this->setGlobalMode(true);
 
-    $this->setRouterNotFoundCallBack(function (Request $request,Response $response){
-        (new ESResponseTool)->writeJsonByResponse($response, 500, null, 'the route not found!');
-        return false;//结束此次响应
-    });
+        $this->setMethodNotAllowCallBack(function (Request $request,Response $response) {
+            (new ESResponseTool)->writeJsonByResponse($response, 500, null, 'the method not found!');
+            return false;//结束此次响应
+        });
 
-    // 拦截GET方法
-    $routeCollector->addRoute('GET', '/api_test_index', '/Api/Test/index');
+        $this->setRouterNotFoundCallBack(function (Request $request,Response $response){
+            (new ESResponseTool)->writeJsonByResponse($response, 500, null, 'the route not found!');
+            return false;//结束此次响应
+        });
 
-    // 后台方法
-    $routeCollector->addRoute('POST', '/admin_ip_white_save', '/Admin/IpWhiteList/save');
-  }
+        $this->buildRoute();
+    }
+
+    /**
+     * 构建路由
+     */
+    private function buildRoute():void
+    {
+        $routeArr = array_merge(
+            $this->initApiRoute(),
+            $this->initAdminRoute()
+        );
+        foreach ($routeArr as $v) {
+            $this->getRouteCollector()->addRoute($v[0], $v[1], $v[2]);
+        }
+    }
+
+    /**
+     * 后台路由
+     * @return array
+     *
+     */
+    private function initAdminRoute():array
+    {
+        return [
+            ['POST', '/system_manager_save', '/Admin/SystemManagers/save'],
+            ['POST', '/admin_ip_white_save', '/Admin/IpWhiteList/save'],
+        ];
+    }
+
+    /**
+     * API路由
+     * @return array
+     */
+    private function initApiRoute():array
+    {
+        return [
+            ['GET', '/api_test_index', '/Api/Test/index']
+        ];
+    }
 }

@@ -8,13 +8,14 @@
 
 namespace EasySwoole\EasySwoole;
 
-
 use App\Utility\Pool\Mysql\MysqlPool;
 use EasySwoole\Component\Pool\PoolManager;
 use EasySwoole\EasySwoole\Swoole\EventRegister;
 use EasySwoole\EasySwoole\AbstractInterface\Event;
 use EasySwoole\Http\Request;
 use EasySwoole\Http\Response;
+use OSDi;
+
 
 class EasySwooleEvent implements Event
 {
@@ -36,6 +37,8 @@ class EasySwooleEvent implements Event
         }
         //设置其他参数
         $mysqlConf->setMaxObjectNum(20)->setMinObjectNum(5);
+
+        OSDi::getInstance()->test();
     }
 
     public static function mainServerCreate(EventRegister $register)
