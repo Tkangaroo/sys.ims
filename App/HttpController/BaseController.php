@@ -34,6 +34,11 @@ class BaseController Extends Controller
      */
     protected function onRequest(?string $action): ?bool
 	{
+        $r = $this->request();
+        var_dump($r->getSwooleRequest());
+        var_dump($r->getAttributes());
+        var_dump($r->getMethod());
+        var_dump($r->getRequestTarget());
 	   if (parent::onRequest($action)) {
 	       try {
 	           // 均需要验证白名单
@@ -139,10 +144,8 @@ class BaseController Extends Controller
      */
     protected function parseRequestTarget():array
     {
-        var_dump($this->request()->getRequestTarget());
         $target = explode('/', $this->request()->getRequestTarget());
         $target = array_filter($target);
-        var_dump($target);
         $arr = [
             'module'        => $target[0]??'',
             'controller'    => $target[1]??'',
