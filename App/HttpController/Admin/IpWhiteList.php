@@ -10,10 +10,11 @@ use App\Utility\Tools\ESConfigTool;
 
 class IpWhiteList extends BaseController
 {
-	/**
-	 * 注册白名单
-	 */
-	public function save()
+    /**
+     * 注册白名单
+     * @return bool
+     */
+	public function save():bool
 	{
 		$data = $this->request()->getRequestParam('ip_addr', 'is_enable', 'comments');
         $esResponse = new ESResponseTool();

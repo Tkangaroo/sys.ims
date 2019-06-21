@@ -2,12 +2,13 @@
 namespace App\HttpController;
 
 use App\Exception\ESException;
+use App\Model\IpWhiteList\IpWhiteListBean;
 use App\Utility\Tools\ESResponseTool;
 use EasySwoole\Http\AbstractInterface\Controller;
-use EasySwoole\Http\Message\Status;
-use App\Model\IpWhiteListModel;
 use App\Utility\Tools\ESConfigTool;
-
+use App\Utility\Pool\MysqlObject;
+use App\Utility\Pool\Mysql\MysqlPool;
+use App\Model\IpWhiteList\IpWhiteListModel;
 
 /**
  * Class BaseController
@@ -28,22 +29,23 @@ class BaseController Extends Controller
 
 
     /**
-     * 在准备调用控制器方法处理请求时的事件,如果该方法返回false则不继续往下执行.
-	 * 可用于做控制器基类权限验证等...
+     * @param string|null $action
+     * @return bool|null
      */
     protected function onRequest(?string $action): ?bool
 	{
 	   if (parent::onRequest($action)) {
 	       try {
-	           var_dump($action);
-	           var_dump($this->request()->getUri());
-	           var_dump($this->request()->getAttributes());
-	           var_dump($this->request()->getHeaders());
-	           var_dump($this->request()->getRequestTarget());
+	           // 均需要验证白名单
                $this->checkClientIpHasAccessAuthority();
-               //判断是否登录
-               if (0/*伪代码*/) {
-                   throw new ESException($this->confTool()->lang('login_expired'));
+               // 根据这个做登录什么的限制
+               $target = $this->parseRequestTarget();
+               if ($target['module'] === 'Admin') {
+                   // 后台模块 除登录模块外，均需验证是否处于登录状态
+               } else if ($target['module'] === 'Api') {
+                   // API模块
+               } else {
+                   throw new ESException($this->confTool()->lang('module_not_found'));
                }
                $this->code = 200;
            } catch (ESException $e) {
@@ -93,19 +95,22 @@ class BaseController Extends Controller
     /**
      * 檢測客戶端IP是否具有權限訪問
      * @throws ESException
-     * @throws \EasySwoole\Mysqli\Exceptions\ConnectFail
-     * @throws \EasySwoole\Mysqli\Exceptions\PrepareQueryFail
+     * @throws \EasySwoole\Component\Pool\Exception\PoolEmpty
+     * @throws \EasySwoole\Component\Pool\Exception\PoolException
      * @throws \Throwable
      */
     protected function checkClientIpHasAccessAuthority():void
     {
-    	$ip = $this->getClientIp();
-    	$whiteIp = (new IpWhiteListModel)->queryByIpAddr($ip);
+        $whiteIp = MysqlPool::invoke(function (MysqlObject $db) {
+            $ipWhiteListBean = new IpWhiteListBean();
+            $ipWhiteListBean->setIpAddr($this->getClientIp());
+            return (new IpWhiteListModel($db))->queryByIpAddr($ipWhiteListBean);
+        });
 
-    	if (!$whiteIp)
+    	if (is_null($whiteIp))
     	    throw new ESException($this->confTool()->get('ip_has_refused'));
 
-    	if (!isset($whiteIp['is_enable']) || !$whiteIp['is_enable'])
+    	if (!$whiteIp->getIsEnable())
     	    throw new ESException($this->confTool()->get('ip_has_disable'));
     	return ;
 
@@ -113,16 +118,35 @@ class BaseController Extends Controller
 
     /**
      * 获取用户端真实IP
+     * @return string|null
      */
-    protected function getClientIp():int
+    protected function getClientIp():?string
     {
-    	$ipNum = 0;
+    	$ipAddr = '';
 		$ip = $this->request()->getHeaders();
 		if ($ip && isset($ip['x-real-ip']) && $ip['x-real-ip']) {
 			$ip = array_pop($ip['x-real-ip']);
-			$ipNum = ip2long($ip);
+			$ipAddr = $ip;
 		}
-		return (int)$ipNum;
+		unset($ip);
+		return $ipAddr;
+    }
+
+    /**
+     * 格式化请求方法等
+     * @return array
+     */
+    protected function parseRequestTarget():array
+    {
+        $target = explode('/', $this->request()->getRequestTarget());
+
+        $arr = [
+            'module'        => $target[0]??'',
+            'controller'    => $target[1]??'',
+            'action'        => $target[2]??'',
+        ];
+        unset($target);
+        return $arr;
     }
 
 }

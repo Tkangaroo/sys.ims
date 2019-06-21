@@ -9,6 +9,8 @@
 namespace EasySwoole\EasySwoole;
 
 
+use App\Utility\Pool\Mysql\MysqlPool;
+use EasySwoole\Component\Pool\PoolManager;
 use EasySwoole\EasySwoole\Swoole\EventRegister;
 use EasySwoole\EasySwoole\AbstractInterface\Event;
 use EasySwoole\Http\Request;
@@ -17,6 +19,9 @@ use EasySwoole\Http\Response;
 class EasySwooleEvent implements Event
 {
 
+    /**
+     * @throws \EasySwoole\Component\Pool\Exception\PoolException
+     */
     public static function initialize()
     {
         // TODO: Implement initialize() method.
@@ -24,6 +29,10 @@ class EasySwooleEvent implements Event
 
         // 加载语言包配置文件
         Config::getInstance()->loadFile(EASYSWOOLE_ROOT.'/lang.php', true);
+
+        // 连接池
+        // 注册mysql数据库连接池
+        PoolManager::getInstance()->register(MysqlPool::class,Config::getInstance()->getConf('MYSQL.POOL_MAX_NUM'));
     }
 
     public static function mainServerCreate(EventRegister $register)
