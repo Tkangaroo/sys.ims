@@ -139,6 +139,7 @@ class BaseController Extends Controller
      */
     protected function parseRequestTarget():array
     {
+        var_dump($this->request()->getRequestTarget());
         $target = explode('/', $this->request()->getRequestTarget());
 
         $arr = [
