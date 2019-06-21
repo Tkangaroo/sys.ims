@@ -6,6 +6,8 @@
  * Time: 16:16
  */
 
+namespace Lib\Lib;
+
 class OSDi
 {
     private $container = [];
