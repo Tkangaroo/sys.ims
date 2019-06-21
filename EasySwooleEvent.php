@@ -14,7 +14,7 @@ use EasySwoole\EasySwoole\Swoole\EventRegister;
 use EasySwoole\EasySwoole\AbstractInterface\Event;
 use EasySwoole\Http\Request;
 use EasySwoole\Http\Response;
-use \OSDi;
+use Lib\OSDi;
 
 
 class EasySwooleEvent implements Event

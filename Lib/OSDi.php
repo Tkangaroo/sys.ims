@@ -5,6 +5,7 @@
  * Date: 2019/6/21
  * Time: 16:16
  */
+namespace Lib;
 
 class OSDi
 {
