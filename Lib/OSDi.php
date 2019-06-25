@@ -89,7 +89,7 @@ class OSDi
         var_dump($current);
         if (!(is_object($current['obj']) || is_callable($current['obj']))) {
             if (class_exists($current['class'])) {
-                $current['obj'] = new $current['obj'](...$current['params']);
+                $current['obj'] = new $current['class'](...$current['params']);
             } else {
                 $this->throw('the class '.$current['class'].' not found');
             }
