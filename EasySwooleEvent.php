@@ -9,7 +9,7 @@
 namespace EasySwoole\EasySwoole;
 
 // 引入自定义初始化文件
-require_once '/init.php';
+require_once EASYSWOOLE_ROOT.'/init.php';
 use App\Utility\Pool\Mysql\MysqlPool;
 use EasySwoole\Component\Pool\PoolManager;
 use EasySwoole\EasySwoole\Swoole\EventRegister;
