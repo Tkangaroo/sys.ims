@@ -16,6 +16,8 @@ use EasySwoole\Http\Request;
 use EasySwoole\Http\Response;
 use Lib\OSDi;
 
+require_once EASYSWOOLE_ROOT.'/init.php';
+
 class EasySwooleEvent implements Event
 {
 
@@ -26,10 +28,6 @@ class EasySwooleEvent implements Event
     {
         // TODO: Implement initialize() method.
         date_default_timezone_set('Asia/Shanghai');
-
-        // 加载自定义加载类配置
-        require_once(EASYSWOOLE_ROOT.'/Lib/Autoload.php');
-        spl_autoload_register(['Lib\AutoLoad', 'load']);
 
         // 加载语言包配置文件
         Config::getInstance()->loadFile(EASYSWOOLE_ROOT.'/lang.php', true);
