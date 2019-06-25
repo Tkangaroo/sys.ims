@@ -6,7 +6,7 @@
  * Time: 14:16
  */
 
-namespace App\Exception;
+namespace Lib\Exception;
 
 /**
  * Class ESException

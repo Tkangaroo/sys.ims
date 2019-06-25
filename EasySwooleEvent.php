@@ -30,13 +30,16 @@ class EasySwooleEvent implements Event
         date_default_timezone_set('Asia/Shanghai');
 
         // 加载语言包配置文件
-        Config::getInstance()->loadFile(EASYSWOOLE_ROOT.'/lang.php', true);
+        Config::getInstance()->loadFile(LIB_PATH.'/lang/ch.php', true);
 
         $mysqlConf = PoolManager::getInstance()->register(MysqlPool::class, Config::getInstance()->getConf('MYSQL.POOL_MAX_NUM'));
         if ($mysqlConf === null) throw new \Exception('注册失败!');
         //设置其他参数
         $mysqlConf->setMaxObjectNum(20)->setMinObjectNum(5);
-        OSDi::getInstance()->test();
+        OSDi::getInstance()->set('ESTools', 'App\Utility\Tools', false, true);
+
+        $res = OSDi::getInstance()->get('ESTools')->get('ESConfigTool')->lang('module_not_found');
+        var_dump($res);
     }
 
     public static function mainServerCreate(EventRegister $register)

@@ -6,8 +6,7 @@
  * Time: 15:13
  */
 
-namespace App;
-use http\Exception;
+namespace Lib;
 
 
 class Import
