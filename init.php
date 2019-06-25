@@ -8,5 +8,5 @@
 
 define('DS', '/');
 define('ROOT_PATH',str_replace('\\','/',realpath(dirname(__FILE__).'/')));
-
+require_once('/Lib/Autoload.php');
 spl_autoload_register(['Lib\AutoLoad', 'load']);
