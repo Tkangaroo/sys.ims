@@ -13,7 +13,7 @@ class Test extends BaseController
      */
     public function index()
     {
-    	$ip = $this->OSDi->get('ESTools')->getClientIp();
+    	$ip = $this->OSDi->get('ESTools')->getClientIp($this->request());
         $this->response()->write('index action for api:'.$ip);
     }
 }
