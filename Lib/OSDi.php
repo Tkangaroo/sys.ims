@@ -1,13 +1,22 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: speauty
+ * User: Speauty
  * Date: 2019/6/21
  * Time: 16:16
  */
 namespace Lib;
 
 
+/**
+ * Class OSDi
+ * this is a container class named OSDi follow Di.
+ * to support me to use namespace without the es frameset,
+ * and I can define a class not only in the App directory,
+ * like creating a directory named Lib to store some extensions which are import to me,
+ * so, the is a personal tool, you have no privilege to modify!
+ * @package Lib
+ */
 class OSDi
 {
     private $container = [];
@@ -15,7 +24,7 @@ class OSDi
     private static $instance;
 
     /**
-     * 单例入口
+     * the only entrance of this class
      * @return OSDi
      */
     public static function getInstance():OSDi
@@ -27,15 +36,17 @@ class OSDi
     }
 
     /**
+     * throw the exception
      * @param string $msg
-     * @throws Exception
+     * @throws \Exception
      */
     private function throw(string $msg):void
     {
-        throw new Exception($msg);
+        throw new \Exception($msg);
     }
 
     /**
+     * to check the key in the current container
      * @param string $key
      * @return bool
      */
@@ -45,12 +56,13 @@ class OSDi
     }
 
     /**
+     * to inject the class needed
      * @param string $key
      * @param string $className
      * @param bool $isForceCover
      * @param bool $directNew
-     * @param mixed ...$arg
-     * @throws Exception
+     * @param mixed ...$args
+     * @throws \Exception
      */
     public function set(string $key, string $className, $isForceCover = false, $directNew = false, ...$args):void
     {
@@ -66,7 +78,7 @@ class OSDi
 
     /**
      * @param string $key
-     * @throws Exception
+     * @throws \Exception
      */
     public function build(string $key)
     {
@@ -84,10 +96,11 @@ class OSDi
     }
 
     /**
+     * to get the class from a key with some arguments which to new one object
      * @param string $key
      * @param mixed ...$args
      * @return mixed
-     * @throws Exception
+     * @throws \Exception
      */
     public function get(string $key, ...$args)
     {
@@ -106,22 +119,27 @@ class OSDi
         }
     }
 
+    /**
+     * to remove a object on the basis of a key in current container
+     * @param string $key
+     */
     public function remove(string $key):void
     {
         if ($this->exists($key)) unset($this->container[$key]);
     }
 
+    /**
+     * flush the container
+     */
     public function flush():void
     {
         $this->container = [];
     }
 
+    /**
+     * test the container run correctly which no return
+     */
     public function test():void
-    {
-        var_dump('this is OSDi class');
-    }
-
-    static public function xxs():void
     {
         var_dump('this is OSDi class');
     }

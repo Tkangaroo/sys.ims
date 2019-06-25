@@ -15,14 +15,15 @@ use EasySwoole\EasySwoole\AbstractInterface\Event;
 use EasySwoole\Http\Request;
 use EasySwoole\Http\Response;
 use Lib\OSDi;
-
-require_once EASYSWOOLE_ROOT.'/init.php';
+// 引入自定义初始文件
+//require_once EASYSWOOLE_ROOT.'/init.php';
 
 class EasySwooleEvent implements Event
 {
 
     /**
      * @throws \EasySwoole\Component\Pool\Exception\PoolException
+     * @throws \EasySwoole\Component\Pool\Exception\PoolObjectNumError
      */
     public static function initialize()
     {
@@ -33,9 +34,7 @@ class EasySwooleEvent implements Event
         Config::getInstance()->loadFile(EASYSWOOLE_ROOT.'/lang.php', true);
 
         $mysqlConf = PoolManager::getInstance()->register(MysqlPool::class, Config::getInstance()->getConf('MYSQL.POOL_MAX_NUM'));
-        if ($mysqlConf === null) {
-            throw new \Exception('注册失败!');
-        }
+        if ($mysqlConf === null) throw new \Exception('注册失败!');
         //设置其他参数
         $mysqlConf->setMaxObjectNum(20)->setMinObjectNum(5);
         OSDi::getInstance()->test();
