@@ -22,10 +22,10 @@ class BaseController Extends Controller
     // 构造函数
     public function __construct()
     {
-        parent::__construct();
         if (!$this->OSDi || !$this->OSDi instanceof OSDi) {
             $this->OSDi = OSDi::getInstance();
         }
+        parent::__construct();
     }
 
 
