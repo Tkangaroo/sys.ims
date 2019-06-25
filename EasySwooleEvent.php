@@ -15,6 +15,8 @@ use EasySwoole\EasySwoole\AbstractInterface\Event;
 use EasySwoole\Http\Request;
 use EasySwoole\Http\Response;
 use Lib\OSDi;
+// 引入自定义初始文件
+require_once EASYSWOOLE_ROOT.'/init.php';
 
 
 class EasySwooleEvent implements Event

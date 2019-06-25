@@ -14,9 +14,6 @@ if (file_exists($file)) {
     die("include composer autoload.php fail\n");
 }
 
-// 引入自定义初始文件
-require_once EASYSWOOLE_ROOT.'/init.php';
-
 $args = $argv;
 //trim first command
 array_shift($args);
