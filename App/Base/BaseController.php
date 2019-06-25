@@ -98,7 +98,7 @@ class BaseController Extends Controller
     protected function checkClientIpHasAccessAuthority():void
     {
         $whiteIp = MysqlPool::invoke(function (MysqlObject $db) {
-            dump(long2ip($this->OSDi->get('ESTools')->getClientIp($this->request())));
+            var_dump(long2ip($this->OSDi->get('ESTools')->getClientIp($this->request())));
             return (new IpWhiteListModel($db))->queryByIpAddr($this->OSDi->get('ESTools')->getClientIp($this->request()));
         });
 
