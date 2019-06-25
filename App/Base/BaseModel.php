@@ -26,7 +26,7 @@ class BaseModel
         if (is_null($this->db) || !$this->db instanceof MysqlObject) {
             $this->setDb($dbObject);
         }
-        if (!$this->OSDi || !$this->OSDi instanceof OSDi) {
+        if (is_null($this->OSDi) || !$this->OSDi instanceof OSDi) {
             $this->OSDi = OSDi::getInstance();
         }
     }

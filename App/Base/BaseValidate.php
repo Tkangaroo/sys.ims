@@ -8,8 +8,9 @@
 
 namespace App\Base;
 
-
 use EasySwoole\Validate\Validate;
+use Lib\OSDi;
+
 
 class BaseValidate extends Validate
 {
@@ -17,7 +18,7 @@ class BaseValidate extends Validate
 
     public function __construct()
     {
-        if (!$this->OSDi || !$this->OSDi instanceof OSDi) {
+        if (is_null($this->OSDi) || !$this->OSDi instanceof OSDi) {
             $this->OSDi = OSDi::getInstance();
         }
     }

@@ -19,10 +19,12 @@ class BaseController Extends Controller
     protected $data = null;
     protected $OSDi;
 
-    // 构造函数
+    /**
+     * BaseController constructor.
+     */
     public function __construct()
     {
-        if (!$this->OSDi || !$this->OSDi instanceof OSDi) {
+        if (is_null($this->OSDi) || !$this->OSDi instanceof OSDi) {
             $this->OSDi = OSDi::getInstance();
         }
         parent::__construct();
@@ -39,7 +41,6 @@ class BaseController Extends Controller
 
         if (parent::onRequest($action)) {
             try {
-                var_dump($this->OSDi);
                 // 均需要验证白名单
                 $this->checkClientIpHasAccessAuthority();
                 // 根据这个做登录什么的限制
