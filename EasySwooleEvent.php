@@ -36,7 +36,7 @@ class EasySwooleEvent implements Event
         if ($mysqlConf === null) throw new \Exception('注册失败!');
         //设置其他参数
         $mysqlConf->setMaxObjectNum(20)->setMinObjectNum(5);
-        OSDi::getInstance()->set('ESTools', 'App\Utility\ESTools', false, true);
+        OSDi::getInstance()->set('ESTools', 'App\Utility\Tools\ESTools', false, true);
 
         $res = OSDi::getInstance()->get('ESTools')->get('ESConfigTool')->lang('module_not_found');
         var_dump($res);
