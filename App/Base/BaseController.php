@@ -39,7 +39,7 @@ class BaseController Extends Controller
 
         if (parent::onRequest($action)) {
             try {
-                var_dump($this->OSDi->get('ESTools'));
+                var_dump($this->OSDi);
                 // 均需要验证白名单
                 $this->checkClientIpHasAccessAuthority();
                 // 根据这个做登录什么的限制
@@ -76,7 +76,6 @@ class BaseController Extends Controller
         // 清空之前输出缓存
         $this->response()->getBody()->truncate();
         $msg = $throwable->getMessage();
-        var_dump(OSDi::getInstance()->get('ESTools'));
         $this->writeJson(10154, null, $msg);
         return ;
     }
