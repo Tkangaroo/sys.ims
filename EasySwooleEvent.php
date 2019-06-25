@@ -8,7 +8,6 @@
 
 namespace EasySwoole\EasySwoole;
 
-require_once EASYSWOOLE_ROOT.'/init.php';
 use App\Utility\Pool\Mysql\MysqlPool;
 use EasySwoole\Component\Pool\PoolManager;
 use EasySwoole\EasySwoole\Swoole\EventRegister;
@@ -27,6 +26,10 @@ class EasySwooleEvent implements Event
     {
         // TODO: Implement initialize() method.
         date_default_timezone_set('Asia/Shanghai');
+
+        // 加载自定义加载类配置
+        require_once(EASYSWOOLE_ROOT.'/Lib/Autoload.php');
+        spl_autoload_register(['Lib\AutoLoad', 'load']);
 
         // 加载语言包配置文件
         Config::getInstance()->loadFile(EASYSWOOLE_ROOT.'/lang.php', true);
