@@ -44,7 +44,7 @@ class BaseController Extends Controller
                 // 均需要验证白名单
                 $this->checkClientIpHasAccessAuthority();
                 // 根据这个做登录什么的限制
-                $target = $this->OSDi->get('ESTools')->parseRequestTarget();
+                $target = $this->OSDi->get('ESTools')->parseRequestTarget($this->request());
                 if ($target['module'] === 'Admin') {
                     // 后台模块 除登录模块外，均需验证是否处于登录状态
                 } else if ($target['module'] === 'Api') {
@@ -98,7 +98,6 @@ class BaseController Extends Controller
     protected function checkClientIpHasAccessAuthority():void
     {
         $whiteIp = MysqlPool::invoke(function (MysqlObject $db) {
-            var_dump(long2ip($this->OSDi->get('ESTools')->getClientIp($this->request())));
             return (new IpWhiteListModel($db))->queryByIpAddr($this->OSDi->get('ESTools')->getClientIp($this->request()));
         });
 
