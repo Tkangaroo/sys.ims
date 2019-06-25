@@ -76,6 +76,7 @@ class BaseController Extends Controller
         // 清空之前输出缓存
         $this->response()->getBody()->truncate();
         $msg = $throwable->getMessage();
+        var_dump($this->OSDi->get('ESTools'))
         $this->writeJson(10154, null, $msg);
         return ;
     }
