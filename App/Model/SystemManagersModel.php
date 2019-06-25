@@ -7,7 +7,8 @@
  */
 
 namespace App\Model;
-use App\Model\BaseModel;
+use App\Base\BaseModel;
+
 
 class SystemManagersModel extends BaseModel
 {

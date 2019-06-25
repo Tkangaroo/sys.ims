@@ -23,6 +23,7 @@ class EasySwooleEvent implements Event
     /**
      * @throws \EasySwoole\Component\Pool\Exception\PoolException
      * @throws \EasySwoole\Component\Pool\Exception\PoolObjectNumError
+     * @throws \Exception
      */
     public static function initialize()
     {
@@ -36,11 +37,9 @@ class EasySwooleEvent implements Event
         if ($mysqlConf === null) throw new \Exception('注册失败!');
         //设置其他参数
         $mysqlConf->setMaxObjectNum(20)->setMinObjectNum(5);
-        OSDi::getInstance()->set('ESTools', 'App\Utility\Tools\ESTools', false, true);
-        OSDi::getInstance()->set('ESConfigTool', 'App\Utility\Tools\ESConfigTool', false, true);
 
-        $res = OSDi::getInstance()->get('ESConfigTool')->lang('module_not_found');
-        var_dump($res);
+        // 将所需类库注入到OSDi容器
+        OSDi::getInstance()->set('ESTools', 'App\Utility\Tools\ESTools', false, true);
     }
 
     public static function mainServerCreate(EventRegister $register)

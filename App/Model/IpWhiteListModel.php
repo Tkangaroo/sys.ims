@@ -8,9 +8,8 @@
 
 namespace App\Model;
 
-use App\Exception\ESException;
-use App\Utility\Tools\ESConfigTool;
-use App\Utility\Tools\ESMysqliTool;
+use App\Base\BaseModel;
+use Lib\Exception\ESException;
 
 
 class IpWhiteListModel extends BaseModel
@@ -45,8 +44,8 @@ class IpWhiteListModel extends BaseModel
             'ip_addr' => $data['ip_addr']
         ];
 
-        if ((new ESMysqliTool())->checkUniqueByAField($this->getDb(), $this->table, $uniqueFilterWhere)) {
-            throw new ESException((new ESConfigTool())->lang('ip_white_not_unique'));
+        if ($this->OSDi->get('ESTools')->checkUniqueByAField($this->getDb(), $this->table, $uniqueFilterWhere)) {
+            throw new ESException($this->OSDi->get('ESTools')->lang('ip_white_not_unique'));
         }
         unset($k, $v,$form, $uniqueFilterWhere);
         return $this->getDb()->insert($this->table, $data);

@@ -8,10 +8,10 @@
 
 namespace App\Validate;
 
+use App\Base\BaseValidate;
 
-use EasySwoole\Validate\Validate;
 
-class SystemManagersValidate extends Validate
+class SystemManagersValidate extends BaseValidate
 {
 
 }

@@ -1,16 +1,15 @@
 <?php
 namespace App\Validate;
 
-use App\Utility\Tools\ESValidateTool;
-use EasySwoole\Validate\Validate;
+use App\Base\BaseValidate;
 
 
 /**
  * Class IpWhiteValidate
  * 白名单验证类
- * @package App\Validate
+ * @package App\BaseValidate
  */
-class IpWhiteValidate extends Validate
+class IpWhiteValidate extends BaseValidate
 {
 
     private function setIdColumn():void

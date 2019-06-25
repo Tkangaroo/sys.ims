@@ -5,7 +5,7 @@ use EasySwoole\Http\AbstractInterface\AbstractRouter;
 use FastRoute\RouteCollector;
 use EasySwoole\Http\Request;
 use EasySwoole\Http\Response;
-use App\Utility\Tools\ESResponseTool;
+use Lib\OSDi;
 
 
 /**
@@ -22,12 +22,12 @@ class Router extends AbstractRouter
         $this->setGlobalMode(true);
 
         $this->setMethodNotAllowCallBack(function (Request $request,Response $response) {
-            (new ESResponseTool)->writeJsonByResponse($response, 500, null, 'the method not found!');
+            OSDi::getInstance()->get('ESTools')->writeJsonByResponse($response, 500, null, 'the method not found!');
             return false;//结束此次响应
         });
 
         $this->setRouterNotFoundCallBack(function (Request $request,Response $response){
-            (new ESResponseTool)->writeJsonByResponse($response, 500, null, 'the route not found!');
+            OSDi::getInstance()->get('ESTools')->writeJsonByResponse($response, 500, null, 'the route not found!');
             return false;//结束此次响应
         });
 
