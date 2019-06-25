@@ -10,6 +10,7 @@ define('DS', '/');
 define('ROOT_PATH',str_replace('\\','/',realpath(dirname(__FILE__).'/')));
 
 var_dump(ROOT_PATH);
+var_dump(ROOT_PATH.'/Lib/Autoload.php');
 var_dump(file_exists(ROOT_PATH.'/Lib/Autoload.php'));
 die();
 require_once ROOT_PATH.'/Lib/Autoload.php';
