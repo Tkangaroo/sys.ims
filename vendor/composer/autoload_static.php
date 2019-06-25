@@ -47,11 +47,7 @@ class ComposerStaticInit40bf28bd41ed360d08a15b7344dab2fc
         'A' => 
         array (
             'App\\' => 4,
-        ),
-        'L' =>
-        array (
-            'Lib\\' => 4,
-        ),
+        )
     );
 
     public static $prefixDirsPsr4 = array (
@@ -126,11 +122,7 @@ class ComposerStaticInit40bf28bd41ed360d08a15b7344dab2fc
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/App',
-        ),
-        'Lib\\' =>
-        array(
-            0 => __DIR__.'/../..'.'/Lib',
-        ),
+        )
     );
 
     public static function getInitializer(ClassLoader $loader)
