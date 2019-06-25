@@ -42,7 +42,8 @@ class ESTools
 
     public function get(string $toolClassName, string $prefix = '')
     {
-        if ($prefix) $toolClassName = $prefix.'/'.$toolClassName;
+        if (!$prefix) $prefix = ROOT_PATH.'/App/Utility/Tools';
+        $toolClassName = $prefix.'/'.$toolClassName;
         return class_exists($toolClassName)?new $toolClassName():null;
     }
 }

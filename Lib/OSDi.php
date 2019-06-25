@@ -86,7 +86,6 @@ class OSDi
             $this->throw('the '.$key.' not found');
         }
         $current = &$this->container[$key];
-        var_dump($current);
         if (!(is_object($current['obj']) || is_callable($current['obj']))) {
             if (class_exists($current['class'])) {
                 $current['obj'] = new $current['class'](...$current['params']);
