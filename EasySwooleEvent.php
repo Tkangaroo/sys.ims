@@ -8,6 +8,7 @@
 
 namespace EasySwoole\EasySwoole;
 
+require_once EASYSWOOLE_ROOT.'/init.php';
 use App\Utility\Pool\Mysql\MysqlPool;
 use EasySwoole\Component\Pool\PoolManager;
 use EasySwoole\EasySwoole\Swoole\EventRegister;
