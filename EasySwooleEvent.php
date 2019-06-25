@@ -37,8 +37,9 @@ class EasySwooleEvent implements Event
         //设置其他参数
         $mysqlConf->setMaxObjectNum(20)->setMinObjectNum(5);
         OSDi::getInstance()->set('ESTools', 'App\Utility\Tools\ESTools', false, true);
+        OSDi::getInstance()->set('ESConfigTool', 'App\Utility\Tools\ESConfigTool', false, true);
 
-        $res = OSDi::getInstance()->get('ESTools')->get('ESConfigTool')->lang('module_not_found');
+        $res = OSDi::getInstance()->get('ESConfigTool')->lang('module_not_found');
         var_dump($res);
     }
 
