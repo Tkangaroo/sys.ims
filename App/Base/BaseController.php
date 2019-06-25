@@ -75,10 +75,8 @@ class BaseController Extends Controller
         // 清空之前输出缓存
         $this->response()->getBody()->truncate();
         $msg = $throwable->getMessage();
+        var_dump($throwable);
         $this->writeJson(10154, null, $msg);
-        $this->writeJson(10154, null, $throwable->getFile());
-        $this->writeJson(10154, null, $throwable->getFile());
-        $this->writeJson(10154, null, $throwable->getTraceAsString());
         return ;
     }
 
