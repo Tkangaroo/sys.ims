@@ -2,7 +2,7 @@
 namespace App\HttpController\Admin;
 
 use Lib\Exception\ESException;
-use App\BaseController;
+use App\Base\BaseController;
 use App\Model\IpWhiteListModel;
 use App\Utility\Pool\Mysql\MysqlObject;
 use App\Utility\Pool\Mysql\MysqlPool;

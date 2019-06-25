@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Base;
 
 use Lib\Exception\ESException;
 use EasySwoole\Http\AbstractInterface\Controller;

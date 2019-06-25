@@ -1,7 +1,7 @@
 <?php
 namespace App\HttpController\Api;
 
-use App\BaseController;
+use App\Base\BaseController;
 use App\Model\IpWhiteListModel;
 
 
