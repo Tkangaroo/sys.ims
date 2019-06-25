@@ -14,6 +14,7 @@ class AutoLoad
 
     static public function load($class)
     {
+        var_dump($class);
         require_once ROOT_PATH.DS.str_replace('\\', '/', $class).'.php';
     }
 }
