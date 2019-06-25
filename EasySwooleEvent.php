@@ -39,7 +39,7 @@ class EasySwooleEvent implements Event
         $mysqlConf->setMaxObjectNum(20)->setMinObjectNum(5);
 
         // 将所需类库注入到OSDi容器
-        OSDi::getInstance()->set('ESTools', 'App\Utility\Tools\ESTools', false, true);
+        OSDi::getInstance()->set('ESTools', 'App\Utility\ESTools', false, true);
     }
 
     public static function mainServerCreate(EventRegister $register)
