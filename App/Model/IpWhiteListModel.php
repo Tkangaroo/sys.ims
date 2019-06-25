@@ -54,12 +54,12 @@ class IpWhiteListModel extends BaseModel
 
     /**
      * @param $ipAddr
-     * @return array
+     * @return array|null
      * @throws \EasySwoole\Mysqli\Exceptions\ConnectFail
      * @throws \EasySwoole\Mysqli\Exceptions\PrepareQueryFail
      * @throws \Throwable
      */
-    public function queryByIpAddr($ipAddr):array
+    public function queryByIpAddr($ipAddr):?array
     {
         $whiteIp = [];
         if ($ipAddr) {
