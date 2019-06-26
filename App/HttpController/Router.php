@@ -55,8 +55,8 @@ class Router extends AbstractRouter
     private function initAdminRoute():array
     {
         return [
-            ['GET', '/system_manager_list', '/Admin/SystemManagers/list'],
-            ['POST', '/system_manager_save', '/Admin/SystemManagers/save'],
+            ['GET', '/system_managers', '/Admin/SystemManagers/list'],
+            ['POST', '/system_manager', '/Admin/SystemManagers/save'],
             ['POST', '/admin_ip_white_save', '/Admin/IpWhiteList/save'],
         ];
     }
