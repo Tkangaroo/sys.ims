@@ -1,12 +1,12 @@
 <?php
 namespace App\Base;
 
+use App\Utility\ESTools;
 use Lib\Exception\ESException;
 use EasySwoole\Http\AbstractInterface\Controller;
 use App\Utility\Pool\Mysql\MysqlObject;
 use App\Utility\Pool\Mysql\MysqlPool;
 use App\Model\IpWhiteListModel;
-use EasySwoole\Component\Di;
 
 /**
  * Class BaseController
@@ -17,7 +17,6 @@ class BaseController Extends Controller
     protected $code = 0;
     protected $message = '';
     protected $data = null;
-    protected $Di;
 
     /**
      * BaseController constructor.
@@ -38,19 +37,19 @@ class BaseController Extends Controller
      */
     protected function onRequest(?string $action): ?bool
     {
-
+        $esTool = new ESTools();
         if (parent::onRequest($action)) {
             try {
                 // 均需要验证白名单
                 $this->checkClientIpHasAccessAuthority();
                 // 根据这个做登录什么的限制
-                $target = $this->Di->get('ESTools')->parseRequestTarget($this->request());
+                $target = $esTool->parseRequestTarget($this->request());
                 if ($target['module'] === 'Admin') {
                     // 后台模块 除登录模块外，均需验证是否处于登录状态
                 } else if ($target['module'] === 'Api') {
                     // API模块
                 } else {
-                    throw new ESException($this->Di->get('ESTools')->lang('module_not_found'));
+                    throw new ESException($esTool->lang('module_not_found'));
                 }
                 $this->code = 200;
             } catch (ESException $e) {
@@ -61,7 +60,7 @@ class BaseController Extends Controller
                 if ($this->code == 200) {
                     return true;
                 } else {
-                    $this->OSDi->get('ESTools')->writeJsonByResponse($this->response(), $this->code, $this->data, $this->message);
+                    $esTool->writeJsonByResponse($this->response(), $this->code, $this->data, $this->message);
                     return false;
                 }
             }
@@ -97,15 +96,15 @@ class BaseController Extends Controller
      */
     protected function checkClientIpHasAccessAuthority():void
     {
-        $whiteIp = MysqlPool::invoke(function (MysqlObject $db) {
-            return (new IpWhiteListModel($db))->queryByIpAddr($this->Di->get('ESTools')->getClientIp($this->request()));
+        $esTool = new ESTools();
+        $whiteIp = MysqlPool::invoke(function (MysqlObject $db) use ($esTool) {
+            return (new IpWhiteListModel($db))->queryByIpAddr($esTool->getClientIp($this->request()));
         });
-
         if (is_null($whiteIp))
-            throw new ESException($this->Di->get('ESTools')->lang('ip_has_refused'));
+            throw new ESException($esTool->lang('ip_has_refused'));
 
         if (!$whiteIp['is_enable'])
-            throw new ESException($this->Di->get('ESTools')->lang('ip_has_disable'));
+            throw new ESException($esTool->lang('ip_has_disable'));
         return ;
 
     }

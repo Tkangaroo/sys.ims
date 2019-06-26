@@ -1,6 +1,7 @@
 <?php
 namespace App\HttpController\Admin;
 
+use App\Utility\ESTools;
 use Lib\Exception\ESException;
 use App\Base\BaseController;
 use App\Model\IpWhiteListModel;
@@ -17,7 +18,7 @@ class IpWhiteList extends BaseController
 	public function save():bool
 	{
 	    $paramsIdx = ['ip_addr', 'is_enable', 'comments'];
-        $esTools = $this->Di->get('ESTools');
+        $esTools = new ESTools();
         $data = $esTools->getArgFromRequest($this->request(), $paramsIdx, 'getBody');
         try {
             (new IpWhiteValidate())->check($data, $paramsIdx);

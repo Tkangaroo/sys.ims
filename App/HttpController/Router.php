@@ -1,6 +1,7 @@
 <?php
 namespace App\HttpController;
 
+use App\Utility\ESTools;
 use EasySwoole\Http\AbstractInterface\AbstractRouter;
 use FastRoute\RouteCollector;
 use EasySwoole\Http\Request;
@@ -17,16 +18,17 @@ class Router extends AbstractRouter
 
     public function initialize(RouteCollector $routeCollector)
     {
+        $esTools = new ESTools();
         // 开启全局拦截
         $this->setGlobalMode(true);
 
-        $this->setMethodNotAllowCallBack(function (Request $request,Response $response) {
-            Di::getInstance()->get('ESTools')->writeJsonByResponse($response, 500, null, 'the method not found!');
+        $this->setMethodNotAllowCallBack(function (Request $request,Response $response) use ($esTools) {
+            $esTools->writeJsonByResponse($response, 500, null, 'the method not found!');
             return false;//结束此次响应
         });
 
-        $this->setRouterNotFoundCallBack(function (Request $request,Response $response){
-            Di::getInstance()->get('ESTools')->writeJsonByResponse($response, 500, null, 'the route not found!');
+        $this->setRouterNotFoundCallBack(function (Request $request,Response $response) use ($esTools) {
+            $esTools->writeJsonByResponse($response, 500, null, 'the route not found!');
             return false;//结束此次响应
         });
 

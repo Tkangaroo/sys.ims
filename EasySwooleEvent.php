@@ -14,8 +14,6 @@ use EasySwoole\EasySwoole\Swoole\EventRegister;
 use EasySwoole\EasySwoole\AbstractInterface\Event;
 use EasySwoole\Http\Request;
 use EasySwoole\Http\Response;
-use EasySwoole\Component\Di;
-use App\Utility\ESTools;
 
 
 class EasySwooleEvent implements Event
@@ -38,9 +36,6 @@ class EasySwooleEvent implements Event
         if ($mysqlConf === null) throw new \Exception('注册失败!');
         //设置其他参数
         $mysqlConf->setMaxObjectNum(20)->setMinObjectNum(5);
-
-        // 将所需类库注入到Di容器
-        Di::getInstance()->set('ESTools', ESTools::class);
     }
 
     public static function mainServerCreate(EventRegister $register)

@@ -8,20 +8,15 @@
 
 namespace App\Base;
 
-use EasySwoole\Component\Di;
+use App\Utility\ESTools;
 use EasySwoole\Validate\Validate;
-use Lib\Exception\ESException;
 
 
 class BaseValidate extends Validate
 {
-    protected $Di;
 
     public function __construct()
     {
-        if (is_null($this->Di) || !$this->Di instanceof Di) {
-            $this->Di = Di::getInstance();
-        }
     }
 
     /**
@@ -30,16 +25,17 @@ class BaseValidate extends Validate
      */
     public function setColumn(array $columnNamesArr):void
     {
+        $esTool = new ESTools();
         if (!$columnNamesArr) {
-            throw new \Exception($this->Di->get('ESTools')->lang('validate_column_empty_limit'));
+            throw new \Exception($esTool->lang('validate_column_empty_limit'));
         }
 
         foreach ($columnNamesArr as $v) {
-            $methodName = 'set'.$this->Di->get('ESTools')->convertUnderline2Pascal($v).'Column';
+            $methodName = 'set'.$esTool->convertUnderline2Pascal($v).'Column';
             if (method_exists($this, $methodName)) {
                 $this->$methodName();
             } else {
-                throw new \Exception($this->Di->get('ESTools')->lang('validate_column_handle_not_found'));
+                throw new \Exception($esTool->lang('validate_column_handle_not_found'));
             }
         }
         return ;
@@ -56,7 +52,7 @@ class BaseValidate extends Validate
         $flag = false;
         $this->setColumn($columnNames2Check);
         if (!$flag = $this->validate($data)) {
-            $this->Di->get('ESTools')->throwValidateException($this);
+            (new ESTools())->throwValidateException($this);
         }
         return $flag;
     }

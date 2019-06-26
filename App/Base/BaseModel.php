@@ -7,8 +7,8 @@
  */
 namespace App\Base;
 
+use App\Utility\ESTools;
 use App\Utility\Pool\Mysql\MysqlObject;
-use EasySwoole\Component\Di;
 
 /**
  * Class BaseModel
@@ -17,7 +17,6 @@ use EasySwoole\Component\Di;
  */
 class BaseModel
 {
-    protected $Di;
     protected $db;
     protected $softDeleteFieldName = 'delete_at';
     protected $table;
@@ -26,9 +25,6 @@ class BaseModel
     {
         if (is_null($this->db) || !$this->db instanceof MysqlObject) {
             $this->setDb($dbObject);
-        }
-        if (is_null($this->Di) || !$this->Di instanceof Di) {
-            $this->Di = Di::getInstance();
         }
     }
 
@@ -77,12 +73,13 @@ class BaseModel
      */
     public function queryDataOfPagination(array $pageConf, array $fieldsName = null, array $where = null, string $orderFieldName = null, string $orderType = null, bool $setSoftDelete = null):?array
     {
+        $esTool = new ESTools();
         if (is_null($orderFieldName)) $orderFieldName = 'id';
         if (is_null($orderType)) $orderType = 'DESC';
         if ($setSoftDelete) {
             $this->setSoftDeleteWhere();
         }
-        $this->Di->get('ESTools')->quickParseArr2WhereMap($this->db, $where);
+        $esTool->quickParseArr2WhereMap($this->db, $where);
         $this->db->orderBy($orderFieldName, $orderType);
         if ($this->table) {
             $total = $this->db->count($this->table, '1');
@@ -111,13 +108,14 @@ class BaseModel
      * @param array|null $fieldsName
      * @param array|null $where
      * @param bool|null $setSoftDelete
-     * @return array
+     * @return array|null
      * @throws \Throwable
      */
-    public function getOne(array $fieldsName = null, array $where = null, bool $setSoftDelete = null):array
+    public function getOne(array $fieldsName = null, array $where = null, bool $setSoftDelete = null):?array
     {
+        $esTool = new ESTools();
         $setSoftDelete && $this->setSoftDeleteWhere();
-        $this->Di->get('ESTools')->quickParseArr2WhereMap($this->db, $where);
+        $esTool->quickParseArr2WhereMap($this->db, $where);
         return $this->db->getOne($this->table, is_null($fieldsName)?'*':implode(',',$fieldsName));
     }
 }
