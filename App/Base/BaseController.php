@@ -23,9 +23,6 @@ class BaseController Extends Controller
      */
     public function __construct()
     {
-        if (is_null($this->Di) || !$this->Di instanceof Di) {
-            $this->Di = Di::getInstance();
-        }
         parent::__construct();
     }
 
