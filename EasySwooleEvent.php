@@ -32,7 +32,7 @@ class EasySwooleEvent implements Event
         date_default_timezone_set('Asia/Shanghai');
 
         // 加载语言包配置文件
-        Config::getInstance()->loadFile(LIB_PATH.'/lang/ch.php', true);
+        Config::getInstance()->loadFile(EASYSWOOLE_ROOT.'/Lib/lang/ch.php', true);
 
         $mysqlConf = PoolManager::getInstance()->register(MysqlPool::class, Config::getInstance()->getConf('MYSQL.POOL_MAX_NUM'));
         if ($mysqlConf === null) throw new \Exception('注册失败!');
