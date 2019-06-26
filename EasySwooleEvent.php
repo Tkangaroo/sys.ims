@@ -14,9 +14,8 @@ use EasySwoole\EasySwoole\Swoole\EventRegister;
 use EasySwoole\EasySwoole\AbstractInterface\Event;
 use EasySwoole\Http\Request;
 use EasySwoole\Http\Response;
-use Lib\OSDi;
-// 引入自定义初始文件
-require_once EASYSWOOLE_ROOT.'/init.php';
+use EasySwoole\Component\Di;
+use App\Utility\ESTools;
 
 
 class EasySwooleEvent implements Event
@@ -40,8 +39,8 @@ class EasySwooleEvent implements Event
         //设置其他参数
         $mysqlConf->setMaxObjectNum(20)->setMinObjectNum(5);
 
-        // 将所需类库注入到OSDi容器
-        OSDi::getInstance()->set('ESTools', 'App\Utility\ESTools', false, true);
+        // 将所需类库注入到Di容器
+        Di::getInstance()->set('ESTools', ESTools::class);
     }
 
     public static function mainServerCreate(EventRegister $register)

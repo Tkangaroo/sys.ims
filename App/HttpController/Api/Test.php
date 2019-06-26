@@ -9,11 +9,11 @@ class Test extends BaseController
 {
     /**
      * @return bool|void
-     * @throws \Exception
+     * @throws \Throwable
      */
     public function index()
     {
-    	$ip = $this->OSDi->get('ESTools')->getClientIp($this->request());
+    	$ip = $this->Di->get('ESTools')->getClientIp($this->request());
         $this->response()->write('index action for api:'.$ip);
     }
 }

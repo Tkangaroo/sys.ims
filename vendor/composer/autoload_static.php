@@ -23,6 +23,10 @@ class ComposerStaticInit40bf28bd41ed360d08a15b7344dab2fc
             'Psr\\Http\\Message\\' => 17,
             'PhpParser\\' => 10,
         ),
+        'L' => 
+        array (
+            'Lib\\' => 4,
+        ),
         'F' => 
         array (
             'FastRoute\\' => 10,
@@ -47,7 +51,7 @@ class ComposerStaticInit40bf28bd41ed360d08a15b7344dab2fc
         'A' => 
         array (
             'App\\' => 4,
-        )
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -70,6 +74,10 @@ class ComposerStaticInit40bf28bd41ed360d08a15b7344dab2fc
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
+        ),
+        'Lib\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Lib',
         ),
         'FastRoute\\' => 
         array (
@@ -122,7 +130,7 @@ class ComposerStaticInit40bf28bd41ed360d08a15b7344dab2fc
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/App',
-        )
+        ),
     );
 
     public static function getInitializer(ClassLoader $loader)

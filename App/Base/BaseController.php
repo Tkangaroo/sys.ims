@@ -6,7 +6,7 @@ use EasySwoole\Http\AbstractInterface\Controller;
 use App\Utility\Pool\Mysql\MysqlObject;
 use App\Utility\Pool\Mysql\MysqlPool;
 use App\Model\IpWhiteListModel;
-use Lib\OSDi;
+use EasySwoole\Component\Di;
 
 /**
  * Class BaseController
@@ -17,15 +17,15 @@ class BaseController Extends Controller
     protected $code = 0;
     protected $message = '';
     protected $data = null;
-    protected $OSDi;
+    protected $Di;
 
     /**
      * BaseController constructor.
      */
     public function __construct()
     {
-        if (is_null($this->OSDi) || !$this->OSDi instanceof OSDi) {
-            $this->OSDi = OSDi::getInstance();
+        if (is_null($this->Di) || !$this->Di instanceof Di) {
+            $this->Di = Di::getInstance();
         }
         parent::__construct();
     }
@@ -44,13 +44,13 @@ class BaseController Extends Controller
                 // 均需要验证白名单
                 $this->checkClientIpHasAccessAuthority();
                 // 根据这个做登录什么的限制
-                $target = $this->OSDi->get('ESTools')->parseRequestTarget($this->request());
+                $target = $this->Di->get('ESTools')->parseRequestTarget($this->request());
                 if ($target['module'] === 'Admin') {
                     // 后台模块 除登录模块外，均需验证是否处于登录状态
                 } else if ($target['module'] === 'Api') {
                     // API模块
                 } else {
-                    throw new ESException($this->OSDi->get('ESTools')->lang('module_not_found'));
+                    throw new ESException($this->Di->get('ESTools')->lang('module_not_found'));
                 }
                 $this->code = 200;
             } catch (ESException $e) {
@@ -98,14 +98,14 @@ class BaseController Extends Controller
     protected function checkClientIpHasAccessAuthority():void
     {
         $whiteIp = MysqlPool::invoke(function (MysqlObject $db) {
-            return (new IpWhiteListModel($db))->queryByIpAddr($this->OSDi->get('ESTools')->getClientIp($this->request()));
+            return (new IpWhiteListModel($db))->queryByIpAddr($this->Di->get('ESTools')->getClientIp($this->request()));
         });
 
         if (is_null($whiteIp))
-            throw new ESException($this->OSDi->get('ESTools')->lang('ip_has_refused'));
+            throw new ESException($this->Di->get('ESTools')->lang('ip_has_refused'));
 
         if (!$whiteIp['is_enable'])
-            throw new ESException($this->OSDi->get('ESTools')->lang('ip_has_disable'));
+            throw new ESException($this->Di->get('ESTools')->lang('ip_has_disable'));
         return ;
 
     }

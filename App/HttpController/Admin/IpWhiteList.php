@@ -12,12 +12,12 @@ class IpWhiteList extends BaseController
 {
     /**
      * @return bool
-     * @throws \Exception
+     * @throws \Throwable
      */
 	public function save():bool
 	{
 		$data = $this->request()->getRequestParam('ip_addr', 'is_enable', 'comments');
-        $esTools = $this->OSDi->get('ESTools');
+        $esTools = $this->Di->get('ESTools');
         try {
             (new IpWhiteValidate())->check($data);
             $saveResult = MysqlPool::invoke(function (MysqlObject $db) use ($data) {

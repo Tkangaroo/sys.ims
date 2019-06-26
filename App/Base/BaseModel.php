@@ -8,7 +8,7 @@
 namespace App\Base;
 
 use App\Utility\Pool\Mysql\MysqlObject;
-use Lib\OSDi;
+use EasySwoole\Component\Di;
 
 /**
  * Class BaseModel
@@ -17,7 +17,7 @@ use Lib\OSDi;
  */
 class BaseModel
 {
-    protected $OSDi;
+    protected $Di;
     protected $db;
     protected $softDeleteFieldName = 'delete_at';
 
@@ -26,8 +26,8 @@ class BaseModel
         if (is_null($this->db) || !$this->db instanceof MysqlObject) {
             $this->setDb($dbObject);
         }
-        if (is_null($this->OSDi) || !$this->OSDi instanceof OSDi) {
-            $this->OSDi = OSDi::getInstance();
+        if (is_null($this->Di) || !$this->Di instanceof Di) {
+            $this->Di = Di::getInstance();
         }
     }
 

@@ -44,8 +44,8 @@ class IpWhiteListModel extends BaseModel
             'ip_addr' => $data['ip_addr']
         ];
 
-        if ($this->OSDi->get('ESTools')->checkUniqueByAField($this->getDb(), $this->table, $uniqueFilterWhere)) {
-            throw new ESException($this->OSDi->get('ESTools')->lang('ip_white_not_unique'));
+        if ($this->Di->get('ESTools')->checkUniqueByAField($this->getDb(), $this->table, $uniqueFilterWhere)) {
+            throw new ESException($this->Di->get('ESTools')->lang('ip_white_not_unique'));
         }
         unset($k, $v,$form, $uniqueFilterWhere);
         return $this->getDb()->insert($this->table, $data);
