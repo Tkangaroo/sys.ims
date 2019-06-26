@@ -222,15 +222,21 @@ class ESTools
      */
     public function convertUnderline2Pascal(string $str):string
     {
-        if ($str) {
-            if (strstr($str, '_')) {
-                $str = explode('_', $str);
-                foreach ($str as &$v) $v = ucfirst($v);
-                $str = implode('', $str);
-            } else {
-                $str = ucfirst($str);
-            }
-        }
-        return $str;
+        return empty($str)?$str:str_replace(' ', '', ucwords(str_replace('_', ' ', $str)));
+    }
+
+    /**
+     * to get page params from response
+     * @param Request $request
+     * @return array
+     */
+    public function getPageParams(Request $request):array
+    {
+        $params = $request->getQueryParams();
+        return [
+            'page' => ($tmp = $params['page']??1)>0?$tmp:1,
+            'limit' => ($tmp = $params['limit']??1)>0?$tmp:1,
+        ];
+
     }
 }

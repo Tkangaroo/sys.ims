@@ -15,9 +15,23 @@ use App\Utility\Pool\Mysql\MysqlObject;
 use App\Utility\Pool\Mysql\MysqlPool;
 use App\Validate\SystemManagersValidate;
 
-
+/**
+ * Class SystemManagers
+ * @package App\HttpController\Admin
+ */
 class SystemManagers extends BaseController
 {
+
+    public function list()
+    {
+        $page = $this->Di->get('ESTools')->getPageParams($this->request());
+        var_dump($page);
+    }
+
+    /**
+     * @return bool
+     * @throws \Throwable
+     */
     public function save()
     {
         $paramsIdx = ['account', 'password', 'phone'];
