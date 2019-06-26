@@ -37,8 +37,10 @@ class SystemManagers extends BaseController
     {
         $esTools = new ESTools();
         $page = $esTools->getPageParams($this->request());
-        $totalAndList = MysqlPool::invoke(function (MysqlObject $db) use ($page) {
-            return (new SystemManagersModel($db))->queryDataOfPagination($page, $this->generalFieldsName);
+        $whereParamsIdx = ['account', 'phone'];
+        $where = $esTools->getArgFromRequest($this->request(), $whereParamsIdx);
+        $totalAndList = MysqlPool::invoke(function (MysqlObject $db) use ($page, $where) {
+            return (new SystemManagersModel($db))->queryDataOfPagination($page, $this->generalFieldsName, $where);
         });
         $this->code = 200;
         $this->data = $totalAndList;
@@ -49,6 +51,7 @@ class SystemManagers extends BaseController
             $this->data,
             $this->message
         );
+        unset($esTools, $page, $whereParamsIdx, $where, $totalAndList);
         return false;
     }
 
@@ -142,7 +145,11 @@ class SystemManagers extends BaseController
         return false;
     }
 
-    public function delete()
+    /**
+     * to delete a manager
+     * @return bool
+     */
+    public function delete():bool
     {
         $paramsIdx = ['id'];
         $esTools = new ESTools();
