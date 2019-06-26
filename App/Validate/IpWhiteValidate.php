@@ -12,25 +12,25 @@ use App\Base\BaseValidate;
 class IpWhiteValidate extends BaseValidate
 {
 
-    private function setIdColumn():void
+    protected function setIdColumn():void
     {
         $this->addColumn('id','主键')->required()->notEmpty()->integer();
         return ;
     }
 
-    private function setIpAddrColumn():void
+    protected function setIpAddrColumn():void
     {
         $this->addColumn('ip_addr','IP地址')->required()->notEmpty()->isIp();
         return ;
     }
 
-    private function setIsEnableColumn():void
+    protected function setIsEnableColumn():void
     {
         $this->addColumn('is_enable','是否激活')->required()->inArray([0,1], false, '不在可选值[0,1]内');
         return ;
     }
 
-    private function setCommentsColumn():void
+    protected function setCommentsColumn():void
     {
         $this->addColumn('comments', '备注')->lengthMax(50, '不能超过50字');
         return ;

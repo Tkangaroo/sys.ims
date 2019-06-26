@@ -28,7 +28,7 @@ class BaseValidate extends Validate
      * @param array $columnNamesArr
      * @throws \Throwable
      */
-    protected function setColumn(array $columnNamesArr):void
+    public function setColumn(array $columnNamesArr):void
     {
         if (!$columnNamesArr) {
             throw new \Exception($this->Di->get('ESTools')->lang('validate_column_empty_limit'));
