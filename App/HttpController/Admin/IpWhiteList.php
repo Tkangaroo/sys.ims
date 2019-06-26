@@ -17,8 +17,8 @@ class IpWhiteList extends BaseController
 	public function save():bool
 	{
 	    $paramsIdx = ['ip_addr', 'is_enable', 'comments'];
-		$data = $this->request()->getRequestParam('ip_addr', 'is_enable', 'comments');
         $esTools = $this->Di->get('ESTools');
+        $data = $esTools->getArgFromRequest($this->request(), $paramsIdx, 'getBody');
         try {
             var_dump($data);
             (new IpWhiteValidate())->check($data, $paramsIdx);
