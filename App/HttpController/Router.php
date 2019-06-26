@@ -56,8 +56,9 @@ class Router extends AbstractRouter
     {
         return [
             ['GET', '/system_managers', '/Admin/SystemManagers/list'],
-            ['POST', '/system_manager', '/Admin/SystemManagers/save'],
-            ['POST', '/admin_ip_white_save', '/Admin/IpWhiteList/save'],
+            ['GET', '/system_managers/{id:\d+}', '/Admin/SystemManagers/get'],
+            ['POST', '/system_managers', '/Admin/SystemManagers/save'],
+            ['POST', '/ip_white', '/Admin/IpWhiteList/save'],
         ];
     }
 

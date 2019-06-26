@@ -65,18 +65,23 @@ class BaseModel
     }
 
     /**
+     * to query data with page
      * @param array $pageConf
      * @param array|null $fieldsName
      * @param array|null $where
      * @param string|null $orderFieldName
      * @param string|null $orderType
+     * @param bool|null $setSoftDelete
      * @return array|null
      * @throws \Throwable
      */
-    public function queryDataOfPagination(array $pageConf, array $fieldsName = null, array $where = null, string $orderFieldName = null, string $orderType = null):?array
+    public function queryDataOfPagination(array $pageConf, array $fieldsName = null, array $where = null, string $orderFieldName = null, string $orderType = null, bool $setSoftDelete = null):?array
     {
         if (is_null($orderFieldName)) $orderFieldName = 'id';
         if (is_null($orderType)) $orderType = 'DESC';
+        if ($setSoftDelete) {
+            $this->setSoftDeleteWhere();
+        }
         $this->Di->get('ESTools')->quickParseArr2WhereMap($this->db, $where);
         $this->db->orderBy($orderFieldName, $orderType);
         if ($this->table) {
@@ -99,5 +104,19 @@ class BaseModel
             'total' => $total,
             'list' => $list
         ];
+    }
+
+    /**
+     * to query a record from db
+     * @param array|null $fieldsName
+     * @param array|null $where
+     * @return array
+     * @throws \Throwable
+     */
+    public function getOne(array $fieldsName = null, array $where = null):array
+    {
+        $this->setSoftDeleteWhere();
+        $this->Di->get('ESTools')->quickParseArr2WhereMap($this->db, $where);
+        return $this->db->getOne($this->table, is_null($fieldsName)?'*':implode(',',$fieldsName));
     }
 }

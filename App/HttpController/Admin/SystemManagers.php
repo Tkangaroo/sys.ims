@@ -22,6 +22,12 @@ use App\Validate\SystemManagersValidate;
 class SystemManagers extends BaseController
 {
 
+    /**
+     * @return bool
+     * @throws \EasySwoole\Component\Pool\Exception\PoolEmpty
+     * @throws \EasySwoole\Component\Pool\Exception\PoolException
+     * @throws \Throwable
+     */
     public function list()
     {
         $page = $this->Di->get('ESTools')->getPageParams($this->request());
@@ -33,7 +39,29 @@ class SystemManagers extends BaseController
         });
         $this->code = 200;
         $this->data = $totalAndList;
-        $this->message = $this->Di->get('ESTools')->lang('system_manager_list_success');
+        $this->message = $this->Di->get('ESTools')->lang('query_system_manager_success');
+        $this->Di->get('ESTools')->writeJsonByResponse(
+            $this->response(),
+            $this->code,
+            $this->data,
+            $this->message
+        );
+        return false;
+    }
+
+    public function get()
+    {
+        $paramIdx = ['id'];
+        $params = $this->Di->get('ESTools')->getArgFromRequest($this->request(), $paramIdx);
+        $fieldsName = [
+            'id', 'account', 'phone', 'latest_login_ip', 'latest_login_at', 'create_at'
+        ];
+        $totalAndList = MysqlPool::invoke(function (MysqlObject $db) use ($params, $fieldsName) {
+            return (new SystemManagersModel($db))->getOne($params, $fieldsName);
+        });
+        $this->code = 200;
+        $this->data = $totalAndList;
+        $this->message = $this->Di->get('ESTools')->lang('query_system_manager_success');
         $this->Di->get('ESTools')->writeJsonByResponse(
             $this->response(),
             $this->code,
