@@ -20,6 +20,7 @@ class IpWhiteList extends BaseController
 		$data = $this->request()->getRequestParam('ip_addr', 'is_enable', 'comments');
         $esTools = $this->Di->get('ESTools');
         try {
+            var_dump($data);
             (new IpWhiteValidate())->check($data, $paramsIdx);
             $saveResult = MysqlPool::invoke(function (MysqlObject $db) use ($data) {
                 return (new IpWhiteListModel($db))->createIpWhiteSingle($data);
