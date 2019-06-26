@@ -118,10 +118,6 @@ class BaseModel
     {
         $setSoftDelete && $this->setSoftDeleteWhere();
         $this->Di->get('ESTools')->quickParseArr2WhereMap($this->db, $where);
-        var_dump($fieldsName);
-        $one = $this->db->getOne($this->table, is_null($fieldsName)?'*':implode(',',$fieldsName));
-        var_dump($this->db->getLastQuery());
-        var_dump($one);
-        return $one;
+        return $this->db->getOne($this->table, is_null($fieldsName)?'*':implode(',',$fieldsName));
     }
 }
