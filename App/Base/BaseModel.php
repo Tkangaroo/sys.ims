@@ -87,6 +87,7 @@ class BaseModel
                     [($pageConf['page']-1)*$pageConf['limit'],$pageConf['limit']],
                     is_null($fieldsName)?implode(',',$fieldsName):'*'
                 );
+                var_dump($this->db->getLastQuery());
             } else {
                 $list = null;
             }
