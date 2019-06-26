@@ -36,25 +36,14 @@ class IpWhiteValidate extends BaseValidate
         return ;
     }
 
-
     /**
-     * @param array $data
+     * @param $dataValidated
+     * @param $columns
      * @return bool
-     * @throws \Exception
+     * @throws \Throwable
      */
-	public function check(array $data)
-	{
-		$flag = false;
-		if (isset($data['id'])) {
-            $this->setIdColumn();
-		}
-		$this->setIpAddrColumn();
-		$this->setIsEnableColumn();
-		$this->setCommentsColumn();
-		$flag = $this->validate($data);
-		if (!$flag) {
-            (new ESValidateTool())->printValidateError($this);
-		}
-		return $flag;
-	}
+    public function save($dataValidated, $columns):bool
+    {
+        return $this->check($dataValidated, $columns);
+    }
 }

@@ -214,4 +214,23 @@ class ESTools
         $this->quickParseArr2WhereMap($db, $uniqueFilterWhereArr, 1);
         return (bool)$db->getValue($tableName, 'id', 1);
     }
+
+    /**
+     * to convert underline style to pascal
+     * @param string $str
+     * @return string
+     */
+    public function convertUnderline2Pascal(string $str):string
+    {
+        if ($str) {
+            if (strstr($str, '_')) {
+                $str = explode('_', $str);
+                foreach ($str as &$v) $v = ucfirst($v);
+                $str = implode('', $str);
+            } else {
+                $str = ucfirst($str);
+            }
+        }
+        return $str;
+    }
 }

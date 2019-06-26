@@ -16,10 +16,11 @@ class IpWhiteList extends BaseController
      */
 	public function save():bool
 	{
+	    $paramsIdx = ['ip_addr', 'is_enable', 'comments'];
 		$data = $this->request()->getRequestParam('ip_addr', 'is_enable', 'comments');
         $esTools = $this->Di->get('ESTools');
         try {
-            (new IpWhiteValidate())->check($data);
+            (new IpWhiteValidate())->check($data, $paramsIdx);
             $saveResult = MysqlPool::invoke(function (MysqlObject $db) use ($data) {
                 return (new IpWhiteListModel($db))->createIpWhiteSingle($data);
             });
