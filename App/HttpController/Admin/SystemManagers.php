@@ -56,7 +56,6 @@ class SystemManagers extends BaseController
         $fieldsName = [
             'id', 'account', 'phone', 'latest_login_ip', 'latest_login_at', 'create_at'
         ];
-        var_dump($params);
         $systemManage = MysqlPool::invoke(function (MysqlObject $db) use ($params, $fieldsName) {
             return (new SystemManagersModel($db))->getOne($params, $fieldsName);
         });
