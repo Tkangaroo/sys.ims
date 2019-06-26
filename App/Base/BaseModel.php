@@ -110,12 +110,13 @@ class BaseModel
      * to query a record from db
      * @param array|null $fieldsName
      * @param array|null $where
+     * @param bool|null $setSoftDelete
      * @return array
      * @throws \Throwable
      */
-    public function getOne(array $fieldsName = null, array $where = null):array
+    public function getOne(array $fieldsName = null, array $where = null, bool $setSoftDelete = null):array
     {
-        $this->setSoftDeleteWhere();
+        $setSoftDelete && $this->setSoftDeleteWhere();
         $this->Di->get('ESTools')->quickParseArr2WhereMap($this->db, $where);
         return $this->db->getOne($this->table, is_null($fieldsName)?'*':implode(',',$fieldsName));
     }
