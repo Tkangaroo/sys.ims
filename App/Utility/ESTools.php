@@ -170,11 +170,11 @@ class ESTools
     /**
      * to convert array to where map quickly
      * @param MysqlObject $db
-     * @param array $arr
+     * @param array|null $arr
      * @param int $ensureWhereNotEmptyFlag
      * @return bool
      */
-    public function quickParseArr2WhereMap(MysqlObject $db, array $arr, int $ensureWhereNotEmptyFlag = 0):bool
+    public function quickParseArr2WhereMap(MysqlObject $db, ?array $arr, int $ensureWhereNotEmptyFlag = 0):bool
     {
         $parseFlag = false; // 响应数据
         $buildNum = 0;      // 构建where次数
