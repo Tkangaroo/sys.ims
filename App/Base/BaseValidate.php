@@ -32,6 +32,7 @@ class BaseValidate extends Validate
 
         foreach ($columnNamesArr as $v) {
             $methodName = 'set'.$esTool->convertUnderline2Pascal($v).'Column';
+            var_dump($methodName);
             if (method_exists($this, $methodName)) {
                 $this->$methodName();
             } else {

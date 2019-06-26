@@ -18,7 +18,7 @@ class SystemManagersValidate extends BaseValidate
         $this->addColumn('id','主键')->required()->notEmpty()->integer();
         return ;
     }
-    
+
     protected function setAccountColumn():void
     {
         $this->addColumn('account', '账号')->required()->notEmpty()->alphaDash()->betweenLen(2, 10);
