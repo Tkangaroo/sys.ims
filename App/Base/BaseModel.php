@@ -20,6 +20,7 @@ class BaseModel
     protected $Di;
     protected $db;
     protected $softDeleteFieldName = 'delete_at';
+    protected $table;
 
     public function __construct(MysqlObject $dbObject)
     {
@@ -37,7 +38,7 @@ class BaseModel
     }
 
     /**
-     * 获取Db连接
+     * to get connection of db
      * @return MysqlObject
      */
     protected function getDb():MysqlObject
@@ -46,10 +47,10 @@ class BaseModel
     }
 
     /**
-     * 获取Db连接
+     * to get connection of db
      * @return MysqlObject
      */
-    function getDbConnection():MysqlObject
+    public function getDbConnection():MysqlObject
     {
         return $this->db;
     }
@@ -61,5 +62,42 @@ class BaseModel
     protected function setSoftDeleteWhere(string $softDeleteFieldName = 'delete_at')
     {
         $this->db->where($this->softDeleteFieldName, 0, '=');
+    }
+
+    /**
+     * @param array $pageConf
+     * @param array|null $fieldsName
+     * @param array|null $where
+     * @param string|null $orderFieldName
+     * @param string|null $orderType
+     * @return array|null
+     * @throws \Throwable
+     */
+    public function queryDataOfPagination(array $pageConf, array $fieldsName = null, array $where = null, string $orderFieldName = null, string $orderType = null):?array
+    {
+        if (is_null($orderFieldName)) $orderFieldName = 'id';
+        if (is_null($orderType)) $orderType = 'DESC';
+        $this->Di->get('ESTools')->quickParseArr2WhereMap($this->db, $where);
+        $this->db->orderBy($orderFieldName, $orderType);
+        if ($this->table) {
+            $total = $this->db->count($this->table, '1');
+            if ($total > 0) {
+                $list = $this->db->get(
+                    $this->table,
+                    [($pageConf['page']-1)*$pageConf['limit'],$pageConf['limit']],
+                    is_null($fieldsName)?implode(',',$fieldsName):'*'
+                );
+            } else {
+                $list = null;
+            }
+
+        } else {
+            $total = 0;
+            $list = null;
+        }
+        return [
+            'total' => $total,
+            'list' => $list
+        ];
     }
 }

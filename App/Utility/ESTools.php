@@ -235,7 +235,7 @@ class ESTools
         $params = $request->getQueryParams();
         return [
             'page' => ($tmp = $params['page']??1)>0?$tmp:1,
-            'limit' => ($tmp = $params['limit']??1)>0?$tmp:1,
+            'limit' => ($tmp = $params['limit']??10)>0?$tmp:10,
         ];
 
     }

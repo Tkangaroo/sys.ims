@@ -25,7 +25,22 @@ class SystemManagers extends BaseController
     public function list()
     {
         $page = $this->Di->get('ESTools')->getPageParams($this->request());
-        var_dump($page);
+        $fieldsName = [
+            'id', 'account', 'phone', 'latest_login_ip', 'latest_login_at', 'create_at'
+        ];
+        $totalAndList = MysqlPool::invoke(function (MysqlObject $db) use ($page, $fieldsName) {
+            return (new SystemManagersModel($db))->queryDataOfPagination($page, $fieldsName);
+        });
+        $this->code = 200;
+        $this->data = $totalAndList;
+        $this->message = $this->Di->get('ESTools')->lang('system_manager_list_success');
+        $this->Di->get('ESTools')->writeJsonByResponse(
+            $this->response(),
+            $this->code,
+            $this->data,
+            $this->message
+        );
+        return false;
     }
 
     /**
