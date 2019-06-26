@@ -24,7 +24,7 @@ return [
         'ip_has_disable' => '访问受限',
         'ip_white_not_unique' => 'IP已存在',
         'ip_white_save_success' => 'IP白名单添加成功',
-        'ip_white_save_error' => 'IP白名单添加失败',
+        'ip_white_save_fail' => 'IP白名单添加失败',
 
         'old_password_not_match' => '原密码输入错误',
         'password_not_match' => '密码输入错误',
@@ -33,6 +33,10 @@ return [
         'system_manager_save_fail' => '系统管理员添加失败',
         'system_manager_not_unique' => '该系统管理员已存在(账号或手机号)',
         'query_system_manager_success' => '查询系统管理员成功',
-        'system_manager_not_found' => '未找到相应系统管理员'
+        'system_manager_not_found' => '未找到相应系统管理员',
+        'system_manager_update_success' => '系统管理员更新成功',
+        'system_manager_update_fail' => '系统管理员更新失败',
+        'system_manager_delete_success' => '系统管理员删除成功',
+        'system_manager_delete_fail' => '系统管理员删除失败',
     ]
 ];

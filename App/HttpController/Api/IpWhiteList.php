@@ -1,5 +1,5 @@
 <?php
-namespace App\HttpController\Admin;
+namespace App\HttpController\Api;
 
 use App\Utility\ESTools;
 use Lib\Exception\ESException;
@@ -29,7 +29,7 @@ class IpWhiteList extends BaseController
                 $this->code = 200;
                 $this->message = $esTools->lang('ip_white_save_success');
             } else {
-                throw new ESException($esTools->lang('ip_white_save_error'));
+                throw new ESException($esTools->lang('ip_white_save_fail'));
             }
         } catch (ESException $e) {
             $this->message = $e->report();

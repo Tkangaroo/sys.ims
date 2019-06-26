@@ -1,8 +1,8 @@
 <?php
-namespace App\HttpController\Api;
+namespace App\HttpController\Open;
 
 use App\Base\BaseController;
-use App\Model\IpWhiteListModel;
+use App\Utility\ESTools;
 
 
 class Test extends BaseController
@@ -13,7 +13,7 @@ class Test extends BaseController
      */
     public function index()
     {
-    	$ip = $this->Di->get('ESTools')->getClientIp($this->request());
+    	$ip = (new ESTools())->getClientIp($this->request());
         $this->response()->write('index action for api:'.$ip);
     }
 }

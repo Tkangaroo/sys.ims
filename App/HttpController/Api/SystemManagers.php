@@ -6,7 +6,7 @@
  * Time: 11:51
  */
 
-namespace App\HttpController\Admin;
+namespace App\HttpController\Api;
 
 use App\Utility\ESTools;
 use Lib\Exception\ESException;
@@ -111,6 +111,10 @@ class SystemManagers extends BaseController
         return false;
     }
 
+    /**
+     * to update a manager(only password)
+     * @return bool
+     */
     public function update()
     {
         $paramsIdx = ['id', 'old_password', 'password'];
@@ -124,9 +128,35 @@ class SystemManagers extends BaseController
             });
             if ($saveResult) {
                 $this->code = 200;
-                $this->message = $esTools->lang('system_manager_save_success');
+                $this->message = $esTools->lang('system_manager_update_success');
             } else {
-                throw new ESException($esTools->lang('system_manager_save_error'));
+                throw new ESException($esTools->lang('system_manager_update_fail'));
+            }
+        } catch (ESException $e) {
+            $this->message = $e->report();
+        } catch (\Throwable $e) {
+            $this->message = $e->getMessage();
+        }
+        $esTools->writeJsonByResponse($this->response(), $this->code, $this->data, $this->message);
+        unset($data, $conf, $saveResult, $esResponse);
+        return false;
+    }
+
+    public function delete()
+    {
+        $paramsIdx = ['id'];
+        $esTools = new ESTools();
+        $data = $esTools->getArgFromRequest($this->request(), $paramsIdx, 'getBody');
+        try {
+            (new SystemManagersValidate())->check($data, $paramsIdx);
+            $saveResult = MysqlPool::invoke(function (MysqlObject $db) use ($data) {
+                return (new SystemManagersModel($db))->deleteManager($data);
+            });
+            if ($saveResult) {
+                $this->code = 200;
+                $this->message = $esTools->lang('system_manager_delete_success');
+            } else {
+                throw new ESException($esTools->lang('system_manager_delete_fail'));
             }
         } catch (ESException $e) {
             $this->message = $e->report();

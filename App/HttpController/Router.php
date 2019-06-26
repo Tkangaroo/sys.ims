@@ -42,7 +42,7 @@ class Router extends AbstractRouter
     {
         $routeArr = array_merge(
             $this->initApiRoute(),
-            $this->initAdminRoute()
+            $this->initOpenRoute()
         );
         foreach ($routeArr as $v) {
             $this->getRouteCollector()->addRoute($v[0], $v[1], $v[2]);
@@ -54,14 +54,15 @@ class Router extends AbstractRouter
      * @return array
      *
      */
-    private function initAdminRoute():array
+    private function initApiRoute():array
     {
         return [
-            ['GET', '/system_managers', '/Admin/SystemManagers/list'],
-            ['GET', '/system_managers/{id:\d+}', '/Admin/SystemManagers/get'],
-            ['POST', '/system_managers', '/Admin/SystemManagers/save'],
-            ['PATCH', '/system_managers', '/Admin/SystemManagers/update'],
-            ['POST', '/ip_white', '/Admin/IpWhiteList/save'],
+            ['GET', '/api/system_managers', '/Api/SystemManagers/list'],
+            ['GET', '/api/system_managers/{id:\d+}', '/Api/SystemManagers/get'],
+            ['POST', '/api/system_managers', '/Api/SystemManagers/save'],
+            ['PATCH', '/api/system_managers', '/Api/SystemManagers/update'],
+            ['DELETE', '/api/system_managers', '/Api/SystemManagers/delete'],
+            ['POST', '/api/ip_white', '/Api/IpWhiteList/save'],
         ];
     }
 
@@ -69,10 +70,10 @@ class Router extends AbstractRouter
      * API路由
      * @return array
      */
-    private function initApiRoute():array
+    private function initOpenRoute():array
     {
         return [
-            ['GET', '/api_test_index', '/Api/Test/index']
+            ['GET', '/api_test_index', '/Api/Open/index']
         ];
     }
 }

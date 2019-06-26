@@ -73,10 +73,29 @@ class SystemManagersModel extends BaseModel
             'id' => $manager['id']
         ];
         $oldManager = $this->getOne(['password'], $where);
-        if (!$oldManager) throw new ESException($esTools->lang('query_system_manager_success'));
+        if (!$oldManager) throw new ESException($esTools->lang('system_manager_not_found'));
         $manager['old_password'] = $this->setPasswordAttr($manager['old_password']);
         if ($manager['old_password'] !== $oldManager['password']) throw new ESException($esTools->lang('old_password_not_match'));
         $esTools->quickParseArr2WhereMap($this->db, $where, true);
         return $this->db->setValue($this->table, 'password', $manager['password']);
+    }
+
+    /**
+     * to delete a manager by the id
+     * @param array $manager
+     * @return bool
+     * @throws ESException
+     * @throws \EasySwoole\Mysqli\Exceptions\ConnectFail
+     * @throws \EasySwoole\Mysqli\Exceptions\PrepareQueryFail
+     * @throws \Throwable
+     */
+    public function deleteManager(array $manager):bool
+    {
+        $esTools = new ESTools();
+        if (!$esTools->checkUniqueByAField($this->db, $this->table, $manager)) {
+            throw new ESException($esTools->lang('system_manager_not_found'));
+        }
+
+        return $this->db->where('id', $manager['id'])->delete($this->table, 1);
     }
 }
