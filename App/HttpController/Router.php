@@ -60,6 +60,7 @@ class Router extends AbstractRouter
             ['GET', '/system_managers', '/Admin/SystemManagers/list'],
             ['GET', '/system_managers/{id:\d+}', '/Admin/SystemManagers/get'],
             ['POST', '/system_managers', '/Admin/SystemManagers/save'],
+            ['PATCH', '/system_managers', '/Admin/SystemManagers/update'],
             ['POST', '/ip_white', '/Admin/IpWhiteList/save'],
         ];
     }
