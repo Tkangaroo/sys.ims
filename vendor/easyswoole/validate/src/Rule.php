@@ -589,7 +589,7 @@ class Rule
     {
         $this->ruleMap['allDigital'] = [
             'arg' => null,
-            'msg' => $msg?$msg:'手机号'
+            'msg' => $msg?$msg:'非法手机号'
         ];
         return $this;
     }
