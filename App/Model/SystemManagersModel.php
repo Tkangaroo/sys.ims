@@ -74,8 +74,8 @@ class SystemManagersModel extends BaseModel
         ];
         $oldManager = $this->getOne(['password'], $where);
         if (!$oldManager) throw new ESException($esTools->lang('query_system_manager_success'));
-        $manager['password'] = $this->setPasswordAttr($manager['password']);
-        if ($manager['password'] !== $oldManager['password']) throw new ESException($esTools->lang('old_password_not_match'));
+        $manager['old_password'] = $this->setPasswordAttr($manager['old_password']);
+        if ($manager['old_password'] !== $oldManager['password']) throw new ESException($esTools->lang('old_password_not_match'));
         $esTools->quickParseArr2WhereMap($this->db, $where, true);
         return $this->db->setValue($this->table, 'password', $manager['password']);
     }
