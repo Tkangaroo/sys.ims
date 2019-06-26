@@ -117,7 +117,7 @@ class SystemManagers extends BaseController
         $esTools = new ESTools();
         $data = $esTools->getArgFromRequest($this->request(), $paramsIdx, 'getBody');
         try {
-            unset($paramsIdx['old_password']);
+            unset($paramsIdx[1]);
             (new SystemManagersValidate())->check($data, $paramsIdx);
             $saveResult = MysqlPool::invoke(function (MysqlObject $db) use ($data) {
                 return (new SystemManagersModel($db))->updateManager($data);
