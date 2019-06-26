@@ -579,4 +579,18 @@ class Rule
         ];
         return $this;
     }
+
+    /**
+     * 值是一个合法的手机号
+     * @param null $msg
+     * @return $this
+     */
+    function phone($msg = null)
+    {
+        $this->ruleMap['allDigital'] = [
+            'arg' => null,
+            'msg' => $msg?$msg:'手机号'
+        ];
+        return $this;
+    }
 }

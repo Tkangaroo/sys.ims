@@ -49,7 +49,6 @@ class IpWhiteListModel extends BaseModel
         }
         unset($k, $v,$form, $uniqueFilterWhere);
         return $this->getDb()->insert($this->table, $data);
-
     }
 
     /**

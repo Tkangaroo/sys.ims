@@ -816,4 +816,16 @@ class Validate
         return filter_var($data, FILTER_VALIDATE_URL);
     }
 
+    /**
+     * 值是一个合法的手机号
+     * @param SplArray $splArray
+     * @param string $column
+     * @param $arg
+     * @return bool
+     */
+    private function phone(SplArray $splArray, string $column, $arg): bool
+    {
+        return $this->regex($splArray, $column, '/^1\d{10}$/');
+    }
+
 }

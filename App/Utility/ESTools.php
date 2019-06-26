@@ -184,7 +184,7 @@ class ESTools
                 if ($this->checkStrIsAValidFieldName($k)) {
                     // 根据VAL值类型分开处理
                     if (is_array($v)) {
-                        $db->where($k, $v[0], $v[1]??'=');
+                        $db->where($k, $v[0], $v[1]??'=', $v[2]??'AND');
                     } else {
                         $db->where($k, $v, '=');
                     }

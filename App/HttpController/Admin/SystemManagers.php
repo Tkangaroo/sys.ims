@@ -20,11 +20,11 @@ class SystemManagers extends BaseController
 {
     public function save()
     {
-        $argIdx = ['account', 'password', 'phone'];
-        $esTools = $this->OSDi->get('ESTools');
-        $data = $esTools->getArgFromRequest($this->request(), $argIdx);
+        $paramsIdx = ['account', 'password', 'phone'];
+        $esTools = $this->Di->get('ESTools');
+        $data = $esTools->getArgFromRequest($this->request(), $paramsIdx, 'getBody');
         try {
-            (new SystemManagersValidate())->check($data);
+            (new SystemManagersValidate())->check($data, $paramsIdx);
             $saveResult = MysqlPool::invoke(function (MysqlObject $db) use ($data) {
                 return (new SystemManagersModel($db))->createManagerSingle($data);
             });

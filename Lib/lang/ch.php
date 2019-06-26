@@ -18,15 +18,15 @@ return [
 
 
 
-
-
-
         /****************************** logistic lang *************************************/
         'login_expired' => '您的登录信息已过期',
         'ip_has_refused' => '拒绝访问',
         'ip_has_disable' => '访问受限',
         'ip_white_not_unique' => 'IP已存在',
-        'ip_white_save_success' => 'IP白名单保存成功',
-        'ip_white_save_error' => 'IP白名单保存失败',
+        'ip_white_save_success' => 'IP白名单添加成功',
+        'ip_white_save_error' => 'IP白名单添加失败',
+        'system_manager_save_success' => '系统管理员添加成功',
+        'system_manager_save_fail' => '系统管理员添加失败',
+        'system_manager_not_unique' => '该系统管理员已存在(账号或手机号)'
     ]
 ];
