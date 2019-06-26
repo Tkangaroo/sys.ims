@@ -56,11 +56,12 @@ class SystemManagers extends BaseController
         $fieldsName = [
             'id', 'account', 'phone', 'latest_login_ip', 'latest_login_at', 'create_at'
         ];
-        $totalAndList = MysqlPool::invoke(function (MysqlObject $db) use ($params, $fieldsName) {
+        var_dump($params);
+        $systemManage = MysqlPool::invoke(function (MysqlObject $db) use ($params, $fieldsName) {
             return (new SystemManagersModel($db))->getOne($params, $fieldsName);
         });
         $this->code = 200;
-        $this->data = $totalAndList;
+        $this->data = $systemManage;
         $this->message = $this->Di->get('ESTools')->lang('query_system_manager_success');
         $this->Di->get('ESTools')->writeJsonByResponse(
             $this->response(),
