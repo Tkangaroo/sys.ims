@@ -96,4 +96,25 @@ class IpWhiteListModel extends BaseModel
         return $this->db->update($this->table, $ipWhite, 1);
     }
 
+    /**
+     * to delete a ip white by the id
+     * @param array $ipWhite
+     * @return bool
+     * @throws ESException
+     * @throws \EasySwoole\Mysqli\Exceptions\ConnectFail
+     * @throws \EasySwoole\Mysqli\Exceptions\PrepareQueryFail
+     * @throws \Throwable
+     */
+    public function deleteIpWhite(array $ipWhite):bool
+    {
+        if (!ESTools::checkUniqueByAField($this->db, $this->table, $ipWhite)) {
+            throw new ESException(
+                Logistic::getMsg(Logistic::L_RECORD_NOT_FOUND),
+                Logistic::L_RECORD_NOT_FOUND
+            );
+        }
+
+        return $this->db->where('id', $ipWhite['id'])->delete($this->table, 1);
+    }
+
 }
