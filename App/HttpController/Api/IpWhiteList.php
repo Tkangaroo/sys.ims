@@ -8,6 +8,7 @@ use App\Model\IpWhiteListModel;
 use App\Utility\Pool\Mysql\MysqlObject;
 use App\Utility\Pool\Mysql\MysqlPool;
 use App\Validate\IpWhiteValidate;
+use Lib\Logistic;
 
 class IpWhiteList extends BaseController
 {
@@ -18,25 +19,29 @@ class IpWhiteList extends BaseController
 	public function save():bool
 	{
 	    $paramsIdx = ['ip_addr', 'is_enable', 'comments'];
-        $esTools = new ESTools();
-        $data = $esTools->getArgFromRequest($this->request(), $paramsIdx, 'getBody');
+        $data = ESTools::getArgFromRequest($this->request(), $paramsIdx, 'getBody');
         try {
             (new IpWhiteValidate())->check($data, $paramsIdx);
             $saveResult = MysqlPool::invoke(function (MysqlObject $db) use ($data) {
                 return (new IpWhiteListModel($db))->createIpWhiteSingle($data);
             });
             if ($saveResult) {
-                $this->code = 200;
-                $this->message = $esTools->lang('ip_white_save_success');
+                $this->logisticCode = Logistic::L_OK;
+                $this->message = Logistic::getMsg(Logistic::L_OK);
             } else {
-                throw new ESException($esTools->lang('ip_white_save_fail'));
+                throw new ESException(
+                    Logistic::getMsg(Logistic::L_RECORD_SAVE_ERROR),
+                    Logistic::L_RECORD_SAVE_ERROR
+                );
             }
         } catch (ESException $e) {
             $this->message = $e->report();
+            $this->logisticCode = $e->getCode();
         } catch (\Throwable $e) {
             $this->message = $e->getMessage();
+            $this->logisticCode = $e->getCode();
         }
-        $esTools->writeJsonByResponse($this->response(), $this->code, $this->data, $this->message);
+        ESTools::writeJsonByResponse($this->response(), $this->logisticCode, $this->message);
         unset($data, $conf, $saveResult, $esResponse);
         return false;
 	}

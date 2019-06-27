@@ -11,6 +11,7 @@ namespace App\Model;
 use App\Base\BaseModel;
 use App\Utility\ESTools;
 use Lib\Exception\ESException;
+use Lib\Logistic;
 
 
 class IpWhiteListModel extends BaseModel
@@ -28,7 +29,6 @@ class IpWhiteListModel extends BaseModel
      */
     public function createIpWhiteSingle(array $form):bool
     {
-        $esTools = new ESTools();
         $data = [
             'ip_addr' => 0,
             'is_enable' => 0,
@@ -46,8 +46,8 @@ class IpWhiteListModel extends BaseModel
             'ip_addr' => $data['ip_addr']
         ];
 
-        if ($esTools->checkUniqueByAField($this->getDb(), $this->table, $uniqueFilterWhere)) {
-            throw new ESException($esTools->lang('ip_white_not_unique'));
+        if (ESTools::checkUniqueByAField($this->getDb(), $this->table, $uniqueFilterWhere)) {
+            throw new ESException(Logistic::getMsg(Logistic::L_RECORD_NOT_UNIQUE), Logistic::L_RECORD_NOT_UNIQUE);
         }
         unset($k, $v,$form, $uniqueFilterWhere);
         return $this->getDb()->insert($this->table, $data);

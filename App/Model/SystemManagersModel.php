@@ -10,6 +10,7 @@ namespace App\Model;
 use App\Base\BaseModel;
 use App\Utility\ESTools;
 use Lib\Exception\ESException;
+use Lib\Logistic;
 
 
 class SystemManagersModel extends BaseModel
@@ -32,7 +33,6 @@ class SystemManagersModel extends BaseModel
      */
     public function createManagerSingle(array $manager):bool
     {
-        $esTools = new ESTools();
         $data = [
             'account' => '',
             'password' => '',
@@ -50,8 +50,8 @@ class SystemManagersModel extends BaseModel
             'phone' => [$data['phone'], '=', 'OR'],
         ];
 
-        if ($esTools->checkUniqueByAField($this->getDb(), $this->table, $uniqueFilterWhere)) {
-            throw new ESException($esTools->lang('system_manager_not_unique'));
+        if (ESTools::checkUniqueByAField($this->getDb(), $this->table, $uniqueFilterWhere)) {
+            throw new ESException(Logistic::getMsg(Logistic::L_RECORD_NOT_UNIQUE), Logistic::L_RECORD_NOT_UNIQUE);
         }
         unset($k, $v,$manager, $uniqueFilterWhere);
         $data['password'] = $this->setPasswordAttr($data['password']);
@@ -68,15 +68,25 @@ class SystemManagersModel extends BaseModel
      */
     public function updateManager(array $manager):bool
     {
-        $esTools = new ESTools();
         $where = [
             'id' => $manager['id']
         ];
         $oldManager = $this->getOne(['password'], $where);
-        if (!$oldManager) throw new ESException($esTools->lang('system_manager_not_found'));
+        if (!$oldManager) {
+            throw new ESException(
+                Logistic::getMsg(Logistic::L_RECORD_NOT_FOUND),
+                Logistic::L_RECORD_NOT_FOUND
+            );
+        }
         $manager['old_password'] = $this->setPasswordAttr($manager['old_password']);
-        if ($manager['old_password'] !== $oldManager['password']) throw new ESException($esTools->lang('old_password_not_match'));
-        $esTools->quickParseArr2WhereMap($this->db, $where, true);
+        if ($manager['old_password'] !== $oldManager['password']) {
+            throw new ESException(
+                Logistic::getMsg(Logistic::L_PASSWORD_NOT_MATCH),
+                Logistic::L_PASSWORD_NOT_MATCH
+            );
+        }
+
+        ESTools::quickParseArr2WhereMap($this->db, $where, true);
         return $this->db->setValue($this->table, 'password', $manager['password']);
     }
 
@@ -91,9 +101,11 @@ class SystemManagersModel extends BaseModel
      */
     public function deleteManager(array $manager):bool
     {
-        $esTools = new ESTools();
-        if (!$esTools->checkUniqueByAField($this->db, $this->table, $manager)) {
-            throw new ESException($esTools->lang('system_manager_not_found'));
+        if (!ESTools::checkUniqueByAField($this->db, $this->table, $manager)) {
+            throw new ESException(
+                Logistic::getMsg(Logistic::L_RECORD_NOT_FOUND),
+                Logistic::L_RECORD_NOT_FOUND
+            );
         }
 
         return $this->db->where('id', $manager['id'])->delete($this->table, 1);

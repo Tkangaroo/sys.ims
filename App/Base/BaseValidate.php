@@ -10,6 +10,7 @@ namespace App\Base;
 
 use App\Utility\ESTools;
 use EasySwoole\Validate\Validate;
+use Lib\Logistic;
 
 
 class BaseValidate extends Validate
@@ -25,17 +26,16 @@ class BaseValidate extends Validate
      */
     public function setColumn(array $columnNamesArr):void
     {
-        $esTool = new ESTools();
         if (!$columnNamesArr) {
-            throw new \Exception($esTool->lang('validate_column_empty_limit'));
+            throw new \Exception('the validate needs more column', Logistic::L_FAIL);
         }
 
         foreach ($columnNamesArr as $v) {
-            $methodName = 'set'.$esTool->convertUnderline2Pascal($v).'Column';
+            $methodName = 'set'.ESTools::convertUnderline2Pascal($v).'Column';
             if (method_exists($this, $methodName)) {
                 $this->$methodName();
             } else {
-                throw new \Exception($esTool->lang('validate_column_handle_not_found'));
+                throw new \Exception(Logistic::getMsg(Logistic::L_HANDLE_NOT_FOUND), Logistic::L_HANDLE_NOT_FOUND);
             }
         }
         return ;
@@ -49,10 +49,9 @@ class BaseValidate extends Validate
      */
     public function check(array $data, array $columnNames2Check):bool
     {
-        $flag = false;
         $this->setColumn($columnNames2Check);
         if (!$flag = $this->validate($data)) {
-            (new ESTools())->throwValidateException($this);
+            ESTools::throwValidateException($this);
         }
         return $flag;
     }

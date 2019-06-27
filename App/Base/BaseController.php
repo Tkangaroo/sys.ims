@@ -7,6 +7,7 @@ use EasySwoole\Http\AbstractInterface\Controller;
 use App\Utility\Pool\Mysql\MysqlObject;
 use App\Utility\Pool\Mysql\MysqlPool;
 use App\Model\IpWhiteListModel;
+use Lib\Logistic;
 
 /**
  * Class BaseController
@@ -14,7 +15,7 @@ use App\Model\IpWhiteListModel;
  */
 class BaseController Extends Controller
 {
-    protected $code = 0;
+    protected $logisticCode = 0;
     protected $message = '';
     protected $data = null;
 
@@ -34,30 +35,31 @@ class BaseController Extends Controller
      */
     protected function onRequest(?string $action): ?bool
     {
-        $esTool = new ESTools();
         if (parent::onRequest($action)) {
             try {
                 // 均需要验证白名单
                 $this->checkClientIpHasAccessAuthority();
                 // 根据这个做登录什么的限制
-                $target = $esTool->parseRequestTarget($this->request());
+                $target = ESTools::parseRequestTarget($this->request());
                 if ($target['module'] === 'Admin') {
                     // 后台模块 除登录模块外，均需验证是否处于登录状态
                 } else if ($target['module'] === 'Api') {
                     // API模块
                 } else {
-                    throw new ESException($esTool->lang('module_not_found'));
+                    throw new ESException(Logistic::getMsg(Logistic::L_MODULE_NOT_FOUND), Logistic::L_MODULE_NOT_FOUND);
                 }
-                $this->code = 200;
+                $this->logisticCode = Logistic::L_OK;
             } catch (ESException $e) {
                 $this->message = $e->report();
+                $this->logisticCode = $e->getCode();
             } catch (\Throwable $e) {
                 $this->message = $e->getMessage();
+                $this->logisticCode = $e->getCode();
             } finally {
-                if ($this->code == 200) {
+                if ($this->logisticCode == Logistic::L_OK) {
                     return true;
                 } else {
-                    $esTool->writeJsonByResponse($this->response(), $this->code, $this->data, $this->message);
+                    ESTools::writeJsonByResponse($this->response(), $this->logisticCode, $this->data, $this->message);
                     return false;
                 }
             }
@@ -71,12 +73,15 @@ class BaseController Extends Controller
     protected function onException(\Throwable $throwable): void
     {
         // 清空之前输出缓存
-        $this->response()->getBody()->truncate();
         $msg = $throwable->getMessage();
-        $this->writeJson(10154, null, $msg);
+        ESTools::writeJsonByResponse($this->response(), Logistic::L_EXCEPTION, $throwable->getMessage());
         return ;
     }
 
+    /**
+     * the default index action
+     * @return bool
+     */
     public function index()
     {
         // TODO: Implement index() method.
@@ -93,15 +98,14 @@ class BaseController Extends Controller
      */
     protected function checkClientIpHasAccessAuthority():void
     {
-        $esTool = new ESTools();
-        $whiteIp = MysqlPool::invoke(function (MysqlObject $db) use ($esTool) {
-            return (new IpWhiteListModel($db))->queryByIpAddr($esTool->getClientIp($this->request()));
+        $whiteIp = MysqlPool::invoke(function (MysqlObject $db) {
+            return (new IpWhiteListModel($db))->queryByIpAddr(ESTools::getClientIp($this->request()));
         });
         if (is_null($whiteIp))
-            throw new ESException($esTool->lang('ip_has_refused'));
+            throw new ESException(Logistic::getMsg(Logistic::L_IP_NOT_REGISTER), Logistic::L_IP_NOT_REGISTER);
 
         if (!$whiteIp['is_enable'])
-            throw new ESException($esTool->lang('ip_has_disable'));
+            throw new ESException(Logistic::getMsg(Logistic::L_IP_DISABLE), Logistic::L_IP_DISABLE);
         return ;
 
     }

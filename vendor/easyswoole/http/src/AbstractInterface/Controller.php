@@ -142,9 +142,8 @@ abstract class Controller
         if (!$this->response()->isEndResponse()) {
             $data = Array(
                 "code" => $statusCode,
-                "data" => $result,
                 "msg" => $msg,
-                "time" => time()
+                "data" => $result
             );
             $this->response()->write(json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
             $this->response()->withHeader('Content-type', 'application/json;charset=utf-8');

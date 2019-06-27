@@ -6,7 +6,7 @@ use EasySwoole\Http\AbstractInterface\AbstractRouter;
 use FastRoute\RouteCollector;
 use EasySwoole\Http\Request;
 use EasySwoole\Http\Response;
-use EasySwoole\Component\Di;
+use Lib\Logistic;
 
 /**
  * Class Router
@@ -18,17 +18,16 @@ class Router extends AbstractRouter
 
     public function initialize(RouteCollector $routeCollector)
     {
-        $esTools = new ESTools();
         // 开启全局拦截
         $this->setGlobalMode(true);
 
-        $this->setMethodNotAllowCallBack(function (Request $request,Response $response) use ($esTools) {
-            $esTools->writeJsonByResponse($response, 500, null, 'the method not found!');
+        $this->setMethodNotAllowCallBack(function (Request $request,Response $response) {
+            ESTools::writeJsonByResponse($response, Logistic::L_METHOD_NOT_FOUND);
             return false;//结束此次响应
         });
 
-        $this->setRouterNotFoundCallBack(function (Request $request,Response $response) use ($esTools) {
-            $esTools->writeJsonByResponse($response, 500, null, 'the route not found!');
+        $this->setRouterNotFoundCallBack(function (Request $request,Response $response) {
+            ESTools::writeJsonByResponse($response, Logistic::L_ROUTE_NOT_FOUND);
             return false;//结束此次响应
         });
 

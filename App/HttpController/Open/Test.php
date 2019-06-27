@@ -13,7 +13,7 @@ class Test extends BaseController
      */
     public function index()
     {
-    	$ip = (new ESTools())->getClientIp($this->request());
+    	$ip = ESTools::getClientIp($this->request());
         $this->response()->write('index action for api:'.$ip);
     }
 }
