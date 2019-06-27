@@ -50,6 +50,33 @@ class IpWhiteList extends BaseController
     }
 
     /**
+     * to get a ip white
+     * @return bool
+     * @throws \EasySwoole\Component\Pool\Exception\PoolEmpty
+     * @throws \EasySwoole\Component\Pool\Exception\PoolException
+     * @throws \Throwable
+     */
+    public function get():bool
+    {
+        $paramsIdx = ['id'];
+        $params = ESTools::getArgFromRequest($this->request(), $paramsIdx);
+        $ipWhite = MysqlPool::invoke(function (MysqlObject $db) use ($params) {
+            return (new IpWhiteListModel($db))->getOne($this->generalFieldsName, $params);
+        });
+        $this->logisticCode = Logistic::L_OK;
+        $this->data = $ipWhite;
+        unset($paramsIdx, $params, $ipWhite);
+        $this->message = Logistic::getMsg(Logistic::L_OK);
+        ESTools::writeJsonByResponse(
+            $this->response(),
+            $this->logisticCode,
+            $this->message,
+            $this->data
+        );
+        return false;
+    }
+
+    /**
      * @return bool
      * @throws \Throwable
      */
