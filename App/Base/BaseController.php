@@ -39,7 +39,7 @@ class BaseController Extends Controller
         if (parent::onRequest($action)) {
             try {
                 // all need to check white list
-                $this->checkClientIpHasAccessAuthority();
+//                $this->checkClientIpHasAccessAuthority();
                 // to parse uri
                 $target = ESTools::parseRequestTarget($this->request());
                 if ($target['module'] === 'Api') {
