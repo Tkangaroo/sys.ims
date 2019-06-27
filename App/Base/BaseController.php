@@ -47,15 +47,14 @@ class BaseController Extends Controller
 
                     if ($target['action'] !== 'login') {
                         $esToken = ESTools::getArgFromRequest($this->request(), ['es-token'], 'getHeaders');
-                        if (empty($esToken)) {
+                        if (empty($esToken) || !isset($esToken['es-token']) || !isset($esToken['es-token'][0])) {
                             throw new ESException(
                                 Logistic::getMsg(Logistic::L_NOT_FOUND),
                                 Logistic::L_NOT_FOUND
                             );
                         }
                         MysqlPool::invoke(function (MysqlObject $db) use ($esToken) {
-                            var_dump($esToken['es-token']);
-                            return (new SystemManagersModel($db))->checkManagerLoginState($esToken['es-token']);
+                            return (new SystemManagersModel($db))->checkManagerLoginState($esToken['es-token'][0]);
                         });
                     }
                 } else {
