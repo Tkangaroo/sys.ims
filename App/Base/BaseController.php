@@ -72,7 +72,7 @@ class BaseController Extends Controller
                 if ($this->logisticCode == Logistic::L_OK) {
                     return true;
                 } else {
-                    ESTools::writeJsonByResponse($this->response(), $this->logisticCode, $this->data, $this->message);
+                    ESTools::writeJsonByResponse($this->response(), $this->logisticCode, $this->message);
                     return false;
                 }
             }
