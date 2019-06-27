@@ -9,7 +9,6 @@
 namespace App\HttpController\Api;
 
 use App\Utility\ESTools;
-use EasySwoole\Http\Message\Status;
 use Lib\Exception\ESException;
 use App\Base\BaseController;
 use App\Model\SystemManagersModel;
@@ -189,6 +188,7 @@ class SystemManagers extends BaseController
     }
 
     /**
+     * to login
      * @return bool
      */
     public function login():bool
