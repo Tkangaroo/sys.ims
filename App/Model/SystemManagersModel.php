@@ -121,7 +121,7 @@ class SystemManagersModel extends BaseModel
     public function login(array $login):?array
     {
         $where = [
-            'phone' => $login['phone']
+            'account' => $login['account']
         ];
         $manager = $this->getOne(['id', 'password', 'latest_login_ip'], $where);
         if (is_null($manager)) {
