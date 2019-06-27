@@ -115,11 +115,13 @@ class SystemManagersModel extends BaseModel
     }
 
     /**
+     * to login
      * @param array $login
-     * @return mixed
+     * @return string|null
+     * @throws ESException
      * @throws \Throwable
      */
-    public function login(array $login)
+    public function login(array $login):?string
     {
         $where = [
             'account' => $login['account']
@@ -143,14 +145,18 @@ class SystemManagersModel extends BaseModel
         $salt = ESTools::buildRandomStr('4');
         $signName = $this->getLoginSignName($manager['id'], $manager['latest_login_ip'], $salt);
 
-        $as = 1;
-        TaskManager::async(function() use ($as) {
-            var_dump($as);
-        });
-        RedisPool::invoke(function (RedisObject $redis) use ($signName, $manager) {
-            $redis->set($signName, $manager['id'], 12*60*60);
+        TaskManager::async(function() use ($signName, $manager, $login, $salt) {
+            $this->setLoginLog($signName, $manager['id']);
+            $this->afterLogin($manager['id'], $login['current_ip'], $salt);
         });
         return $signName;
+    }
+
+    public function setLoginLog($signName, $managerId):void
+    {
+        RedisPool::invoke(function (RedisObject $redis) use ($signName, $managerId) {
+            $redis->set($signName, $managerId, 12*60*60);
+        });
     }
 
     /**
@@ -165,8 +171,22 @@ class SystemManagersModel extends BaseModel
         return MD5(time().$id.$salt.$latestLoginIp);
     }
 
-    public function afterLogin($managerId, $salt):void
+    /**
+     * to update some fields after login
+     * @param int $managerId
+     * @param int $ip
+     * @param string $salt
+     */
+    public function afterLogin(int $managerId, int $ip, string $salt):void
     {
-
+        $data = [
+            'build_sign_salt' => $salt,
+            'latest_login_ip' => $ip,
+            'latest_login_at' => time(),
+            'update_at' => time()
+        ];
+        $this->db->where('id', $managerId);
+        $this->db->update($this->table, $data, 1);
+        unset($data);
     }
 }

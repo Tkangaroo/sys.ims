@@ -197,12 +197,16 @@ class SystemManagers extends BaseController
         $data = ESTools::getArgFromRequest($this->request(), $paramsIdx, 'getBody');
         try {
             (new SystemManagersValidate())->check($data, $paramsIdx);
+            $data['current_ip'] = ESTools::getClientIp($this->request());
             $result = MysqlPool::invoke(function (MysqlObject $db) use ($data) {
                 return (new SystemManagersModel($db))->login($data);
             });
             if ($result) {
                 $this->logisticCode = Logistic::L_OK;
                 $this->message = Logistic::getMsg(Logistic::L_OK);
+                $this->data = [
+                    'es_token' => $result
+                ];
             } else {
                 throw new ESException(
                     Logistic::getMsg(Logistic::L_LOGIN_ERROR),
