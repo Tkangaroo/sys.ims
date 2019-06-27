@@ -63,6 +63,10 @@ class IpWhiteList extends BaseController
         $ipWhite = MysqlPool::invoke(function (MysqlObject $db) use ($params) {
             return (new IpWhiteListModel($db))->getOne($this->generalFieldsName, $params);
         });
+        if ($ipWhite) {
+            $ipWhite['ip_addr'] = $ipWhite['ip_addr']?long2ip($ipWhite['ip_addr']):$ipWhite['ip_addr'];
+            $ipWhite['create_at'] = date('Y-m-d H:i:s', $ipWhite['create_at']);
+        }
         $this->logisticCode = Logistic::L_OK;
         $this->data = $ipWhite;
         unset($paramsIdx, $params, $ipWhite);

@@ -79,6 +79,11 @@ class SystemManagers extends BaseController
         $systemManage = MysqlPool::invoke(function (MysqlObject $db) use ($params) {
             return (new SystemManagersModel($db))->getOne($this->generalFieldsName, $params);
         });
+        if ($systemManage) {
+            $systemManage['latest_login_ip'] = $systemManage['latest_login_ip']?long2ip($systemManage['latest_login_ip']):$systemManage['latest_login_ip'];
+            $systemManage['latest_login_at'] = date('Y-m-d H:i:s', $systemManage['latest_login_at']);
+            $systemManage['create_at'] = date('Y-m-d H:i:s', $systemManage['create_at']);
+        }
         $this->logisticCode = Logistic::L_OK;
         $this->data = $systemManage;
         unset($paramsIdx, $params, $systemManage);
