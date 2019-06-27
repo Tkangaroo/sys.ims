@@ -42,6 +42,8 @@ class Logistic
 
     const L_LOGIN_ERROR = 10014;
 
+    const L_LOGIN_EXPIRED = 10015;
+
 
     private static $msg = [
         0   => 'fail',
@@ -69,6 +71,8 @@ class Logistic
         10013 => 'the record delete fail',
 
         10014 => 'login fail',
+
+        10015 => 'the login expired or invalid'
     ];
 
     static public function getMsg(int $code):?string

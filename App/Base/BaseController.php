@@ -1,6 +1,7 @@
 <?php
 namespace App\Base;
 
+use App\Model\SystemManagersModel;
 use App\Utility\ESTools;
 use Lib\Exception\ESException;
 use EasySwoole\Http\AbstractInterface\Controller;
@@ -43,6 +44,13 @@ class BaseController Extends Controller
                 $target = ESTools::parseRequestTarget($this->request());
                 if ($target['module'] === 'Admin') {
                     // 后台模块 除登录模块外，均需验证是否处于登录状态
+                    if ($target['action'] !== 'login') {
+                        $esToken = ESTools::getArgFromRequest($this->request(), ['es_token'], 'getHeaders');
+                        $esToken = $esToken['es_token'];
+                        MysqlPool::invoke(function (MysqlObject $db) use ($esToken) {
+                            return (new SystemManagersModel($db))->checkManagerLoginState($esToken);
+                        });
+                    }
                 } else if ($target['module'] === 'Api') {
                     // API模块
                 } else {

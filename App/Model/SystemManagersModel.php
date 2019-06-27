@@ -11,6 +11,7 @@ use App\Base\BaseModel;
 use App\Utility\ESTools;
 use App\Utility\Pool\Redis\RedisObject;
 use App\Utility\Pool\Redis\RedisPool;
+use EasySwoole\Component\Pool\PoolManager;
 use EasySwoole\EasySwoole\Swoole\Task\TaskManager;
 use Lib\Exception\ESException;
 use Lib\Logistic;
@@ -147,17 +148,19 @@ class SystemManagersModel extends BaseModel
 
         $managerId = $manager['id'];
         $ip = $login['current_ip'];
-        /*TaskManager::async(function() use ($signName, $managerId, $ip, $salt) {
-            $this->setLoginLog($signName, $managerId);
-            $this->afterLogin($managerId, $ip, $salt);
-        }, function() {
-            // nothing
-        });*/
         $this->setLoginLog($signName, $managerId);
         $this->afterLogin($managerId, $ip, $salt);
         return $signName;
     }
 
+    /**
+     * to store the login in redis
+     * @param $signName
+     * @param $managerId
+     * @throws \EasySwoole\Component\Pool\Exception\PoolEmpty
+     * @throws \EasySwoole\Component\Pool\Exception\PoolException
+     * @throws \Throwable
+     */
     public function setLoginLog($signName, $managerId):void
     {
         RedisPool::invoke(function (RedisObject $redis) use ($signName, $managerId) {
@@ -194,5 +197,34 @@ class SystemManagersModel extends BaseModel
         $this->db->where('id', $managerId);
         $this->db->update($this->table, $data, 1);
         unset($data);
+    }
+
+    /**
+     * @param string $signName
+     * @return bool
+     * @throws ESException
+     * @throws \EasySwoole\Component\Pool\Exception\PoolEmpty
+     * @throws \EasySwoole\Component\Pool\Exception\PoolException
+     * @throws \Throwable
+     */
+    public function checkManagerLoginState(string $signName):bool
+    {
+        $managerId = RedisPool::invoke(function (RedisObject $redis) use ($signName) {
+            return $redis->exists($signName)?$redis->get($signName):0;
+        });
+        if (empty($managerId)) {
+            throw new ESException(
+                Logistic::getMsg(Logistic::L_LOGIN_EXPIRED),
+                Logistic::L_LOGIN_EXPIRED
+            );
+        }
+        $manager = $this->getOne(['id'], ['id' => $managerId]);
+        if (!$manager) {
+            throw new ESException(
+                Logistic::getMsg(Logistic::L_RECORD_NOT_FOUND),
+                Logistic::L_RECORD_NOT_FOUND
+            );
+        }
+        return true;
     }
 }
