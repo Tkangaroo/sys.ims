@@ -42,8 +42,9 @@ class BaseController Extends Controller
                 $this->checkClientIpHasAccessAuthority();
                 // 根据这个做登录什么的限制
                 $target = ESTools::parseRequestTarget($this->request());
-                if ($target['module'] === 'Admin') {
+                if ($target['module'] === 'Api') {
                     // 后台模块 除登录模块外，均需验证是否处于登录状态
+
                     if ($target['action'] !== 'login') {
                         $esToken = ESTools::getArgFromRequest($this->request(), ['es_token'], 'getHeaders');
                         $esToken = $esToken['es_token'];
@@ -51,8 +52,6 @@ class BaseController Extends Controller
                             return (new SystemManagersModel($db))->checkManagerLoginState($esToken);
                         });
                     }
-                } else if ($target['module'] === 'Api') {
-                    // API模块
                 } else {
                     throw new ESException(Logistic::getMsg(Logistic::L_MODULE_NOT_FOUND), Logistic::L_MODULE_NOT_FOUND);
                 }
