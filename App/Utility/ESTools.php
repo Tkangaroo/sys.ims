@@ -36,6 +36,7 @@ class ESTools
                 $argArr = json_decode($request->getBody()->__toString(), true);
             } else {
                 $argArr = $request->$callBackName();
+                var_dump($argArr);
             }
             if ($argArr) {
                 foreach ($argArr as $k => $v) {
