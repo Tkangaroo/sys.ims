@@ -126,7 +126,7 @@ class ESTools
     ):void
     {
         self::clear($response);
-        if (empty($msg) || !($msg = Logistic::getMsg($logisticCode))) {
+        if (empty($msg) && !($msg = Logistic::getMsg($logisticCode))) {
             $msg = 'something wrong';
         }
         $response->write(self::outputJsonFormat($logisticCode, $msg, $data));
