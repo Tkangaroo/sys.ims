@@ -123,7 +123,7 @@ class SystemManagersModel extends BaseModel
         $where = [
             'phone' => $login['phone']
         ];
-        $manager = $this->getOne(['id', 'password', 'last_login_ip'], $where);
+        $manager = $this->getOne(['id', 'password', 'latest_login_ip'], $where);
         if (is_null($manager)) {
             throw new ESException(
                 Logistic::getMsg(Logistic::L_RECORD_NOT_FOUND),
