@@ -58,11 +58,13 @@ class ESTools
     {
         $ipAddr = 0;
 
+        /* if not use proxy, this ip may be empty */
         $ip = $request->getHeaders();
         if ($ip && isset($ip['x-real-ip']) && $ip['x-real-ip']) {
             $ip = array_pop($ip['x-real-ip']);
             $ipAddr = ip2long($ip);
         }
+
         if (empty($ipAddr)) {
             $ip = ServerManager::getInstance()->getSwooleServer()->connection_info($request->getSwooleRequest()->fd);
             if (isset($ip['remote_ip']) && $ip['remote_ip']) {

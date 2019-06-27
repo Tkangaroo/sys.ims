@@ -104,7 +104,7 @@ class BaseController Extends Controller
     }
 
     /**
-     * 檢測客戶端IP是否具有權限訪問
+     * to check the client ip has permission to enter
      * @throws ESException
      * @throws \EasySwoole\Component\Pool\Exception\PoolEmpty
      * @throws \EasySwoole\Component\Pool\Exception\PoolException
