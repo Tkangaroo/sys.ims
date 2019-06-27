@@ -43,6 +43,15 @@ class SystemManagers extends BaseController
         $totalAndList = MysqlPool::invoke(function (MysqlObject $db) use ($page, $where) {
             return (new SystemManagersModel($db))->queryDataOfPagination($page, $this->generalFieldsName, $where);
         });
+
+        if ($totalAndList && isset($totalAndList['list']) && empty($totalAndList['list'])) {
+            foreach ($totalAndList['list'] as &$v) {
+                $v['latest_login_ip'] = $v['latest_login_ip']?long2ip($v['latest_login_ip']):$v['latest_login_ip'];
+                $v['latest_login_at'] = date('Y-m-d H:i:s', $v['latest_login_at']);
+                $v['create_at'] = date('Y-m-d H:i:s', $v['create_at']);
+            }
+        }
+        unset($v);
         $this->logisticCode = Logistic::L_OK;
         $this->data = $totalAndList;
         $this->message = Logistic::getMsg(Logistic::L_OK);

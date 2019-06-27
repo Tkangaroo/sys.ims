@@ -12,6 +12,42 @@ use Lib\Logistic;
 
 class IpWhiteList extends BaseController
 {
+    private $generalFieldsName = [
+        'id', 'ip_addr', 'is_enable', 'comments', 'create_at'
+    ];
+
+    /**
+     * to get a page data
+     * @return bool
+     * @throws \EasySwoole\Component\Pool\Exception\PoolEmpty
+     * @throws \EasySwoole\Component\Pool\Exception\PoolException
+     * @throws \Throwable
+     */
+    public function list():bool
+    {
+        $page = ESTools::getPageParams($this->request());
+        $totalAndList = MysqlPool::invoke(function (MysqlObject $db) use ($page) {
+            return (new IpWhiteListModel($db))->queryDataOfPagination($page, $this->generalFieldsName);
+        });
+        if ($totalAndList && isset($totalAndList['list']) && empty($totalAndList['list'])) {
+            foreach ($totalAndList['list'] as &$v) {
+                $v['create_at'] = date('Y-m-d H:i:s', $v['create_at']);
+            }
+        }
+        unset($v);
+        $this->logisticCode = Logistic::L_OK;
+        $this->data = $totalAndList;
+        $this->message = Logistic::getMsg(Logistic::L_OK);
+        ESTools::writeJsonByResponse(
+            $this->response(),
+            $this->logisticCode,
+            $this->message,
+            $this->data
+        );
+        unset($esTools, $page, $whereParamsIdx, $where, $totalAndList);
+        return false;
+    }
+
     /**
      * @return bool
      * @throws \Throwable

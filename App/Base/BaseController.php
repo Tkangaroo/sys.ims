@@ -38,13 +38,12 @@ class BaseController Extends Controller
     {
         if (parent::onRequest($action)) {
             try {
-                // 均需要验证白名单
+                // all need to check white list
                 $this->checkClientIpHasAccessAuthority();
-                // 根据这个做登录什么的限制
+                // to parse uri
                 $target = ESTools::parseRequestTarget($this->request());
                 if ($target['module'] === 'Api') {
-                    // 后台模块 除登录模块外，均需验证是否处于登录状态
-
+                    // to check action which need to login
                     if ($target['action'] !== 'login') {
                         $esToken = ESTools::getArgFromRequest($this->request(), ['es-token'], 'getHeaders');
                         if (empty($esToken) || !isset($esToken['es-token']) || !isset($esToken['es-token'][0])) {
@@ -56,6 +55,7 @@ class BaseController Extends Controller
                         MysqlPool::invoke(function (MysqlObject $db) use ($esToken) {
                             return (new SystemManagersModel($db))->checkManagerLoginState($esToken['es-token'][0]);
                         });
+                        unset($esToken);
                     }
                 } else {
                     throw new ESException(Logistic::getMsg(Logistic::L_MODULE_NOT_FOUND), Logistic::L_MODULE_NOT_FOUND);
