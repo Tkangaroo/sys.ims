@@ -220,8 +220,7 @@ class SystemManagers extends BaseController
             $this->logisticCode = $e->getCode();
             $this->message = $e->getMessage();
         }
-        var_dump($this->data);
-        ESTools::writeJsonByResponse($this->response(), $this->logisticCode, $this->message);
+        ESTools::writeJsonByResponse($this->response(), $this->logisticCode, $this->message, $this->data);
         unset($paramsIdx, $data, $result);
         return false;
     }
