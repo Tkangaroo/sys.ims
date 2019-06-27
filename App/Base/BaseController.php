@@ -46,10 +46,14 @@ class BaseController Extends Controller
                     // 后台模块 除登录模块外，均需验证是否处于登录状态
 
                     if ($target['action'] !== 'login') {
-                        $esTokenArg = ESTools::getArgFromRequest($this->request(), ['es_token'], 'getHeaders');
-                        var_dump($esTokenArg);
-                        // $esToken = $esTokenArg['es_token'];
-                        return false;
+                        $esToken = ESTools::getArgFromRequest($this->request(), ['es_token'], 'getHeaders');
+                        $esToken = $esToken['es_token'];
+                        if (empty($esToken)) {
+                            throw new ESException(
+                                Logistic::getMsg(Logistic::L_NOT_FOUND),
+                                Logistic::L_NOT_FOUND
+                            );
+                        }
                         MysqlPool::invoke(function (MysqlObject $db) use ($esToken) {
                             return (new SystemManagersModel($db))->checkManagerLoginState($esToken);
                         });
