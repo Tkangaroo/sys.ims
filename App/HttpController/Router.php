@@ -61,6 +61,7 @@ class Router extends AbstractRouter
             ['POST', '/api/system_managers', '/Api/SystemManagers/save'],
             ['PATCH', '/api/system_managers', '/Api/SystemManagers/update'],
             ['DELETE', '/api/system_managers', '/Api/SystemManagers/delete'],
+            ['POST', '/api/system_managers/login', '/Api/SystemManagers/login'],
             ['POST', '/api/ip_white', '/Api/IpWhiteList/save'],
         ];
     }
