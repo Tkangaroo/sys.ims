@@ -210,12 +210,13 @@ class SystemManagers extends BaseController
                 );
             }
         } catch (ESException $e) {
+            $this->logisticCode = $e->getCode();
             $this->message = $e->report();
-            $this->logisticCode = $e->getCode();
         } catch (\Throwable $e) {
-            $this->message = $e->getMessage();
             $this->logisticCode = $e->getCode();
+            $this->message = $e->getMessage();
         }
+        var_dump($this->message);
         ESTools::writeJsonByResponse($this->response(), $this->logisticCode, $this->message);
         unset($paramsIdx, $data, $result);
         return false;
