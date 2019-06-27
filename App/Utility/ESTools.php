@@ -10,7 +10,6 @@ namespace App\Utility;
 
 use App\Utility\Pool\Mysql\MysqlObject;
 use EasySwoole\EasySwoole\Config;
-use EasySwoole\Http\Message\Status;
 use EasySwoole\Http\Request;
 use EasySwoole\Http\UrlParser;
 use Lib\Exception\ESException;
@@ -236,5 +235,22 @@ class ESTools
             'limit' => ($tmp = $params['limit']??10)>0?$tmp:10,
         ];
 
+    }
+
+    /**
+     * to get a random str
+     * @param int $len 字符串长度
+     * @param string $chars 字符串随机源
+     * @return string
+     */
+    static public function buildRandomStr($len = 6, $chars = '')
+    {
+        if (!$chars) {
+            $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        }
+        for ($i = 0, $str = '', $lc = strlen($chars) - 1; $i < $len; $i++) {
+            $str .= $chars[mt_rand(0, $lc)];
+        }
+        return $str;
     }
 }

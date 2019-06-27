@@ -9,6 +9,8 @@
 namespace App\Model;
 use App\Base\BaseModel;
 use App\Utility\ESTools;
+use App\Utility\Pool\Redis\RedisObject;
+use App\Utility\Pool\Redis\RedisPool;
 use Lib\Exception\ESException;
 use Lib\Logistic;
 
@@ -109,5 +111,42 @@ class SystemManagersModel extends BaseModel
         }
 
         return $this->db->where('id', $manager['id'])->delete($this->table, 1);
+    }
+
+    /**
+     * @param array $login
+     * @return array|null
+     * @throws \Throwable
+     */
+    public function login(array $login):?array
+    {
+        $where = [
+            'phone' => $login['phone']
+        ];
+        $manager = $this->getOne(['id', 'password', 'last_login_ip'], $where);
+        if (is_null($manager)) {
+            throw new ESException(
+                Logistic::getMsg(Logistic::L_RECORD_NOT_FOUND),
+                Logistic::L_RECORD_NOT_FOUND
+            );
+        }
+        if ($manager['password'] !== $this->setPasswordAttr($login['password'])) {
+            throw new ESException(
+                Logistic::getMsg(Logistic::L_PASSWORD_NOT_MATCH),
+                Logistic::L_PASSWORD_NOT_MATCH
+            );
+        }
+
+        $data = RedisPool::invoke(function (\Redis $redis){
+            $redis->set('test','test');
+            return $redis->get('test');
+        });
+        var_dump($data);
+        return [];
+    }
+
+    public function afterLogin($managerId):void
+    {
+
     }
 }

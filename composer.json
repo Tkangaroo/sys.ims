@@ -3,7 +3,8 @@
         "easyswoole/easyswoole": "3.x",
         "easyswoole/mysqli": "^1.1",
         "ext-json": "*",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "ext-redis": "*"
     },
     "autoload": {
         "psr-4": {

@@ -9,6 +9,7 @@
 namespace EasySwoole\EasySwoole;
 
 use App\Utility\Pool\Mysql\MysqlPool;
+use App\Utility\Pool\Redis\RedisPool;
 use EasySwoole\Component\Pool\PoolManager;
 use EasySwoole\EasySwoole\Swoole\EventRegister;
 use EasySwoole\EasySwoole\AbstractInterface\Event;
@@ -29,12 +30,21 @@ class EasySwooleEvent implements Event
         // TODO: Implement initialize() method.
         date_default_timezone_set('Asia/Shanghai');
 
+        /* mysql service register */
         $mysqlConf = PoolManager::getInstance()->register(MysqlPool::class, Config::getInstance()->getConf('MYSQL.POOL_MAX_NUM'));
         if ($mysqlConf === null) throw new \Exception('注册失败!');
         //设置其他参数
         $mysqlConf->setMaxObjectNum(20)->setMinObjectNum(5);
+
+
+        /* redis service register */
+        PoolManager::getInstance()->register(RedisPool::class);
     }
 
+    /**
+     * @param EventRegister $register
+     * @throws \EasySwoole\Component\Pool\Exception\PoolException
+     */
     public static function mainServerCreate(EventRegister $register)
     {
         ################### mysql 热启动   #######################

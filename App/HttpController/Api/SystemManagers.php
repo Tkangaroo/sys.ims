@@ -188,9 +188,36 @@ class SystemManagers extends BaseController
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function login():bool
     {
-        $paramsIdx = [];
-        $esTools = new ESTools();
+        $paramsIdx = ['account', 'password'];
+        $data = ESTools::getArgFromRequest($this->request(), $paramsIdx, 'getBody');
+        try {
+            (new SystemManagersValidate())->check($data, $paramsIdx);
+            $result = MysqlPool::invoke(function (MysqlObject $db) use ($data) {
+                return (new SystemManagersModel($db))->login($data);
+            });
+            if ($result) {
+                $this->logisticCode = Logistic::L_OK;
+                $this->message = Logistic::getMsg(Logistic::L_OK);
+            } else {
+                throw new ESException(
+                    Logistic::getMsg(Logistic::L_LOGIN_ERROR),
+                    Logistic::L_LOGIN_ERROR
+                );
+            }
+        } catch (ESException $e) {
+            $this->message = $e->report();
+            $this->logisticCode = $e->getCode();
+        } catch (\Throwable $e) {
+            $this->message = $e->getMessage();
+            $this->logisticCode = $e->getCode();
+        }
+        ESTools::writeJsonByResponse($this->response(), $this->logisticCode, $this->message);
+        unset($paramsIdx, $data, $result);
+        return false;
     }
 }

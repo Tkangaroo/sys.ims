@@ -40,6 +40,7 @@ class Logistic
     const L_RECORD_UPDATE_ERROR = 10012;
     const L_RECORD_DELETE_ERROR = 10013;
 
+    const L_LOGIN_ERROR = 10014;
 
 
     private static $msg = [
@@ -58,12 +59,16 @@ class Logistic
         10006 => 'the ip not register',
         10007 => 'the ip has refused',
 
-        10008 => 'the record not unique',
+        10008 => 'the record already exists',
         10009 => 'the record not found',
+
         10010 => 'the password not matched',
+
         10011 => 'the record save fail',
         10012 => 'the record update fail',
-        10013 => 'the record delete fail'
+        10013 => 'the record delete fail',
+
+        10014 => 'login fail',
     ];
 
     static public function getMsg(int $code):?string

@@ -9,6 +9,7 @@
 namespace App\Base;
 
 use App\Utility\ESTools;
+use EasySwoole\Spl\SplString;
 use EasySwoole\Validate\Validate;
 use Lib\Logistic;
 
@@ -31,7 +32,7 @@ class BaseValidate extends Validate
         }
 
         foreach ($columnNamesArr as $v) {
-            $methodName = 'set'.ESTools::convertUnderline2Pascal($v).'Column';
+            $methodName = 'set'.(new SplString($v))->camel()->__toString().'Column';
             if (method_exists($this, $methodName)) {
                 $this->$methodName();
             } else {
