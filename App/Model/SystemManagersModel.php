@@ -137,7 +137,7 @@ class SystemManagersModel extends BaseModel
             );
         }
 
-        $data = RedisPool::invoke(function (\Redis $redis){
+        $data = RedisPool::invoke(function (RedisObject $redis){
             $redis->set('test','test');
             return $redis->get('test');
         });
