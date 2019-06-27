@@ -29,7 +29,7 @@ class IpWhiteList extends BaseController
         $totalAndList = MysqlPool::invoke(function (MysqlObject $db) use ($page) {
             return (new IpWhiteListModel($db))->queryDataOfPagination($page, $this->generalFieldsName);
         });
-        if ($totalAndList && isset($totalAndList['list']) && empty($totalAndList['list'])) {
+        if ($totalAndList && isset($totalAndList['list']) && !empty($totalAndList['list'])) {
             foreach ($totalAndList['list'] as &$v) {
                 $v['ip_addr'] = $v['ip_addr']?long2ip($v['ip_addr']):$v['ip_addr'];
                 $v['create_at'] = date('Y-m-d H:i:s', $v['create_at']);
