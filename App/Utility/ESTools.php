@@ -10,6 +10,7 @@ namespace App\Utility;
 
 use App\Utility\Pool\Mysql\MysqlObject;
 use EasySwoole\EasySwoole\Config;
+use EasySwoole\EasySwoole\ServerManager;
 use EasySwoole\Http\Request;
 use EasySwoole\Http\UrlParser;
 use Lib\Exception\ESException;
@@ -57,6 +58,7 @@ class ESTools
     {
         $ipAddr = 0;
         $ip = $request->getHeaders();
+        $ip = ServerManager::getInstance()->getSwooleServer()->connection_info($this->request()->getSwooleRequest()->fd);
         var_dump($ip);
         if ($ip && isset($ip['x-real-ip']) && $ip['x-real-ip']) {
             $ip = array_pop($ip['x-real-ip']);
