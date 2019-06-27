@@ -145,9 +145,11 @@ class SystemManagersModel extends BaseModel
         $salt = ESTools::buildRandomStr('4');
         $signName = $this->getLoginSignName($manager['id'], $manager['latest_login_ip'], $salt);
 
-        TaskManager::async(function() use ($signName, $manager, $login, $salt) {
-            $this->setLoginLog($signName, $manager['id']);
-            $this->afterLogin($manager['id'], $login['current_ip'], $salt);
+        $managerId = $manager['id'];
+        $ip = $login['current_ip'];
+        TaskManager::async(function() use ($signName, $managerId, $ip, $salt) {
+            $this->setLoginLog($signName, $managerId);
+            $this->afterLogin($managerId, $ip, $salt);
         });
         return $signName;
     }
