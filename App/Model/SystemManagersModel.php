@@ -11,6 +11,7 @@ use App\Base\BaseModel;
 use App\Utility\ESTools;
 use App\Utility\Pool\Redis\RedisObject;
 use App\Utility\Pool\Redis\RedisPool;
+use EasySwoole\EasySwoole\Swoole\Task\TaskManager;
 use Lib\Exception\ESException;
 use Lib\Logistic;
 
@@ -115,21 +116,23 @@ class SystemManagersModel extends BaseModel
 
     /**
      * @param array $login
-     * @return array|null
+     * @return mixed
      * @throws \Throwable
      */
-    public function login(array $login):?array
+    public function login(array $login)
     {
         $where = [
             'account' => $login['account']
         ];
         $manager = $this->getOne(['id', 'password', 'latest_login_ip'], $where);
+
         if (is_null($manager)) {
             throw new ESException(
                 Logistic::getMsg(Logistic::L_RECORD_NOT_FOUND),
                 Logistic::L_RECORD_NOT_FOUND
             );
         }
+
         if ($manager['password'] !== $this->setPasswordAttr($login['password'])) {
             throw new ESException(
                 Logistic::getMsg(Logistic::L_PASSWORD_NOT_MATCH),
@@ -137,15 +140,32 @@ class SystemManagersModel extends BaseModel
             );
         }
 
-        $data = RedisPool::invoke(function (RedisObject $redis){
-            $redis->set('test','test');
-            return $redis->get('test');
+        $salt = ESTools::buildRandomStr('4');
+        $signName = $this->getLoginSignName($manager['id'], $manager['latest_login_ip'], $salt);
+
+        $as = 1;
+        TaskManager::async(function() use ($as) {
+            var_dump($as);
         });
-        var_dump($data);
-        return [];
+        RedisPool::invoke(function (RedisObject $redis) use ($signName, $manager) {
+            $redis->set($signName, $manager['id'], 12*60*60);
+        });
+        return $signName;
     }
 
-    public function afterLogin($managerId):void
+    /**
+     * to get a login sign name for redis name
+     * @param int $id
+     * @param int $latestLoginIp
+     * @param string $salt
+     * @return string
+     */
+    public function getLoginSignName(int $id, int $latestLoginIp, string $salt):string
+    {
+        return MD5(time().$id.$salt.$latestLoginIp);
+    }
+
+    public function afterLogin($managerId, $salt):void
     {
 
     }
