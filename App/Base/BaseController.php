@@ -44,10 +44,12 @@ class BaseController Extends Controller
                 $target = ESTools::parseRequestTarget($this->request());
                 if ($target['module'] === 'Api') {
                     // 后台模块 除登录模块外，均需验证是否处于登录状态
-                    
+
                     if ($target['action'] !== 'login') {
                         $esTokenArg = ESTools::getArgFromRequest($this->request(), ['es_token'], 'getHeaders');
-                        $esToken = $esTokenArg['es_token'];
+                        var_dump($esTokenArg);
+                        // $esToken = $esTokenArg['es_token'];
+                        return false;
                         MysqlPool::invoke(function (MysqlObject $db) use ($esToken) {
                             return (new SystemManagersModel($db))->checkManagerLoginState($esToken);
                         });
