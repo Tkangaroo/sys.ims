@@ -150,6 +150,8 @@ class SystemManagersModel extends BaseModel
         TaskManager::async(function() use ($signName, $managerId, $ip, $salt) {
             $this->setLoginLog($signName, $managerId);
             $this->afterLogin($managerId, $ip, $salt);
+        }, function() {
+            // nothing
         });
         return $signName;
     }
