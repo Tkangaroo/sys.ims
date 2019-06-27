@@ -132,7 +132,7 @@ class ESTools
         }
         $response->write(self::outputJsonFormat($logisticCode, $msg, $data));
         $response->withHeader('Content-type', 'application/json;charset=utf-8');
-        $response->withStatus($httpCode);
+        $response->withStatus(500);
         return ;
     }
 
