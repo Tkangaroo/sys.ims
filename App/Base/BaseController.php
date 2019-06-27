@@ -42,6 +42,7 @@ class BaseController Extends Controller
 //                $this->checkClientIpHasAccessAuthority();
                 // to parse uri
                 $target = ESTools::parseRequestTarget($this->request());
+                var_dump($target);
                 if ($target['module'] === 'Api') {
                     // to check action which need to login
                     if ($target['action'] !== 'login') {
