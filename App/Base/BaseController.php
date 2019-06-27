@@ -53,9 +53,8 @@ class BaseController Extends Controller
                                 Logistic::L_NOT_FOUND
                             );
                         }
-                        $esToken = $esToken['es-token'];
                         MysqlPool::invoke(function (MysqlObject $db) use ($esToken) {
-                            return (new SystemManagersModel($db))->checkManagerLoginState($esToken);
+                            return (new SystemManagersModel($db))->checkManagerLoginState($esToken['es-token']);
                         });
                     }
                 } else {
