@@ -57,12 +57,17 @@ class ESTools
     static public function getClientIp(Request $request):?int
     {
         $ipAddr = 0;
+
         $ip = $request->getHeaders();
-        $ip = ServerManager::getInstance()->getSwooleServer()->connection_info($request->getSwooleRequest()->fd);
-        var_dump($ip);
         if ($ip && isset($ip['x-real-ip']) && $ip['x-real-ip']) {
             $ip = array_pop($ip['x-real-ip']);
             $ipAddr = ip2long($ip);
+        }
+        if (empty($ipAddr)) {
+            $ip = ServerManager::getInstance()->getSwooleServer()->connection_info($request->getSwooleRequest()->fd);
+            if (isset($ip['remote_ip']) && $ip['remote_ip']) {
+                $ipAddr = ip2long($ip['remote_ip']);
+            }
         }
         unset($ip);
         return $ipAddr;
