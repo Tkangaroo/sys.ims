@@ -54,6 +54,7 @@ class BaseController Extends Controller
                             );
                         }
                         MysqlPool::invoke(function (MysqlObject $db) use ($esToken) {
+                            var_dump($esToken['es-token']);
                             return (new SystemManagersModel($db))->checkManagerLoginState($esToken['es-token']);
                         });
                     }
