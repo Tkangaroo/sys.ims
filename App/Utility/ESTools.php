@@ -57,6 +57,7 @@ class ESTools
     {
         $ipAddr = 0;
         $ip = $request->getHeaders();
+        var_dump($ip);
         if ($ip && isset($ip['x-real-ip']) && $ip['x-real-ip']) {
             $ip = array_pop($ip['x-real-ip']);
             $ipAddr = ip2long($ip);
