@@ -81,6 +81,41 @@ class IpWhiteList extends BaseController
     }
 
     /**
+     * to update a manager(only password)
+     * @return bool
+     */
+    public function update()
+    {
+        $paramsIdx = ['id', 'is_enable', 'comments'];
+        $data = ESTools::getArgFromRequest($this->request(), $paramsIdx, 'getBody');
+        try {
+            unset($paramsIdx[1]);
+            (new IpWhiteValidate())->check($data, $paramsIdx);
+            $result = MysqlPool::invoke(function (MysqlObject $db) use ($data) {
+                return (new IpWhiteListModel($db))->updateIpWhite($data);
+            });
+            if ($result) {
+                $this->logisticCode = Logistic::L_OK;
+                $this->message = Logistic::getMsg(Logistic::L_OK);
+            } else {
+                throw new ESException(
+                    Logistic::getMsg(Logistic::L_RECORD_UPDATE_ERROR),
+                    Logistic::L_RECORD_UPDATE_ERROR
+                );
+            }
+        } catch (ESException $e) {
+            $this->message = $e->report();
+            $this->logisticCode = $e->getCode();
+        } catch (\Throwable $e) {
+            $this->message = $e->getMessage();
+            $this->logisticCode = $e->getCode();
+        }
+        ESTools::writeJsonByResponse($this->response(), $this->logisticCode, $this->message);
+        unset($paramsIdx, $data, $result);
+        return false;
+    }
+
+    /**
      * @return bool
      * @throws \Throwable
      */

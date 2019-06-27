@@ -65,6 +65,7 @@ class Router extends AbstractRouter
             ['GET', '/api/ip_white', '/Api/IpWhiteList/list'],
             ['GET', '/api/ip_white/{id:\d+}', '/Api/IpWhiteList/get'],
             ['POST', '/api/ip_white', '/Api/IpWhiteList/save'],
+            ['PATCH', '/api/ip_white', '/Api/IpWhiteList/update'],
         ];
     }
 

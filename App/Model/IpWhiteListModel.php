@@ -70,4 +70,29 @@ class IpWhiteListModel extends BaseModel
         return $whiteIp;
     }
 
+    /**
+     * to update an ip white
+     * @param array $ipWhite
+     * @return bool|null
+     * @throws ESException
+     * @throws \Throwable
+     */
+    public function updateIpWhite(array $ipWhite):?bool
+    {
+        $where = [
+            'id' => $ipWhite['id']
+        ];
+        unset($ipWhite['id']);
+        $existsFlag = $this->getOne(['id'], $where);
+        if (!$existsFlag) {
+            throw new ESException(
+                Logistic::getMsg(Logistic::L_RECORD_NOT_FOUND),
+                Logistic::L_RECORD_NOT_FOUND
+            );
+        }
+
+        ESTools::quickParseArr2WhereMap($this->db, $where, true);
+        return $this->db->update($this->table, $ipWhite, 1);
+    }
+
 }
