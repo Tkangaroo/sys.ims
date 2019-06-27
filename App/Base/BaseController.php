@@ -58,7 +58,7 @@ class BaseController Extends Controller
                         });
                         unset($esToken);
                     }
-                } else if ($target['module'] === 'open') {
+                } else if ($target['module'] === 'Open') {
 
                 } else {
                     throw new ESException(Logistic::getMsg(Logistic::L_MODULE_NOT_FOUND), Logistic::L_MODULE_NOT_FOUND);
