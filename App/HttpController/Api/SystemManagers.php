@@ -44,7 +44,7 @@ class SystemManagers extends BaseController
             return (new SystemManagersModel($db))->queryDataOfPagination($page, $this->generalFieldsName, $where);
         });
 
-        if ($totalAndList && isset($totalAndList['list']) && empty($totalAndList['list'])) {
+        if ($totalAndList && isset($totalAndList['list']) && !empty($totalAndList['list'])) {
             foreach ($totalAndList['list'] as &$v) {
                 $v['latest_login_ip'] = $v['latest_login_ip']?long2ip($v['latest_login_ip']):$v['latest_login_ip'];
                 $v['latest_login_at'] = date('Y-m-d H:i:s', $v['latest_login_at']);
