@@ -31,6 +31,7 @@ class IpWhiteList extends BaseController
         });
         if ($totalAndList && isset($totalAndList['list']) && empty($totalAndList['list'])) {
             foreach ($totalAndList['list'] as &$v) {
+                $v['ip_addr'] = $v['ip_addr']?long2ip($v['ip_addr']):$v['ip_addr'];
                 $v['create_at'] = date('Y-m-d H:i:s', $v['create_at']);
             }
         }
