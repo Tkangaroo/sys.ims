@@ -92,6 +92,7 @@ class IpWhiteListModel extends BaseModel
         }
 
         ESTools::quickParseArr2WhereMap($this->db, $where, true);
+        $ipWhite['update_at'] = time();
         return $this->db->update($this->table, $ipWhite, 1);
     }
 
