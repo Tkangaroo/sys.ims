@@ -62,7 +62,7 @@ class Router extends AbstractRouter
             ['PATCH', '/api/system_managers', '/Api/SystemManagers/update'],
             ['DELETE', '/api/system_managers', '/Api/SystemManagers/delete'],
             ['POST', '/api/system_managers/login', '/Api/SystemManagers/login'],
-            
+
             ['GET', '/api/ip_white', '/Api/IpWhiteList/list'],
             ['GET', '/api/ip_white/{id:\d+}', '/Api/IpWhiteList/get'],
             ['POST', '/api/ip_white', '/Api/IpWhiteList/save'],
@@ -78,7 +78,7 @@ class Router extends AbstractRouter
     private function initOpenRoute():array
     {
         return [
-            ['GET', '/api_test_index', '/Api/Open/index']
+            ['GET', '/open/test/index', '/Open/Test/index']
         ];
     }
 }
