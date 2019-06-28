@@ -72,7 +72,6 @@ class ESTools
             }
         }
         unset($ip);
-        var_dump($ipAddr);
         return $ipAddr;
     }
 
