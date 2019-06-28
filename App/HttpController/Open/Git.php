@@ -11,6 +11,7 @@ namespace App\HttpController\Open;
 
 use App\Base\BaseController;
 use App\Utility\ESTools;
+use Lib\Exception\ESException;
 
 class Git extends BaseController
 {
@@ -19,8 +20,18 @@ class Git extends BaseController
 
         $osHeaderArgs = $this->getGiteeHeaders();
         $osParams = ESTools::getArgFromRequest($this->request(), null, 'getBody');
-        var_dump($osHeaderArgs);
-        var_dump($osParams);
+        try {
+
+        } catch (ESException $e) {
+            $this->message = $e->report();
+            $this->logisticCode = $e->getCode();
+        } catch (\Throwable $e) {
+            $this->message = $e->getMessage();
+            $this->logisticCode = $e->getCode();
+        }
+        ESTools::writeJsonByResponse($this->response(), $this->logisticCode, $this->message);
+        return false;
+
     }
 
     /**
@@ -37,5 +48,11 @@ class Git extends BaseController
         $osHeaderArgs = ESTools::getArgFromRequest($this->request(), $headersIdx, 'getHeaders');
         unset($headersIdx);
         return $osHeaderArgs;
+    }
+
+    private function verifyGiteeHeaders():void
+    {
+
+        return
     }
 }
