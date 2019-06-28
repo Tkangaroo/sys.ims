@@ -16,7 +16,7 @@ class Git extends BaseController
 {
     public function pull()
     {
-        $params = ESTools::getArgFromRequest($this->request(), null);
+        $params = ESTools::getArgFromRequest($this->request(), null, 'getBody');
         var_dump($params);
     }
 }
