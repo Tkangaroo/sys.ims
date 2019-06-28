@@ -38,12 +38,17 @@ class ESTools
             } else {
                 $argArr = $request->$callBackName();
             }
-            if ($argArr && $argIdxArr) {
-                foreach ($argArr as $k => $v) {
-                    if (in_array($k, $argIdxArr, true)) {
-                        $data[$k] = $v;
+            if ($argArr) {
+                if ($argIdxArr) {
+                    foreach ($argArr as $k => $v) {
+                        if (in_array($k, $argIdxArr, true)) {
+                            $data[$k] = $v;
+                        }
                     }
+                } else {
+                    $data = $argArr;
                 }
+
             }
         }
         return $data;

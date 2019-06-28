@@ -18,11 +18,7 @@ class Git extends BaseController
     {
 
         $osHeaderArgs = $this->getGiteeHeaders();
-        var_dump($osHeaderArgs);
-        var_dump($this->request()->getRequestParam());
-        var_dump($this->request()->getBody());
-        var_dump($this->request()->getBody()->__toString());
-        var_dump($this->request()->getParsedBody());
+        $osParams = ESTools::getArgFromRequest($this->request(), null, 'getBody');
     }
 
     /**
