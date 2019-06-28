@@ -9,13 +9,14 @@
 namespace App\HttpController\Open;
 
 
+use App\Base\BaseController;
 use App\Utility\ESTools;
 
-class Git
+class Git extends BaseController
 {
     public function pull()
     {
-        $params = ESTools::getArgFromRequest();
+        $params = ESTools::getArgFromRequest($this->request(), null);
         var_dump($params);
     }
 }

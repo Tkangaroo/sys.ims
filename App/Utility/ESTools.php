@@ -25,11 +25,11 @@ class ESTools
     /**
      * to get data for request
      * @param Request $request
-     * @param array $argIdxArr
+     * @param array|null $argIdxArr
      * @param string $callBackName
      * @return array
      */
-    static public function getArgFromRequest(Request $request, array $argIdxArr, string $callBackName = 'getRequestParam'):array
+    static public function getArgFromRequest(Request $request, ?array $argIdxArr, string $callBackName = 'getRequestParam'):array
     {
         $data = [];
         if (method_exists($request, $callBackName)) {
