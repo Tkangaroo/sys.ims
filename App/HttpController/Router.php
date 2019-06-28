@@ -78,7 +78,8 @@ class Router extends AbstractRouter
     private function initOpenRoute():array
     {
         return [
-            ['GET', '/open/test/index', '/Open/Test/index']
+            ['GET', '/open/test/index', '/Open/Test/index'],
+            ['POST', '/open/git/pull', '/Open/Git/pull']
         ];
     }
 }

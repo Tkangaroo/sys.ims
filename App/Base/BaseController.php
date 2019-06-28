@@ -58,7 +58,9 @@ class BaseController Extends Controller
                         unset($esToken);
                     }
                 } else if ($target['module'] === 'Open') {
-
+                    if ($target['controller'] !== 'Git') {
+                        // nothing
+                    }
                 } else {
                     throw new ESException(Logistic::getMsg(Logistic::L_MODULE_NOT_FOUND), Logistic::L_MODULE_NOT_FOUND);
                 }
