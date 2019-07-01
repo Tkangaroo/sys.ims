@@ -27,6 +27,68 @@ class ServiceCustomers extends BaseController
     ];
 
     /**
+     * to get a page data
+     * @return bool
+     * @throws \EasySwoole\Component\Pool\Exception\PoolEmpty
+     * @throws \EasySwoole\Component\Pool\Exception\PoolException
+     * @throws \Throwable
+     */
+    public function list()
+    {
+        $page = ESTools::getPageParams($this->request());
+        $totalAndList = MysqlPool::invoke(function (MysqlObject $db) use ($page) {
+            return (new ServiceCustomersModel($db))->queryDataOfPagination($page, $this->generalFieldsName);
+        });
+        if ($totalAndList && isset($totalAndList['list']) && !empty($totalAndList['list'])) {
+            foreach ($totalAndList['list'] as &$v) {
+                $v['create_at'] = date('Y-m-d H:i:s', $v['create_at']);
+            }
+        }
+        unset($v);
+        $this->logisticCode = Logistic::L_OK;
+        $this->data = $totalAndList;
+        $this->message = Logistic::getMsg(Logistic::L_OK);
+        ESTools::writeJsonByResponse(
+            $this->response(),
+            $this->logisticCode,
+            $this->message,
+            $this->data
+        );
+        unset($esTools, $page, $whereParamsIdx, $where, $totalAndList);
+        return false;
+    }
+
+    /**
+     * to get a white ip
+     * @return bool
+     * @throws \EasySwoole\Component\Pool\Exception\PoolEmpty
+     * @throws \EasySwoole\Component\Pool\Exception\PoolException
+     * @throws \Throwable
+     */
+    public function get():bool
+    {
+        $paramsIdx = ['id'];
+        $params = ESTools::getArgFromRequest($this->request(), $paramsIdx);
+        $ipWhite = MysqlPool::invoke(function (MysqlObject $db) use ($params) {
+            return (new ServiceCustomersModel($db))->getOne($this->generalFieldsName, $params);
+        });
+        if ($ipWhite) {
+            $ipWhite['create_at'] = date('Y-m-d H:i:s', $ipWhite['create_at']);
+        }
+        $this->logisticCode = Logistic::L_OK;
+        $this->data = $ipWhite;
+        unset($paramsIdx, $params, $ipWhite);
+        $this->message = Logistic::getMsg(Logistic::L_OK);
+        ESTools::writeJsonByResponse(
+            $this->response(),
+            $this->logisticCode,
+            $this->message,
+            $this->data
+        );
+        return false;
+    }
+
+    /**
      * to save a service customer
      * @return bool
      */
@@ -38,7 +100,6 @@ class ServiceCustomers extends BaseController
         ];
         $data = ESTools::getArgFromRequest($this->request(), $paramsIdx, 'getBody');
         try {
-            var_dump($data);
             (new ServiceCustomersValidate())->check($data, $paramsIdx);
             $saveResult = MysqlPool::invoke(function (MysqlObject $db) use ($data) {
                 $db->startTransaction();
@@ -47,7 +108,7 @@ class ServiceCustomers extends BaseController
                 $whiteIp = [
                     'ip_addr' => $data['ip_addr'],
                     'is_enable' => 1,
-                    'comments' => 'belonged to '.$data['customer_name']
+                    'comments' => 'belonged to customer named '.$data['customer_name']
                 ];
                 $whiteIpResult = (new IpWhiteListModel($db))->createIpWhiteSingle($whiteIp);
                 if ($customerResult && $whiteIpResult) {
