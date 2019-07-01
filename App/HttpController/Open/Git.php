@@ -71,6 +71,7 @@ class Git extends BaseController
     private function verifyGiteeHeaders():void
     {
         $osHeaderArgs = $this->getGiteeHeaders();
+        var_dump($osHeaderArgs);
         if (!isset($osHeaderArgs['user-agent']) || !$osHeaderArgs['user-agent']) {
             throw new ESException('the user-agent is undefined or empty', Logistic::L_FAIL);
         }
@@ -80,19 +81,19 @@ class Git extends BaseController
         if (!isset($osHeaderArgs['x-gitee-event']) || !$osHeaderArgs['x-gitee-event']) {
             throw new ESException('the x-gitee-event is undefined or empty', Logistic::L_FAIL);
         }
-        if ($osHeaderArgs['user-agent'] !== 'git-oschina-hook') {
+        if ($osHeaderArgs['user-agent'][0] !== 'git-oschina-hook') {
             throw new ESException(
-                'the user-agent must be git-oschina-hook, not '.$osHeaderArgs['user-agent'],
+                'the user-agent must be git-oschina-hook, not '.$osHeaderArgs['user-agent'][0],
                 Logistic::L_FAIL);
         }
-        if ($osHeaderArgs['x-gitee-token'] !== 'cat-bug') {
+        if ($osHeaderArgs['x-gitee-token'][0] !== 'cat-bug') {
             throw new ESException(
-                'the x-gitee-token is wrong, not '.$osHeaderArgs['user-agent'],
+                'the x-gitee-token is wrong, not '.$osHeaderArgs['user-agent'][0],
                 Logistic::L_FAIL);
         }
-        if ($osHeaderArgs['x-gitee-event'] !== 'Push Hook') {
+        if ($osHeaderArgs['x-gitee-event'][0] !== 'Push Hook') {
             throw new ESException(
-                'the x-gitee-event must be Push Hook, not '.$osHeaderArgs['user-agent'],
+                'the x-gitee-event must be Push Hook, not '.$osHeaderArgs['user-agent'][0],
                 Logistic::L_FAIL);
         }
         return ;
