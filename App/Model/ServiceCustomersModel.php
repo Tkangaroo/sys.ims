@@ -29,6 +29,7 @@ class ServiceCustomersModel extends BaseModel
      */
     public function createServiceCustomerSingle(array $form):bool
     {
+        var_dump($form);
         $data = [
             'customer_name' => '',
             'customer_contact_phone' => '',
