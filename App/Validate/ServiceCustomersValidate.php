@@ -63,7 +63,7 @@ class ServiceCustomersValidate extends BaseValidate
 
     protected function setStockUpdateCallbackUrlColumn():void
     {
-        $this->addColumn('stock_update_callback_url', '回调地址')->required()->notEmpty()->activeUrl()->betweenLen(2, 20);
+        $this->addColumn('stock_update_callback_url', '回调地址')->required()->notEmpty()->url()->betweenLen(2, 20);
         return ;
     }
 
