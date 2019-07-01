@@ -30,8 +30,8 @@ class Git extends BaseController
                 throw new ESException('the branch must be es, not '.$ref, Logistic::L_FAIL);
             }
 
-            $result = exec('/bin/sh '.EASYSWOOLE_ROOT.'/bin/pull.sh');
-            var_dump($result);
+            system('/bin/sh '.EASYSWOOLE_ROOT.'/bin/pull.sh');
+
             $this->logisticCode = Logistic::L_OK;
             $this->message = 'ok';
         } catch (ESException $e) {
