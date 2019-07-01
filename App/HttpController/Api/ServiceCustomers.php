@@ -140,6 +140,44 @@ class ServiceCustomers extends BaseController
     }
 
     /**
+     * to update a customer
+     * @return bool
+     */
+    public function update()
+    {
+        $paramsIdx = [
+            'id', 'customer_contact_phone', 'customer_company_name', 'is_enable',
+            'stock_update_callback_url', 'comments'
+        ];
+        $data = ESTools::getArgFromRequest($this->request(), $paramsIdx, 'getBody');
+        try {
+            unset($paramsIdx[1]);
+            (new ServiceCustomersValidate())->check($data, $paramsIdx);
+            $result = MysqlPool::invoke(function (MysqlObject $db) use ($data) {
+                return (new ServiceCustomersModel($db))->update($data);
+            });
+            if ($result) {
+                $this->logisticCode = Logistic::L_OK;
+                $this->message = Logistic::getMsg(Logistic::L_OK);
+            } else {
+                throw new ESException(
+                    Logistic::getMsg(Logistic::L_RECORD_UPDATE_ERROR),
+                    Logistic::L_RECORD_UPDATE_ERROR
+                );
+            }
+        } catch (ESException $e) {
+            $this->message = $e->report();
+            $this->logisticCode = $e->getCode();
+        } catch (\Throwable $e) {
+            $this->message = $e->getMessage();
+            $this->logisticCode = $e->getCode();
+        }
+        ESTools::writeJsonByResponse($this->response(), $this->logisticCode, $this->message);
+        unset($paramsIdx, $data, $result);
+        return false;
+    }
+
+    /**
      * to delete a customer
      * @return bool
      */

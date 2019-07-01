@@ -80,4 +80,45 @@ class ServiceCustomersModel extends BaseModel
         } while (1);
         return $customerId;
     }
+
+    /**
+     * to update the customer
+     * @param array $customer
+     * @return bool
+     * @throws ESException
+     * @throws \Throwable
+     */
+    public function update(array $customer):bool
+    {
+        $where = [
+            'id' => $customer['id']
+        ];
+        $data = [
+            'customer_company_name' => $customer['customer_company_name'],
+            'is_enable' => $customer['is_enable'],
+            'stock_update_callback_url' => $customer['stock_update_callback_url'],
+            'comments' => $customer['comments']
+        ];
+        $oldCustomer = $this->getOne(['stock_update_callback_url'], $where);
+        if (!$oldCustomer) {
+            throw new ESException(
+                Logistic::getMsg(Logistic::L_RECORD_NOT_FOUND),
+                Logistic::L_RECORD_NOT_FOUND
+            );
+        } else {
+            if ($oldCustomer['stock_update_callback_url'] !== $data['stock_update_callback_url']) {
+                $uniqueFilterWhere = [
+                    'stock_update_callback_url' => [$data['stock_update_callback_url'], '=']
+                ];
+
+                if (ESTools::checkUniqueByAField($this->getDb(), $this->table, $uniqueFilterWhere)) {
+                    throw new ESException(Logistic::getMsg(Logistic::L_RECORD_NOT_UNIQUE), Logistic::L_RECORD_NOT_UNIQUE);
+                }
+            }
+        }
+
+        ESTools::quickParseArr2WhereMap($this->db, $where, true);
+        $data['update_at'] = time();
+        return $this->db->update($this->table, $data, 1);
+    }
 }
