@@ -48,7 +48,7 @@ class ServiceCustomersModel extends BaseModel
 
         $data['customer_id'] = $this->buildCustomerId();
         $data['customer_es_key'] = substr(MD5($data['customer_name']), rand(100,100000)%30, 2).$data['customer_id'];
-
+        var_dump($data);
         // 查重
         $uniqueFilterWhere = [
             'customer_name' => $data['customer_name']
