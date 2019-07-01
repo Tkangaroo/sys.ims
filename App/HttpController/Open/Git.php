@@ -22,7 +22,6 @@ class Git extends BaseController
         $osParams = ESTools::getArgFromRequest($this->request(), null, 'getBody');
         try {
             $this->verifyGiteeHeaders();
-
             $ref = array_pop(explode('/', $osParams['ref']));
             if ($osParams['repository']['full_name'] !== 'speauty/ims') {
                 throw new ESException('the repository must be speauty/ims, not '.$osParams['repository']['full_name'], Logistic::L_FAIL);
