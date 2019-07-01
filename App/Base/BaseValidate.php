@@ -54,6 +54,7 @@ class BaseValidate extends Validate
         if (!$flag = $this->validate($data)) {
             ESTools::throwValidateException($this);
         }
+        var_dump($flag);
         return $flag;
     }
 }
