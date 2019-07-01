@@ -24,7 +24,8 @@ class Git extends BaseController
             $this->verifyGiteeHeaders();
 
             $ref = array_pop(explode('/', $osParams['ref']));
-
+            var_dump($osParams['ref']);
+            var_dump($ref);
             if ($osParams['repository']['full_name'] !== 'speauty/ims') {
                 throw new ESException('the repository must be speauty/ims, not '.$osParams['repository']['full_name'], Logistic::L_FAIL);
             }
@@ -71,7 +72,6 @@ class Git extends BaseController
     private function verifyGiteeHeaders():void
     {
         $osHeaderArgs = $this->getGiteeHeaders();
-        var_dump($osHeaderArgs);
         if (!isset($osHeaderArgs['user-agent']) || !$osHeaderArgs['user-agent']) {
             throw new ESException('the user-agent is undefined or empty', Logistic::L_FAIL);
         }
