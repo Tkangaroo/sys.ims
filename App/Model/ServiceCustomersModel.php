@@ -51,7 +51,8 @@ class ServiceCustomersModel extends BaseModel
 
         // 查重
         $uniqueFilterWhere = [
-            'customer_name' => $data['customer_name']
+            'customer_name' => $data['customer_name'],
+            'stock_update_callback_url' => [$data['stock_update_callback_url'], '=', 'OR']
         ];
 
         if (ESTools::checkUniqueByAField($this->getDb(), $this->table, $uniqueFilterWhere)) {
