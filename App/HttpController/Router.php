@@ -71,7 +71,9 @@ class Router extends AbstractRouter
 
             ['GET', '/api/service_customers', '/Api/ServiceCustomers/list'],
             ['GET', '/api/service_customers/{id:\d+}', '/Api/ServiceCustomers/get'],
-            ['POST', '/api/service_customers', '/Api/ServiceCustomers/save']
+            ['POST', '/api/service_customers', '/Api/ServiceCustomers/save'],
+            ['PATCH', '/api/service_customers', '/Api/ServiceCustomers/update'],
+            ['DELETE', '/api/service_customers', '/Api/ServiceCustomers/delete'],
         ];
     }
 

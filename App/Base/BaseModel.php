@@ -9,6 +9,8 @@ namespace App\Base;
 
 use App\Utility\ESTools;
 use App\Utility\Pool\Mysql\MysqlObject;
+use Lib\Exception\ESException;
+use Lib\Logistic;
 
 /**
  * Class BaseModel
@@ -115,5 +117,26 @@ class BaseModel
         $setSoftDelete && $this->setSoftDeleteWhere();
         ESTools::quickParseArr2WhereMap($this->db, $where);
         return $this->db->getOne($this->table, is_null($fieldsName)?'*':implode(',',$fieldsName));
+    }
+
+    /**
+     * to delete a record
+     * @param array $where
+     * @return bool
+     * @throws ESException
+     * @throws \EasySwoole\Mysqli\Exceptions\ConnectFail
+     * @throws \EasySwoole\Mysqli\Exceptions\PrepareQueryFail
+     * @throws \Throwable
+     */
+    public function delete(array $where):bool
+    {
+        if (!ESTools::checkUniqueByAField($this->db, $this->table, $where)) {
+            throw new ESException(
+                Logistic::getMsg(Logistic::L_RECORD_NOT_FOUND),
+                Logistic::L_RECORD_NOT_FOUND
+            );
+        }
+
+        return $this->db->where($where)->delete($this->table, 1);
     }
 }

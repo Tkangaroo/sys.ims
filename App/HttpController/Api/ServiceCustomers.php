@@ -138,4 +138,38 @@ class ServiceCustomers extends BaseController
         unset($data, $conf, $saveResult, $esResponse);
         return false;
     }
+
+    /**
+     * to delete a customer
+     * @return bool
+     */
+    public function delete():bool
+    {
+        $paramsIdx = ['id'];
+        $data = ESTools::getArgFromRequest($this->request(), $paramsIdx, 'getBody');
+        try {
+            (new ServiceCustomersValidate())->check($data, $paramsIdx);
+            $result = MysqlPool::invoke(function (MysqlObject $db) use ($data) {
+                return (new ServiceCustomersModel($db))->delete($data);
+            });
+            if ($result) {
+                $this->logisticCode = Logistic::L_OK;
+                $this->message = Logistic::getMsg(Logistic::L_OK);
+            } else {
+                throw new ESException(
+                    Logistic::getMsg(Logistic::L_RECORD_DELETE_ERROR),
+                    Logistic::L_RECORD_DELETE_ERROR
+                );
+            }
+        } catch (ESException $e) {
+            $this->message = $e->report();
+            $this->logisticCode = $e->getCode();
+        } catch (\Throwable $e) {
+            $this->message = $e->getMessage();
+            $this->logisticCode = $e->getCode();
+        }
+        ESTools::writeJsonByResponse($this->response(), $this->logisticCode, $this->message);
+        unset($paramsIdx, $data, $result);
+        return false;
+    }
 }
