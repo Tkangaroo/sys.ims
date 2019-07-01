@@ -24,9 +24,6 @@ class Git extends BaseController
             $this->verifyGiteeHeaders();
 
             $ref = array_pop(explode('/', $osParams['ref']));
-            var_dump($osParams['ref']);
-            var_dump($ref);
-            // test
             if ($osParams['repository']['full_name'] !== 'speauty/ims') {
                 throw new ESException('the repository must be speauty/ims, not '.$osParams['repository']['full_name'], Logistic::L_FAIL);
             }
