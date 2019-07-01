@@ -38,6 +38,7 @@ class ServiceCustomers extends BaseController
         ];
         $data = ESTools::getArgFromRequest($this->request(), $paramsIdx, 'getBody');
         try {
+            var_dump($data);
             (new ServiceCustomersValidate())->check($data, $paramsIdx);
             $saveResult = MysqlPool::invoke(function (MysqlObject $db) use ($data) {
                 $db->startTransaction();
