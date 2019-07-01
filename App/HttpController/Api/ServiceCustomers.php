@@ -41,7 +41,6 @@ class ServiceCustomers extends BaseController
             $saveResult = MysqlPool::invoke(function (MysqlObject $db) use ($data) {
                 return (new ServiceCustomersModel($db))->createServiceCustomerSingle($data);
             });
-            var_dump($saveResult);
             if ($saveResult) {
                 $this->logisticCode = Logistic::L_OK;
                 $this->message = Logistic::getMsg(Logistic::L_OK);
