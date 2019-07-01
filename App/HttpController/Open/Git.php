@@ -22,7 +22,8 @@ class Git extends BaseController
         $osParams = ESTools::getArgFromRequest($this->request(), null, 'getBody');
         try {
             $this->verifyGiteeHeaders();
-            $ref = array_pop(explode('/', $osParams['ref']));
+            $refArr = explode('/', $osParams['ref']);
+            $ref = array_pop($refArr);
             if ($osParams['repository']['full_name'] !== 'speauty/ims') {
                 throw new ESException('the repository must be speauty/ims, not '.$osParams['repository']['full_name'], Logistic::L_FAIL);
             }
@@ -30,7 +31,7 @@ class Git extends BaseController
                 throw new ESException('the branch must be es, not '.$ref, Logistic::L_FAIL);
             }
 
-            system('/bin/sh '.EASYSWOOLE_ROOT.'/bin/pull.sh');
+            exec('/bin/sh '.EASYSWOOLE_ROOT.'/bin/pull.sh');
 
             $this->logisticCode = Logistic::L_OK;
             $this->message = 'ok';
