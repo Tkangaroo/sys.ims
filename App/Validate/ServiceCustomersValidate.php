@@ -55,6 +55,12 @@ class ServiceCustomersValidate extends BaseValidate
         return ;
     }
 
+    protected function setIpAddrColumn():void
+    {
+        $this->addColumn('ip_addr','IP地址')->required()->notEmpty()->isIp();
+        return ;
+    }
+
     protected function setStockUpdateCallbackUrlColumn():void
     {
         $this->addColumn('stock_update_callback_url', '回调地址')->required()->notEmpty()->activeUrl()->betweenLen(2, 20);

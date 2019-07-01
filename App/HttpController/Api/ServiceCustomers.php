@@ -8,6 +8,7 @@
 
 namespace App\HttpController\Api;
 use App\Base\BaseController;
+use App\Model\IpWhiteListModel;
 use App\Model\ServiceCustomersModel;
 use App\Utility\ESTools;
 use App\Utility\Pool\Mysql\MysqlObject;
@@ -33,13 +34,27 @@ class ServiceCustomers extends BaseController
     {
         $paramsIdx = [
             'customer_name', 'customer_contact_phone', 'customer_company_name',
-            'is_enable', 'stock_update_callback_url', 'comments'
+            'is_enable', 'ip_addr', 'stock_update_callback_url', 'comments'
         ];
         $data = ESTools::getArgFromRequest($this->request(), $paramsIdx, 'getBody');
         try {
             (new ServiceCustomersValidate())->check($data, $paramsIdx);
             $saveResult = MysqlPool::invoke(function (MysqlObject $db) use ($data) {
-                return (new ServiceCustomersModel($db))->createServiceCustomerSingle($data);
+                $db->startTransaction();
+                $customerResult = (new ServiceCustomersModel($db))->createServiceCustomerSingle($data);
+
+                $whiteIp = [
+                    'ip_addr' => $data['ip_addr'],
+                    'is_enable' => 1,
+                    'comments' => 'belonged to '.$data['customer_name']
+                ];
+                $whiteIpResult = (new IpWhiteListModel($db))->createIpWhiteSingle($whiteIp);
+                if ($customerResult && $whiteIpResult) {
+                    $db->commit();
+                } else {
+                    $db->rollback();
+                }
+                return $customerResult && $whiteIpResult;
             });
             if ($saveResult) {
                 $this->logisticCode = Logistic::L_OK;
