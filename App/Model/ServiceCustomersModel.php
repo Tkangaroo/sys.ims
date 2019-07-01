@@ -29,7 +29,6 @@ class ServiceCustomersModel extends BaseModel
      */
     public function createServiceCustomerSingle(array $form):bool
     {
-        var_dump($form);
         $data = [
             'customer_name' => '',
             'customer_contact_phone' => '',
@@ -47,9 +46,12 @@ class ServiceCustomersModel extends BaseModel
             if (isset($form[$k])) $v = $form[$k];
         }
 
-        $data['customer_id'] = $this->buildCustomerId();
-        $data['customer_es_key'] = substr(MD5($data['customer_name']), rand(100,100000)%30, 2).$data['customer_id'];
+        echo 4;
 
+        $data['customer_id'] = $this->buildCustomerId();
+        echo 2;
+        $data['customer_es_key'] = substr(MD5($data['customer_name']), rand(100,100000)%30, 2).$data['customer_id'];
+        echo 6;
         var_dump($data);
 
         // 查重
