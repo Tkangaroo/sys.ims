@@ -36,7 +36,6 @@ class ServiceCustomers extends BaseController
             'is_enable', 'stock_update_callback_url', 'comments'
         ];
         $data = ESTools::getArgFromRequest($this->request(), $paramsIdx, 'getBody');
-        var_dump($data);
         try {
             (new ServiceCustomersValidate())->check($data, $paramsIdx);
             $saveResult = MysqlPool::invoke(function (MysqlObject $db) use ($data) {
