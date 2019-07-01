@@ -136,7 +136,7 @@ class BaseModel
                 Logistic::L_RECORD_NOT_FOUND
             );
         }
-
-        return $this->db->where($where)->delete($this->table, 1);
+        ESTools::quickParseArr2WhereMap($this->db, $where);
+        return $this->db->delete($this->table, 1);
     }
 }
