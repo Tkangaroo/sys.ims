@@ -32,7 +32,6 @@ class Git extends BaseController
             }
 
             exec('/bin/sh '.EASYSWOOLE_ROOT.'/bin/pull.sh');
-
             $this->logisticCode = Logistic::L_OK;
             $this->message = 'ok';
         } catch (ESException $e) {
