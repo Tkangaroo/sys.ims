@@ -50,6 +50,7 @@ class BaseValidate extends Validate
      */
     public function check(array $data, array $columnNames2Check):bool
     {
+        var_dump($data);
         $this->setColumn($columnNames2Check);
         if (!$flag = $this->validate($data)) {
             ESTools::throwValidateException($this);
