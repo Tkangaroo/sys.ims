@@ -59,6 +59,7 @@ class ServiceCustomersModel extends BaseModel
             throw new ESException(Logistic::getMsg(Logistic::L_RECORD_NOT_UNIQUE), Logistic::L_RECORD_NOT_UNIQUE);
         }
         unset($k, $v,$form, $uniqueFilterWhere);
+        var_dump($data);
         return $this->getDb()->insert($this->table, $data);
     }
 
