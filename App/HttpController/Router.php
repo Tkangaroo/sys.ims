@@ -68,6 +68,8 @@ class Router extends AbstractRouter
             ['POST', '/api/ip_white', '/Api/IpWhiteList/save'],
             ['PATCH', '/api/ip_white', '/Api/IpWhiteList/update'],
             ['DELETE', '/api/ip_white', '/Api/IpWhiteList/delete'],
+
+            ['POST', '/api/service_customers', '/Api/ServiceCustomers/save']
         ];
     }
 
