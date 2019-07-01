@@ -46,13 +46,8 @@ class ServiceCustomersModel extends BaseModel
             if (isset($form[$k])) $v = $form[$k];
         }
 
-        echo 4;
-
         $data['customer_id'] = $this->buildCustomerId();
-        echo 2;
         $data['customer_es_key'] = substr(MD5($data['customer_name']), rand(100,100000)%30, 2).$data['customer_id'];
-        echo 6;
-        var_dump($data);
 
         // 查重
         $uniqueFilterWhere = [
@@ -78,12 +73,10 @@ class ServiceCustomersModel extends BaseModel
         $seed = '1234567890';
         do {
             $customerId = 'ES'.ESTools::buildRandomStr(4, $seed);
-            echo 45;
-            if (ESTools::checkUniqueByAField($this->getDb(), $this->table, ['customer_id' => $customerId])) {
+            if (!ESTools::checkUniqueByAField($this->getDb(), $this->table, ['customer_id' => $customerId])) {
                 break;
             }
         } while (1);
-        var_dump($customerId);
         return $customerId;
     }
 }
