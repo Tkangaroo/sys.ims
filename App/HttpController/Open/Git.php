@@ -12,16 +12,30 @@ namespace App\HttpController\Open;
 use App\Base\BaseController;
 use App\Utility\ESTools;
 use Lib\Exception\ESException;
+use Lib\Logistic;
 
 class Git extends BaseController
 {
     public function pull()
     {
 
-        $osHeaderArgs = $this->getGiteeHeaders();
         $osParams = ESTools::getArgFromRequest($this->request(), null, 'getBody');
         try {
+            $this->verifyGiteeHeaders();
 
+            $ref = array_pop(explode('/', $osParams['ref']));
+
+            if ($osParams['repository']['full_name'] !== 'speauty/ims') {
+                throw new ESException('the repository must be speauty/ims, not '.$osParams['repository']['full_name'], Logistic::L_FAIL);
+            }
+            if ($ref !== 'es') {
+                throw new ESException('the branch must be es, not '.$ref, Logistic::L_FAIL);
+            }
+
+            $result = exec('/bin/sh '.EASYSWOOLE_ROOT.'/bin/pull.sh');
+            var_dump($result);
+            $this->logisticCode = Logistic::L_OK;
+            $this->message = 'ok';
         } catch (ESException $e) {
             $this->message = $e->report();
             $this->logisticCode = $e->getCode();
@@ -50,9 +64,37 @@ class Git extends BaseController
         return $osHeaderArgs;
     }
 
+    /**
+     * to verify the request headers
+     * @throws ESException
+     */
     private function verifyGiteeHeaders():void
     {
-
-        return
+        $osHeaderArgs = $this->getGiteeHeaders();
+        if (!isset($osHeaderArgs['user-agent']) || !$osHeaderArgs['user-agent']) {
+            throw new ESException('the user-agent is undefined or empty', Logistic::L_FAIL);
+        }
+        if (!isset($osHeaderArgs['x-gitee-token']) || !$osHeaderArgs['x-gitee-token']) {
+            throw new ESException('the x-gitee-token is undefined or empty', Logistic::L_FAIL);
+        }
+        if (!isset($osHeaderArgs['x-gitee-event']) || !$osHeaderArgs['x-gitee-event']) {
+            throw new ESException('the x-gitee-event is undefined or empty', Logistic::L_FAIL);
+        }
+        if ($osHeaderArgs['user-agent'] !== 'git-oschina-hook') {
+            throw new ESException(
+                'the user-agent must be git-oschina-hook, not '.$osHeaderArgs['user-agent'],
+                Logistic::L_FAIL);
+        }
+        if ($osHeaderArgs['x-gitee-token'] !== 'cat-bug') {
+            throw new ESException(
+                'the x-gitee-token is wrong, not '.$osHeaderArgs['user-agent'],
+                Logistic::L_FAIL);
+        }
+        if ($osHeaderArgs['x-gitee-event'] !== 'Push Hook') {
+            throw new ESException(
+                'the x-gitee-event must be Push Hook, not '.$osHeaderArgs['user-agent'],
+                Logistic::L_FAIL);
+        }
+        return ;
     }
 }
