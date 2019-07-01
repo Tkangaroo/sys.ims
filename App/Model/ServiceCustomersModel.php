@@ -93,12 +93,7 @@ class ServiceCustomersModel extends BaseModel
         $where = [
             'id' => $customer['id']
         ];
-        $data = [
-            'customer_company_name' => $customer['customer_company_name'],
-            'is_enable' => $customer['is_enable'],
-            'stock_update_callback_url' => $customer['stock_update_callback_url'],
-            'comments' => $customer['comments']
-        ];
+        unset($customer['id']);
         $oldCustomer = $this->getOne(['stock_update_callback_url'], $where);
         if (!$oldCustomer) {
             throw new ESException(
