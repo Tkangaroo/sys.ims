@@ -178,7 +178,7 @@ class SystemManagers extends BaseController
         try {
             (new SystemManagersValidate())->check($data, $paramsIdx);
             $result = MysqlPool::invoke(function (MysqlObject $db) use ($data) {
-                return (new SystemManagersModel($db))->deleteManager($data);
+                return (new SystemManagersModel($db))->delete($data);
             });
             if ($result) {
                 $this->logisticCode = Logistic::L_OK;

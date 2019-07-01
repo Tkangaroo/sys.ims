@@ -161,7 +161,7 @@ class IpWhiteList extends BaseController
         try {
             (new IpWhiteValidate())->check($data, $paramsIdx);
             $result = MysqlPool::invoke(function (MysqlObject $db) use ($data) {
-                return (new IpWhiteListModel($db))->deleteIpWhite($data);
+                return (new IpWhiteListModel($db))->delete($data);
             });
             if ($result) {
                 $this->logisticCode = Logistic::L_OK;

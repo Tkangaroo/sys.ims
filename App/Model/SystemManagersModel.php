@@ -95,27 +95,6 @@ class SystemManagersModel extends BaseModel
     }
 
     /**
-     * to delete a manager by the id
-     * @param array $manager
-     * @return bool
-     * @throws ESException
-     * @throws \EasySwoole\Mysqli\Exceptions\ConnectFail
-     * @throws \EasySwoole\Mysqli\Exceptions\PrepareQueryFail
-     * @throws \Throwable
-     */
-    public function deleteManager(array $manager):bool
-    {
-        if (!ESTools::checkUniqueByAField($this->db, $this->table, $manager)) {
-            throw new ESException(
-                Logistic::getMsg(Logistic::L_RECORD_NOT_FOUND),
-                Logistic::L_RECORD_NOT_FOUND
-            );
-        }
-
-        return $this->db->where('id', $manager['id'])->delete($this->table, 1);
-    }
-
-    /**
      * to login
      * @param array $login
      * @return string|null
