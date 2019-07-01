@@ -78,6 +78,7 @@ class ServiceCustomersModel extends BaseModel
         $seed = '1234567890';
         do {
             $customerId = 'ES'.ESTools::buildRandomStr(4, $seed);
+            echo 45;
             if (ESTools::checkUniqueByAField($this->getDb(), $this->table, ['customer_id' => $customerId])) {
                 break;
             }
