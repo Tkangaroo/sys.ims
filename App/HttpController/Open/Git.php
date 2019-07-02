@@ -10,7 +10,9 @@ namespace App\HttpController\Open;
 
 
 use App\Base\BaseController;
+use App\Task\ESReStartTask;
 use App\Utility\ESTools;
+use EasySwoole\EasySwoole\Swoole\Task\TaskManager;
 use Lib\Exception\ESException;
 use Lib\Logistic;
 
@@ -32,6 +34,8 @@ class Git extends BaseController
             }
 
             exec('/bin/sh '.EASYSWOOLE_ROOT.'/bin/pull.sh');
+            $esReStartTask = new ESReStartTask();
+            TaskManager::async($esReStartTask);
             $this->logisticCode = Logistic::L_OK;
             $this->message = 'ok';
         } catch (ESException $e) {
