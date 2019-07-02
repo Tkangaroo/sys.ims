@@ -44,8 +44,6 @@ class EasySwooleEvent implements Event
 
         /* redis service register */
         PoolManager::getInstance()->register(RedisPool::class);
-
-        echo 456;
     }
 
     /**
