@@ -58,6 +58,9 @@ class EasySwooleEvent implements Event
                 PoolManager::getInstance()->getPool(MysqlPool::class)->preLoad(5);//最小创建数量
             }
         });
+
+        $swooleServer = ServerManager::getInstance()->getSwooleServer();
+        $swooleServer->addProcess((new HotReload('HotReload', ['disableInotify' => false]))->getProcess());
         // TODO: Implement mainServerCreate() method.
     }
 
