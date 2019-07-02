@@ -18,12 +18,14 @@ class AfterSystemManagerLoginTask extends AbstractAsyncTask
      * @param int   $taskId       执行任务的task编号
      * @param int   $fromWorkerId 派发任务的worker进程号
      * @param mixed   $flags        to
+     * @return bool
      */
     function run($taskData, $taskId, $fromWorkerId, $flags = null)
     {
         var_dump($taskData);
         var_dump($taskId);
         var_dump($fromWorkerId);
+        return true;
     }
 
     /**
