@@ -8,6 +8,7 @@
 
 namespace App\Model;
 use App\Base\BaseModel;
+use App\Task\AfterSystemManagerLoginTask;
 use App\Utility\ESTools;
 use App\Utility\Pool\Redis\RedisObject;
 use App\Utility\Pool\Redis\RedisPool;
@@ -126,20 +127,12 @@ class SystemManagersModel extends BaseModel
 
         $managerId = $manager['id'];
         $ip = $login['current_ip'];
+        $taskClass = new AfterSystemManagerLoginTask($manager);
+        TaskManager::async($taskClass);
 
-        TaskManager::async(function () use ($managerId, $signName, $ip, $salt) {
-            var_dump($managerId);
-            var_dump($signName);
-        }, function () {
-            var_dump('async callback');
-        });
 
-        /*TaskManager::async(function () use ($managerId, $signName, $ip, $salt) {
-            $this->setLoginLog($signName, $managerId);
-            $this->afterLogin($managerId, $ip, $salt);
-        }, function () {
-            var_dump('error');
-        });*/
+//        $this->setLoginLog($signName, $managerId);
+//        $this->afterLogin($managerId, $ip, $salt);
 
         return $signName;
     }
