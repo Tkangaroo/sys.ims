@@ -85,6 +85,7 @@ class EasySwooleEvent implements Event
                 $origin = $headers['origin'][0];
             }
             if (!$origin) {
+                var_dump($clientIp);
                 $origin = 'http://'.ip2long($clientIp);
             }
         } else {
