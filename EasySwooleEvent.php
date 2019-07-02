@@ -78,12 +78,20 @@ class EasySwooleEvent implements Event
         $whiteIp = MysqlPool::invoke(function (MysqlObject $db) use ($clientIp) {
             return (new IpWhiteListModel($db))->queryByIpAddr($clientIp);
         });
+        $headers = $request->getHeaders();
+        $origin = '';
         if ($whiteIp && $whiteIp['is_enable']) {
-            $response->withHeader('Access-Control-Allow-Origin', 'http://'.long2ip($clientIp));
+            if (isset($headers['origin']) && isset($headers['origin'][0])) {
+                $origin = $headers['origin'][0];
+            }
+            if (!$origin) {
+                $origin = 'http://'.ip2long($clientIp);
+            }
         } else {
-            $response->withHeader('Access-Control-Allow-Origin', 'null');
+            $origin = 'null';
         }
-        unset($clientIp, $whiteIp);
+        $response->withHeader('Access-Control-Allow-Origin', $origin);
+        unset($clientIp, $whiteIp, $headers, $origin);
         $response->withHeader('Access-Control-Allow-Methods', 'GET, DELETE, PATCH, POST, OPTIONS');
         $response->withHeader('Access-Control-Allow-Credentials', 'true');
         $response->withHeader('Access-Control-Allow-Headers', 'Content-Type, Es-Token, X-Requested-With');
