@@ -23,7 +23,7 @@ class ESReStartTask extends AbstractAsyncTask
     function run($taskData, $taskId, $fromWorkerId, $flags = null)
     {
         sleep(3);
-        exec('cd /www/wwwroot/ims.billeslook.com && php easyswoole stop && php easyswoole start');
+        exec('cd /www/wwwroot/ims.billeslook.com && php easyswoole stop && php easyswoole start --d');
         return true;
     }
 
