@@ -101,9 +101,9 @@ class ServiceCustomersModel extends BaseModel
                 Logistic::L_RECORD_NOT_FOUND
             );
         } else {
-            if ($oldCustomer['stock_update_callback_url'] !== $data['stock_update_callback_url']) {
+            if ($oldCustomer['stock_update_callback_url'] !== $customer['stock_update_callback_url']) {
                 $uniqueFilterWhere = [
-                    'stock_update_callback_url' => [$data['stock_update_callback_url'], '=']
+                    'stock_update_callback_url' => $customer['stock_update_callback_url']
                 ];
 
                 if (ESTools::checkUniqueByAField($this->getDb(), $this->table, $uniqueFilterWhere)) {
@@ -113,7 +113,7 @@ class ServiceCustomersModel extends BaseModel
         }
 
         ESTools::quickParseArr2WhereMap($this->db, $where, true);
-        $data['update_at'] = time();
-        return $this->db->update($this->table, $data, 1);
+        $customer['update_at'] = time();
+        return $this->db->update($this->table, $customer, 1);
     }
 }
