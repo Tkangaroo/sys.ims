@@ -9,6 +9,7 @@
 namespace EasySwoole\EasySwoole;
 
 use App\Model\IpWhiteListModel;
+use App\Process\HotReload;
 use App\Utility\ESTools;
 use App\Utility\Pool\Mysql\MysqlObject;
 use App\Utility\Pool\Mysql\MysqlPool;
