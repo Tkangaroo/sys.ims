@@ -75,13 +75,14 @@ class EasySwooleEvent implements Event
         // TODO: Implement onRequest() method.
         // to check the client ip in white list
         $clientIp = ESTools::getClientIp($request);
+        var_dump($request->getHeaders());
         $whiteIp = MysqlPool::invoke(function (MysqlObject $db) use ($clientIp) {
             return (new IpWhiteListModel($db))->queryByIpAddr($clientIp);
         });
         if ($whiteIp && $whiteIp['is_enable']) {
             $response->withHeader('Access-Control-Allow-Origin', long2ip($clientIp));
         } else {
-            return false;
+            $response->withHeader('Access-Control-Allow-Origin', 'null');
         }
         unset($clientIp, $whiteIp);
         $response->withHeader('Access-Control-Allow-Methods', 'GET, DELETE, PATCH, POST, OPTIONS');
