@@ -40,6 +40,6 @@ class AfterSystemManagerLoginTask extends AbstractAsyncTask
      */
     function finish($result, $task_id)
     {
-        var_dump('the task '.$task_id.' finished!');
+        // nothing to do
     }
 }
