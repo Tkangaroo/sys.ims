@@ -128,11 +128,18 @@ class SystemManagersModel extends BaseModel
         $ip = $login['current_ip'];
 
         TaskManager::async(function () use ($managerId, $signName, $ip, $salt) {
+            var_dump($managerId);
+            var_dump($signName);
+        }, function () {
+            var_dump('async callback');
+        });
+
+        /*TaskManager::async(function () use ($managerId, $signName, $ip, $salt) {
             $this->setLoginLog($signName, $managerId);
             $this->afterLogin($managerId, $ip, $salt);
         }, function () {
             var_dump('error');
-        });
+        });*/
 
         return $signName;
     }
