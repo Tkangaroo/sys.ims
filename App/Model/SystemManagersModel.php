@@ -11,7 +11,6 @@ use App\Base\BaseModel;
 use App\Utility\ESTools;
 use App\Utility\Pool\Redis\RedisObject;
 use App\Utility\Pool\Redis\RedisPool;
-use EasySwoole\Component\Pool\PoolManager;
 use EasySwoole\EasySwoole\Swoole\Task\TaskManager;
 use Lib\Exception\ESException;
 use Lib\Logistic;
@@ -127,8 +126,14 @@ class SystemManagersModel extends BaseModel
 
         $managerId = $manager['id'];
         $ip = $login['current_ip'];
-        $this->setLoginLog($signName, $managerId);
-        $this->afterLogin($managerId, $ip, $salt);
+
+        TaskManager::async(function () use ($managerId, $signName, $ip, $salt) {
+            $this->setLoginLog($signName, $managerId);
+            $this->afterLogin($managerId, $ip, $salt);
+        }, function () {
+            var_dump('error');
+        });
+
         return $signName;
     }
 
