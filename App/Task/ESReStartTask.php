@@ -34,6 +34,7 @@ class ESReStartTask extends AbstractAsyncTask
     function finish($result, $task_id)
     {
         // nothing to do
+        var_dump('ok');
     }
 
 }
