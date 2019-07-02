@@ -79,7 +79,7 @@ class EasySwooleEvent implements Event
             return (new IpWhiteListModel($db))->queryByIpAddr($clientIp);
         });
         if ($whiteIp && $whiteIp['is_enable']) {
-            $response->withHeader('Access-Control-Allow-Origin', 'http://'.$clientIp);
+            $response->withHeader('Access-Control-Allow-Origin', 'http://'.long2ip($clientIp));
         } else {
             $response->withHeader('Access-Control-Allow-Origin', 'null');
         }
