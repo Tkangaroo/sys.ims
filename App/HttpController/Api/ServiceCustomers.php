@@ -10,10 +10,12 @@ namespace App\HttpController\Api;
 use App\Base\BaseController;
 use App\Model\IpWhiteListModel;
 use App\Model\ServiceCustomersModel;
+use App\Task\AfterServiceCustomerSaveTask;
 use App\Utility\ESTools;
 use App\Utility\Pool\Mysql\MysqlObject;
 use App\Utility\Pool\Mysql\MysqlPool;
 use App\Validate\ServiceCustomersValidate;
+use EasySwoole\EasySwoole\Swoole\Task\TaskManager;
 use Lib\Exception\ESException;
 use Lib\Logistic;
 
@@ -102,25 +104,20 @@ class ServiceCustomers extends BaseController
         try {
             (new ServiceCustomersValidate())->check($data, $paramsIdx);
             $saveResult = MysqlPool::invoke(function (MysqlObject $db) use ($data) {
-                $db->startTransaction();
-                $customerResult = (new ServiceCustomersModel($db))->createServiceCustomerSingle($data);
-
-                $whiteIp = [
-                    'ip_addr' => $data['ip_addr'],
-                    'is_enable' => 1,
-                    'comments' => 'belonged to customer named '.$data['customer_name']
-                ];
-                $whiteIpResult = (new IpWhiteListModel($db))->createIpWhiteSingle($whiteIp);
-                if ($customerResult && $whiteIpResult) {
-                    $db->commit();
-                } else {
-                    $db->rollback();
-                }
-                return $customerResult && $whiteIpResult;
+                return (new ServiceCustomersModel($db))->createServiceCustomerSingle($data);
             });
+            $whiteIp = [
+                'ip_addr' => $data['ip_addr'],
+                'is_enable' => 1,
+                'comments' => 'belonged to customer named '.$data['customer_name']
+            ];
             if ($saveResult) {
                 $this->logisticCode = Logistic::L_OK;
                 $this->message = Logistic::getMsg(Logistic::L_OK);
+
+                $afterServiceCustomerSaveTask = new AfterServiceCustomerSaveTask($whiteIp);
+                TaskManager::async($afterServiceCustomerSaveTask);
+                unset($whiteIp, $afterServiceCustomerSaveTask);
             } else {
                 throw new ESException(
                     Logistic::getMsg(Logistic::L_RECORD_SAVE_ERROR),
@@ -135,7 +132,7 @@ class ServiceCustomers extends BaseController
             $this->logisticCode = $e->getCode();
         }
         ESTools::writeJsonByResponse($this->response(), $this->logisticCode, $this->message);
-        unset($data, $conf, $saveResult, $esResponse);
+        unset($paramsIdx, $data, $conf, $saveResult, $esResponse);
         return false;
     }
 

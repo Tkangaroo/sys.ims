@@ -3,17 +3,17 @@
  * Created by PhpStorm.
  * User: speauty
  * Date: 2019/7/2
- * Time: 16:09
+ * Time: 16:28
  */
 
 namespace App\Task;
-use App\Model\SystemManagersModel;
+use App\Model\IpWhiteListModel;
 use App\Utility\Pool\Mysql\MysqlObject;
 use App\Utility\Pool\Mysql\MysqlPool;
 use EasySwoole\EasySwoole\Swoole\Task\AbstractAsyncTask;
 
 
-class AfterSystemManagerLoginTask extends AbstractAsyncTask
+class AfterServiceCustomerSaveTask extends AbstractAsyncTask
 {
     /**
      * @param $taskData
@@ -28,8 +28,7 @@ class AfterSystemManagerLoginTask extends AbstractAsyncTask
     function run($taskData, $taskId, $fromWorkerId, $flags = null)
     {
         MysqlPool::invoke(function (MysqlObject $db) use ($taskData) {
-            (new SystemManagersModel($db))->setLoginLog($taskData['signName'], $taskData['managerId']);
-            (new SystemManagersModel($db))->afterLogin($taskData['managerId'], $taskData['ip'],$taskData['salt']);
+            (new IpWhiteListModel($db))->createIpWhiteSingle($taskData, true);
         });
         return true;
     }

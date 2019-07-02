@@ -21,13 +21,14 @@ class IpWhiteListModel extends BaseModel
     /**
      * to save a ip into the white list
      * @param array $form
+     * @param bool $report
      * @return bool
      * @throws ESException
      * @throws \EasySwoole\Mysqli\Exceptions\ConnectFail
      * @throws \EasySwoole\Mysqli\Exceptions\PrepareQueryFail
      * @throws \Throwable
      */
-    public function createIpWhiteSingle(array $form):bool
+    public function createIpWhiteSingle(array $form, $report = true):bool
     {
         $data = [
             'ip_addr' => 0,
@@ -47,7 +48,11 @@ class IpWhiteListModel extends BaseModel
         ];
 
         if (ESTools::checkUniqueByAField($this->getDb(), $this->table, $uniqueFilterWhere)) {
-            throw new ESException(Logistic::getMsg(Logistic::L_RECORD_NOT_UNIQUE), Logistic::L_RECORD_NOT_UNIQUE);
+            if ($report) {
+                throw new ESException(Logistic::getMsg(Logistic::L_RECORD_NOT_UNIQUE), Logistic::L_RECORD_NOT_UNIQUE);
+            } else {
+                return false;
+            }
         }
         unset($k, $v,$form, $uniqueFilterWhere);
         return $this->getDb()->insert($this->table, $data);
