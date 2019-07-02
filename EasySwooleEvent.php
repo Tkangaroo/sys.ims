@@ -8,6 +8,9 @@
 
 namespace EasySwoole\EasySwoole;
 
+use App\Model\IpWhiteListModel;
+use App\Utility\ESTools;
+use App\Utility\Pool\Mysql\MysqlObject;
 use App\Utility\Pool\Mysql\MysqlPool;
 use App\Utility\Pool\Redis\RedisPool;
 use EasySwoole\Component\Pool\PoolManager;
@@ -58,10 +61,29 @@ class EasySwooleEvent implements Event
         // TODO: Implement mainServerCreate() method.
     }
 
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return bool
+     * @throws \EasySwoole\Component\Pool\Exception\PoolEmpty
+     * @throws \EasySwoole\Component\Pool\Exception\PoolException
+     * @throws \Throwable
+     */
     public static function onRequest(Request $request, Response $response): bool
     {
         // TODO: Implement onRequest() method.
-        $response->withHeader('Access-Control-Allow-Origin', '*');
+        // to check the client ip in white list
+        $clientIp = ESTools::getClientIp($request);
+        $whiteIp = MysqlPool::invoke(function (MysqlObject $db) use ($clientIp) {
+            return (new IpWhiteListModel($db))->queryByIpAddr($clientIp);
+        });
+        if ($whiteIp && !$whiteIp['is_enable']) {
+            $response->withHeader('Access-Control-Allow-Origin', long2ip($clientIp));
+        } else {
+            return false;
+        }
+        unset($clientIp, $whiteIp);
         $response->withHeader('Access-Control-Allow-Methods', 'GET, DELETE, PATCH, POST, OPTIONS');
         $response->withHeader('Access-Control-Allow-Credentials', 'true');
         $response->withHeader('Access-Control-Allow-Headers', 'Content-Type, Es-Token, X-Requested-With');

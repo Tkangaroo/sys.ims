@@ -19,7 +19,7 @@ class IpWhiteListModel extends BaseModel
     protected $table = 't_ip_white_list';
 
     /**
-     * 创建IP白名单记录
+     * to save a ip into the white list
      * @param array $form
      * @return bool
      * @throws ESException

@@ -38,8 +38,6 @@ class BaseController Extends Controller
     {
         if (parent::onRequest($action)) {
             try {
-                // all need to check white list
-                $this->checkClientIpHasAccessAuthority();
                 // to parse uri
                 $target = ESTools::parseRequestTarget($this->request());
                 if ($target['module'] === 'Api') {
@@ -114,14 +112,16 @@ class BaseController Extends Controller
      */
     protected function checkClientIpHasAccessAuthority():void
     {
-        $whiteIp = MysqlPool::invoke(function (MysqlObject $db) {
-            return (new IpWhiteListModel($db))->queryByIpAddr(ESTools::getClientIp($this->request()));
+        $clientIp = ESTools::getClientIp($this->request());
+        $whiteIp = MysqlPool::invoke(function (MysqlObject $db) use ($clientIp) {
+            return (new IpWhiteListModel($db))->queryByIpAddr($clientIp);
         });
         if (is_null($whiteIp))
             throw new ESException(Logistic::getMsg(Logistic::L_IP_NOT_REGISTER), Logistic::L_IP_NOT_REGISTER);
 
         if (!$whiteIp['is_enable'])
             throw new ESException(Logistic::getMsg(Logistic::L_IP_DISABLE), Logistic::L_IP_DISABLE);
+        $this->response()->withHeader('Access-Control-Allow-Origin', long2ip($clientIp));
         return ;
 
     }
