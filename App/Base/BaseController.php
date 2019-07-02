@@ -36,7 +36,6 @@ class BaseController Extends Controller
      */
     protected function onRequest(?string $action): ?bool
     {
-        var_dump('to test hot reload!');
         if (parent::onRequest($action)) {
             try {
                 // to parse uri
