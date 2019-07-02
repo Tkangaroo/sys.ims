@@ -7,24 +7,30 @@
  */
 
 namespace App\Task;
+use App\Model\SystemManagersModel;
+use App\Utility\Pool\Mysql\MysqlObject;
+use App\Utility\Pool\Mysql\MysqlPool;
 use EasySwoole\EasySwoole\Swoole\Task\AbstractAsyncTask;
 
 
 class AfterSystemManagerLoginTask extends AbstractAsyncTask
 {
     /**
-     * 执行任务的内容
-     * @param mixed $taskData     任务数据
-     * @param int   $taskId       执行任务的task编号
-     * @param int   $fromWorkerId 派发任务的worker进程号
-     * @param mixed   $flags        to
+     * @param $taskData
+     * @param $taskId
+     * @param $fromWorkerId
+     * @param null $flags
      * @return bool
+     * @throws \EasySwoole\Component\Pool\Exception\PoolEmpty
+     * @throws \EasySwoole\Component\Pool\Exception\PoolException
+     * @throws \Throwable
      */
     function run($taskData, $taskId, $fromWorkerId, $flags = null)
     {
-        var_dump($taskData);
-        var_dump($taskId);
-        var_dump($fromWorkerId);
+        MysqlPool::invoke(function (MysqlObject $db) use ($taskData) {
+            (new SystemManagersModel($db))->setLoginLog($taskData['signName'], $taskData['managerId']);
+            (new SystemManagersModel($db))->afterLogin($taskData['managerId'], $taskData['ip'],$taskData['salt']);
+        });
         return true;
     }
 
