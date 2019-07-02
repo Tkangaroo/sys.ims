@@ -127,8 +127,14 @@ class SystemManagersModel extends BaseModel
 
         $managerId = $manager['id'];
         $ip = $login['current_ip'];
-        $taskClass = new AfterSystemManagerLoginTask($manager);
-        TaskManager::async($taskClass);
+        $dataAfterLogin2Set = [
+            'managerId' => $manager['id'],
+            'ip' => $login['current_ip'],
+            'salt' => $salt,
+            'signName' => $signName
+        ];
+        $afterLoginTaskClass = new AfterSystemManagerLoginTask($dataAfterLogin2Set);
+        TaskManager::async($afterLoginTaskClass);
 
 
 //        $this->setLoginLog($signName, $managerId);
