@@ -1,0 +1,444 @@
+{
+	"info": {
+		"_postman_id": "0f522ffe-b45c-4119-b533-78d1f869c9ac",
+		"name": "Ip White",
+		"description": "# Introduction\nWhat does your API do?\n\n# Overview\nThings that the developers should know about\n\n# Authentication\nWhat is the preferred way of using the API?\n\n# Error Codes\nWhat errors and status codes can a user expect?\n\n# Rate limit\nIs there a limit to the number of requests an user can send?",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "list",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Es-Token",
+						"value": "{{es_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}{{api}}/ip_white?",
+					"host": [
+						"{{host}}{{api}}"
+					],
+					"path": [
+						"ip_white"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1",
+							"description": "分页-页码",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "10",
+							"description": "分页-偏移量",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "list_ok_eg",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Es-Token",
+								"value": "{{es_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}{{api}}/ip_white?",
+							"host": [
+								"{{host}}{{api}}"
+							],
+							"path": [
+								"ip_white"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "分页-页码",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "分页-偏移量",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "openresty"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 27 Jun 2019 09:20:06 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "200"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 200,\n    \"msg\": \"ok\",\n    \"data\": {\n        \"total\": 2,\n        \"list\": [\n            {\n                \"id\": 1,\n                \"ip_addr\": \"127.0.0.1\",\n                \"is_enable\": 0,\n                \"comments\": \"本地访问\",\n                \"create_at\": \"1970-01-01 08:00:00\"\n            },\n            {\n                \"id\": 2,\n                \"ip_addr\": \"139.205.172.219\",\n                \"is_enable\": 1,\n                \"comments\": \"SPEAUTY PC\",\n                \"create_at\": \"1970-01-01 08:00:00\"\n            }\n        ]\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "one",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"equals": true,
+						"key": "Es-Token",
+						"value": "{{es_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}{{api}}/ip_white/2",
+					"host": [
+						"{{host}}{{api}}"
+					],
+					"path": [
+						"ip_white",
+						"2"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "one_ok_eg",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"equals": true,
+								"key": "Es-Token",
+								"value": "{{es_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}{{api}}/ip_white/1",
+							"host": [
+								"{{host}}{{api}}"
+							],
+							"path": [
+								"ip_white",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "openresty"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 27 Jun 2019 09:24:17 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "140"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 200,\n    \"msg\": \"ok\",\n    \"data\": {\n        \"id\": 1,\n        \"ip_addr\": \"127.0.0.1\",\n        \"is_enable\": 0,\n        \"comments\": \"本地访问\",\n        \"create_at\": \"1970-01-01 08:00:00\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "save",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Es-Token",
+						"value": "{{es_token}}",
+						"equals": true
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ip_addr\": \"127.0.0.1\",\n    \"is_enable\": \"1\",\n    \"comments\": \"\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}{{api}}/ip_white",
+					"host": [
+						"{{host}}{{api}}"
+					],
+					"path": [
+						"ip_white"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "save_ok_eg",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Es-Token",
+								"value": "{{es_token}}",
+								"equals": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"ip_addr\":\"127.0.0.3\",\"is_enable\":\"1\",\"comments\":\"\"}"
+						},
+						"url": {
+							"raw": "{{host}}{{api}}/ip_white",
+							"host": [
+								"{{host}}{{api}}"
+							],
+							"path": [
+								"ip_white"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "openresty"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 27 Jun 2019 08:31:23 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "35"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 200,\n    \"msg\": \"ok\",\n    \"data\": null\n}"
+				},
+				{
+					"name": "save_fail_eg",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Es-Token",
+								"value": "{{es_token}}",
+								"equals": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"ip_addr\":\"127.0.0.3\",\"is_enable\":\"1\",\"comments\":\"\"}"
+						},
+						"url": {
+							"raw": "{{host}}{{api}}/ip_white",
+							"host": [
+								"{{host}}{{api}}"
+							],
+							"path": [
+								"ip_white"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "openresty"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 27 Jun 2019 08:32:21 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 10008,\n    \"msg\": \"the record already exists\",\n    \"data\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "update",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"equals": true,
+						"key": "Es-Token",
+						"value": "{{es_token}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"is_enable\": 1,\n    \"comments\": \"test\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}{{api}}/ip_white",
+					"host": [
+						"{{host}}{{api}}"
+					],
+					"path": [
+						"ip_white"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Es-Token",
+						"value": "{{es_token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 2\n}"
+				},
+				"url": {
+					"raw": "{{host}}{{api}}/ip_white",
+					"host": [
+						"{{host}}{{api}}"
+					],
+					"path": [
+						"ip_white"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update Copy",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"equals": true,
+						"key": "Es-Token",
+						"value": "{{es_token}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"is_enable\": 1,\n    \"comments\": \"test\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}{{api}}/ip_white",
+					"host": [
+						"{{host}}{{api}}"
+					],
+					"path": [
+						"ip_white"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

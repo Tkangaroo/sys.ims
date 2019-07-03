@@ -1,0 +1,176 @@
+{
+	"info": {
+		"_postman_id": "10f9e88a-a8f2-4546-be3b-4b4b3e8b924d",
+		"name": "Service Customers",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "list",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Es-Token",
+						"type": "text",
+						"value": "{{es_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{host}}{{api}}/service_customers?",
+					"host": [
+						"{{host}}{{api}}"
+					],
+					"path": [
+						"service_customers"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1",
+							"description": "分页-页码",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "10",
+							"description": "分页-偏移量",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "one",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"equals": true,
+						"key": "Es-Token",
+						"value": "{{es_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}{{api}}/service_customers/1",
+					"host": [
+						"{{host}}{{api}}"
+					],
+					"path": [
+						"service_customers",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "save",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Es-Token",
+						"value": "{{es_token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customer_name\": \"Speausty\",\n    \"customer_contact_phone\": \"15884583920\",\n    \"customer_company_name\": \"cat-bug\",\n    \"is_enable\": \"1\",\n    \"ip_addr\": \"127.0.6.1\",\n    \"stock_update_callback_url\": \"http://m.billeslook.com\",\n    \"comments\": \"test\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}{{api}}/service_customers",
+					"host": [
+						"{{host}}{{api}}"
+					],
+					"path": [
+						"service_customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"equals": true,
+						"key": "Es-Token",
+						"value": "{{es_token}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"4\",\n    \"customer_contact_phone\": \"15884583920\",\n    \"customer_company_name\": \"cat-bug\",\n    \"is_enable\": 0,\n    \"stock_update_callback_url\": \"http://m.billeslook.com\",\n    \"comments\": \"test\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}{{api}}/service_customers",
+					"host": [
+						"{{host}}{{api}}"
+					],
+					"path": [
+						"service_customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Es-Token",
+						"type": "text",
+						"value": "{{es_token}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1\n}"
+				},
+				"url": {
+					"raw": "{{host}}{{api}}/service_customers",
+					"host": [
+						"{{host}}{{api}}"
+					],
+					"path": [
+						"service_customers"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

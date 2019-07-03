@@ -1,0 +1,224 @@
+{
+	"info": {
+		"_postman_id": "7ebdfdf8-5eeb-465b-a429-9ae3554407c9",
+		"name": "System Managers",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "list",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Es-Token",
+						"value": "{{es_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}{{api}}/system_managers?",
+					"host": [
+						"{{host}}{{api}}"
+					],
+					"path": [
+						"system_managers"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1",
+							"description": "分页-页码",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "0",
+							"description": "分页-偏移量",
+							"disabled": true
+						},
+						{
+							"key": "account",
+							"value": "admin",
+							"description": "搜索-账号(精准匹配)",
+							"disabled": true
+						},
+						{
+							"key": "phone",
+							"value": "15555555555",
+							"description": "搜索-手机号(精准匹配)",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "one",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Es-Token",
+						"value": "{{es_token}}",
+						"equals": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}{{api}}/system_managers/3",
+					"host": [
+						"{{host}}{{api}}"
+					],
+					"path": [
+						"system_managers",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "save",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Es-Token",
+						"value": "{{es_token}}",
+						"equals": true
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"account\": \"admin\",\n    \"password\": \"123456\",\n    \"phone\": \"15555555555\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}{{api}}/system_managers",
+					"host": [
+						"{{host}}{{api}}"
+					],
+					"path": [
+						"system_managers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Es-Token",
+						"value": "{{es_token}}",
+						"equals": true
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 2,\n    \"old_password\": \"123456\",\n    \"password\": \"654321\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}{{api}}/system_managers",
+					"host": [
+						"{{host}}{{api}}"
+					],
+					"path": [
+						"system_managers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Es-Token",
+						"value": "{{es_token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 2\n}"
+				},
+				"url": {
+					"raw": "{{host}}{{api}}/system_managers",
+					"host": [
+						"{{host}}{{api}}"
+					],
+					"path": [
+						"system_managers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"account\": \"cat\",\n    \"password\": \"123456\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}{{api}}/system_managers/login",
+					"host": [
+						"{{host}}{{api}}"
+					],
+					"path": [
+						"system_managers",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
