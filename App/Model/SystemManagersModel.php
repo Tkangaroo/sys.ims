@@ -106,7 +106,7 @@ class SystemManagersModel extends BaseModel
         $where = [
             'account' => $login['account']
         ];
-        $manager = $this->getOne(['id', 'password', 'latest_login_ip'], $where);
+        $manager = $this->getOne(['id', 'password', 'build_sign_salt', 'latest_login_ip'], $where);
 
         if (is_null($manager)) {
             throw new ESException(
@@ -125,13 +125,13 @@ class SystemManagersModel extends BaseModel
         $salt = ESTools::buildRandomStr('4');
         $signName = $this->getLoginSignName($manager['id'], $manager['latest_login_ip'], $salt);
 
-        $managerId = $manager['id'];
-        $ip = $login['current_ip'];
         $dataAfterLogin2Set = [
             'managerId' => $manager['id'],
             'ip' => $login['current_ip'],
             'salt' => $salt,
-            'signName' => $signName
+            'signName' => $signName,
+            'old_ip' => $manager['latest_login_ip'],
+            'old_salt' => $manager['build_sign_salt']
         ];
         $afterLoginTaskClass = new AfterSystemManagerLoginTask($dataAfterLogin2Set);
         TaskManager::async($afterLoginTaskClass);
@@ -167,7 +167,7 @@ class SystemManagersModel extends BaseModel
      */
     public function getLoginSignName(int $id, int $latestLoginIp, string $salt):string
     {
-        return MD5(time().$id.$salt.$latestLoginIp);
+        return MD5($id.$salt.$latestLoginIp);
     }
 
     /**
@@ -208,11 +208,21 @@ class SystemManagersModel extends BaseModel
                 Logistic::L_LOGIN_EXPIRED
             );
         }
-        $manager = $this->getOne(['id'], ['id' => $managerId]);
+        $manager = $this->getOne(['id', 'build_sign_salt', 'latest_login_ip'], ['id' => $managerId]);
         if (!$manager) {
             throw new ESException(
                 Logistic::getMsg(Logistic::L_RECORD_NOT_FOUND),
                 Logistic::L_RECORD_NOT_FOUND
+            );
+        }
+        $newSignName = $this->getLoginSignName($manager['id'], $manager['latest_login_ip'], $manager['build_sign_salt']);
+        if ($newSignName !== $signName) {
+            RedisPool::invoke(function (RedisObject $redis) use ($signName) {
+                return $redis->delete($signName);
+            });
+            throw new ESException(
+                Logistic::getMsg(Logistic::L_LOGIN_EXPIRED),
+                Logistic::L_LOGIN_EXPIRED
             );
         }
         return true;

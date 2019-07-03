@@ -10,6 +10,8 @@ namespace App\Task;
 use App\Model\SystemManagersModel;
 use App\Utility\Pool\Mysql\MysqlObject;
 use App\Utility\Pool\Mysql\MysqlPool;
+use App\Utility\Pool\Redis\RedisObject;
+use App\Utility\Pool\Redis\RedisPool;
 use EasySwoole\EasySwoole\Swoole\Task\AbstractAsyncTask;
 
 
@@ -28,8 +30,16 @@ class AfterSystemManagerLoginTask extends AbstractAsyncTask
     function run($taskData, $taskId, $fromWorkerId, $flags = null)
     {
         MysqlPool::invoke(function (MysqlObject $db) use ($taskData) {
-            (new SystemManagersModel($db))->setLoginLog($taskData['signName'], $taskData['managerId']);
-            (new SystemManagersModel($db))->afterLogin($taskData['managerId'], $taskData['ip'],$taskData['salt']);
+            $model = (new SystemManagersModel($db));
+            // to clear the cache last login logged
+            $signName = $model->getLoginSignName($taskData['id'], $taskData['old_ip'], $taskData['old_salt']);
+            RedisPool::invoke(function (RedisObject $redis) use ($signName) {
+                return $redis->delete($signName);
+            });
+
+            $model->setLoginLog($taskData['signName'], $taskData['managerId']);
+            $model->afterLogin($taskData['managerId'], $taskData['ip'],$taskData['salt']);
+            unset($model, $signName);
         });
         return true;
     }
